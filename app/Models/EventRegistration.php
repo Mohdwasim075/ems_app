@@ -12,9 +12,9 @@ class EventRegistration extends Model
         'event_id',
         'user_id',
         'registration_number',
-        'status',
-        'registered_at',
-        'cancelled_at',
+        'unit_price',
+        'total_price',
+        'quantity'
     ];
 
     protected $casts = [
@@ -35,5 +35,6 @@ class EventRegistration extends Model
     public function ticket()
     {
         return $this->hasOne(Ticket::class);
+        //return $this->belongsTo(Ticket::class, 'ticket_id');
     }
 }

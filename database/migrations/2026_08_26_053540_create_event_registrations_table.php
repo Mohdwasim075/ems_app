@@ -18,7 +18,7 @@ return new class extends Migration
                 ->constrained('events')
                 ->restrictOnDelete();
 
-            $table->foreignId('user_id')
+            $table->foreignId('organizer_id')
                 ->constrained('users')
                 ->restrictOnDelete();
 

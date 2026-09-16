@@ -7,46 +7,35 @@
 
     <main class="app-main">
 
-        <!-- Page Header -->
+    <div class="app-content-header">
+    <div class="container-fluid">
+        <!-- Section 1: Featured Events -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fw-bold mb-0">Top Events</h3>
+                </div>
 
-        <div class="app-content-header">
-
-            <div class="container-fluid">
-                 <!-- Section 1: Featured Events -->
-    <div class="mb-4">
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="mb-0">Featured Events</h3>
-        </div>
-
-        <div id="featuredEvents" class="row g-3">
-            <!-- Cards will be inserted here -->
-        </div>
-
-    </div>
-
-
-    <!-- Section 2: Upcoming Events -->
-    <div class="mb-4">
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="mb-0">Upcoming Events</h3>
-        </div>
-
-        <div id="upcomingEvents" class="row g-3">
-            <!-- Cards will be inserted here -->
-        </div>
-
-    </div>
-
-
-
-    </div>
-
+                <div id="featuredEvents" class="row g-3">
+                    <!-- Cards will be inserted here -->
+                </div>
             </div>
-
         </div>
 
+        <!-- Section 2: Upcoming Events -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fw-bold mb-0">Upcoming Events</h3>
+                </div>
+
+                <div id="upcomingEvents" class="row g-3">
+                    <!-- Cards will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
         <!-- Page Content -->
 

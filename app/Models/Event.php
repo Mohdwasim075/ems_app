@@ -16,8 +16,8 @@ class Event extends Model
         'location',
         'start_at',
         'end_at',
-        'registration_deadline',
         'capacity',
+        'available_seats', // Added missing comma
         'price',
         'status',
         'cover_image',
@@ -43,5 +43,9 @@ class Event extends Model
     public function registrations()
     {
         return $this->hasMany(EventRegistration::class);
+    }
+
+    public function role(){
+        return $this->belongsTo(Role::class);
     }
 }

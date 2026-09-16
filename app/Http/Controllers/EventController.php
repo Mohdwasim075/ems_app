@@ -13,8 +13,11 @@ class EventController extends Controller
 
     public function index()
     {
-        return view('events.index');
+        return view('attendee.events');
     }
+   
+    
+
    
    
 }

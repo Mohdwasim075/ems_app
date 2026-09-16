@@ -113,9 +113,9 @@
 
                 </li>
 
-
+                @guest
                 <!-- Login Button -->
-
+                
                 <li class="nav-item">
 
                     <a
@@ -128,6 +128,56 @@
                     </a>
 
                 </li>
+              
+
+                <!-- Register Button -->
+                
+                <li class="nav-item">
+
+                    <a
+                        href="/register"
+                        class="btn btn-primary mt-1 me-2"
+                    >
+                        <i class="bi bi-box-arrow-in-right"></i>
+
+                        Register
+                    </a>
+
+                </li>
+
+                  @endguest
+
+                @auth
+                 <!-- Register Button -->
+                
+                <li class="nav-item">
+
+                    <a
+                        href="/logout"
+                        class="btn btn-primary mt-1 me-2"
+                    >
+                        <i class="bi bi-box-arrow-in-right"></i>
+
+                        Log out
+                    </a>
+
+                </li>
+                    
+                @endauth
+
+                  <li class="nav-item">
+
+                    <a
+                        href="/logout"
+                        class="btn btn-primary mt-1 me-2"
+                    >
+                        <i class="bi bi-box-arrow-in-right"></i>
+
+                        Log out
+                    </a>
+
+                </li>
+               
 
             </ul>
 
@@ -194,8 +244,8 @@
                     <li class="nav-item">
 
                         <a
-                            href="/events"
-                            class="nav-link"
+                             href="{{ route('events') }}"
+                            class="nav-link {{ request()->routeIs('events') ? 'active' : '' }}"
                         >
 
                             <i class="nav-icon bi bi-calendar-event"></i>
