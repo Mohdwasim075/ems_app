@@ -19,13 +19,12 @@ class EventRegistrationFactory extends Factory
      */
     public function definition(): array
     {
-             return [
+        return [
             'event_id' => Event::factory(),
 
             'user_id' => User::factory()->attendee(),
 
-            'registration_number' =>
-                'REG-' . fake()->unique()->numerify('######'),
+            'registration_number' => 'REG-'.fake()->unique()->numerify('######'),
 
             'quantity' => fake()->numberBetween(1, 4),
 

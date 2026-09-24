@@ -12,23 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tickets', function (Blueprint $table) {
-         $table->id();
+            $table->id();
 
-        $table->foreignId('event_registration_id')
-            ->constrained('event_registrations')
-            ->restrictOnDelete();
+            $table->foreignId('event_registration_id')
+                ->constrained('event_registrations')
+                ->restrictOnDelete();
 
-        $table->string('ticket_number')->unique();
+            $table->string('ticket_number')->unique();
 
-        $table->string('qr_code')->nullable();
+            $table->string('qr_code')->nullable();
 
-        $table->string('status')->default('VALID');
+            $table->string('status')->default('VALID');
 
-        $table->dateTime('checked_in_at')->nullable();
+            $table->dateTime('checked_in_at')->nullable();
 
-        $table->timestamps();
+            $table->timestamps();
 
-        $table->unique('event_registration_id');
+            $table->unique('event_registration_id');
         });
     }
 

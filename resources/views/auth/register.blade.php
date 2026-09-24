@@ -18,129 +18,191 @@
     <title>Register</title>
 </head>
 <style>
-html{
-    scroll-behavior: smooth;
-}
+        :root {
+            --theme-primary: #091540;
+            --theme-accent: #3b82f6;
+            --theme-bg: #f3f4f6;
+            --theme-header-bg: #ffffff;
+            --theme-text-light: #f8fafc;
+        }
 
-body{
-    background-image:url('https://cdn.pixabay.com/photo/2022/04/18/17/26/artwork-7141119_640.png') ;
-    background-size: cover;
+        html {
+            scroll-behavior: smooth;
+        }
 
+        body {
+            background-color: #cbd5e1 !important;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
 
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center; /* horizontal */
-    align-items: center;     /* vertical */
-    }
+        /* Container styled with Theme Colors */
+        .container {
+            background-color: var(--theme-primary);
+            width: 100%;
+            max-width: 450px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 10px 25px -5px rgba(9, 21, 64, 0.1), 0 8px 10px -6px rgba(9, 21, 64, 0.05);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
 
+        .auth-title {
+            color: var(--theme-bg);
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
 
+        form {
+            display: flex;
+            flex-direction: column;
+        }
 
-.container{
-   background-color:#1e003c;
-    width: 400px;
-    height: auto;
-    border: 2px solid  ;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
+        /* Floating Input Customization */
+        .form-floating > .form-control {
+            border-color: #cbd5e1;
+            border-radius: 8px;
+            color: #0f172a;
+        }
 
-}
-.incorrect label{
-    background-color: #ff0000;
-}
+        .form-floating > .form-control:focus {
+            border-color: var(--theme-accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
 
-form{
-    display: flex;
-    flex-direction: column;
-}
-a {
-    text-decoration: underline;
-    color: #dcd8e0;
-}
-.center{
-    text-align: center;
-}
-a:active {
-  color: ghostwhite;
-}
-button:hover{
-    background-color: #ACBFA4;
-    color: #A03A13;
-}
-/* input {
-  border: 2px solid blue;
-  border-radius: 8px;
-  padding: 10px;
-} */
-button {
-  border: 1px solid blue;
-  border-radius: 8px;
-  padding: 10px;
-}
+        .form-floating > label {
+            color: #64748b !important;
+        }
 
+        /* Links & Buttons */
+        a {
+            color: var(--theme-accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
 
-#login-btn, #resent-btn {
-    float : right;
+        a:hover {
+            color: #2563eb;
+            text-decoration: underline;
+        }
 
-}
-label , p{
+        button.btn-primary {
+            background-color: var(--theme-accent);
+            border: 1px solid var(--theme-accent);
+            border-radius: 8px;
+            padding: 0.5rem 1.25rem;
+            font-weight: 600;
+            color: #ffffff;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+        }
+
+        button.btn-primary:hover {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            box-shadow: 0 6px 8px -1px rgba(59, 130, 246, 0.4);
+        }
     
-    color: #f3f0f6;
-    display: inline;
-    margin: 0;
-    padding: 0;
-}
-#create-btn{
-    float: right;
-}
-   
 
-</style>
+        .action-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        #register-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+#register-bottom p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #94a3b8;
+    line-height: 1.4;
+}
+
+#register-bottom p b {
+    color: var(--theme-text-light);
+}
+
+#register-bottom button {
+    margin: 0;
+}
+
+        .register-text {
+            color: #ffffff !important;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .register-text p {
+            color: #ffffff;
+            display: inline;
+        }
+    </style>
 <body>
 
     {{-- @dd($errors->any()); --}}
 
  <div class="container">
-            <form  id="registerForm" class="needs-validation" novalidate>
-                @csrf
+        <h2 class="auth-title">Create Account</h2>
+        {{-- <p class="auth-subtitle">Sign up to get started with your portal</p> --}}
+        
+        <form id="registerForm" class="needs-validation" novalidate method="post">
+            @csrf
 
-                 <!-- Alert -->
-                 <div id="resetAlert" class="alert d-none" role="alert"></div>
+            <!-- Dynamic Alert Slot -->
+            <div id="resetAlert" class="alert d-none" role="alert"></div>
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="name" id="fullname-input" placeholder="FullName">
+                <label for="fullname-input">Full Name</label>
+                <div class="invalid-feedback error-name"></div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" name="email" id="email-input" placeholder="name@gmail.com">
+                <label for="email-input">Email address</label>
+                <div class="invalid-feedback error-email"></div>
+            </div>
+                
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" name="password" id="password-input" placeholder="Password">
+                <label for="password-input">Password</label>
+                <div class="invalid-feedback error-password"></div>
+            </div>
             
-                <!-- <input type="text" class="" name="user_name" placeholder="Full name"><br>
-                <input type="email" name="user_email" placeholder="Email ID"> <br>
-                <input type="text" name="user_password" placeholder="Password"><br>
-                <input type="text" name="re-password" placeholder="Retype password"><br> -->
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name ="name" id="fullname-input" placeholder="FullName" >
-                    <label for="fullname-input">Full Name</label>
-                   <div class="invalid-feedback error-name"></div>
-                    
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" name ="email" id="email-input" placeholder="name@gmail.com" >
-                    <label for="email-input">Email address</label>
-                    <div class="invalid-feedback error-email"></div>
-                    </div>
-                    
-                <div class="form-floating">
-                    <input type="password" class="form-control" name="password" id="password-input" placeholder="Password" >
-                    <label for="password-input">Password</label>
-                    <div class="invalid-feedback error-password"></div>
-                </div>
-                
-                <div class="form-floating mt-2 mb-4">
-                    <input type="password" class="form-control" name="password_confirmation" id="retypePassword-input" placeholder="Password" >
-                    <label for="retypePassword-input">Retype Password</label>
-                </div>
-                
-                <div id="register-bottom">
-                    <span><p><b>Already have an account! </b></p><a href="/login">Sign In </a> &nbsp;<button type='submit' class="btn btn-primary" id="create-btn" >Create </button></span>
-                </div>
-            </form>
-        </div>
-
+            <div class="form-floating mb-4">
+                <input type="password" class="form-control" name="password_confirmation" id="retypePassword-input" placeholder="Retype Password">
+                <label for="retypePassword-input">Retype Password</label>
+            </div>
+            
+            
+            <div id="register-bottom">
+                <p>
+                    <b>Already have an account?</b> <br>
+                    <a href="/login">Sign In</a>
+                </p>
+                <button type="submit" class="btn btn-primary" id="create-btn">Create Account</button>
+            </div>
+        </form>
+    </div>
 <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
 
 <script>

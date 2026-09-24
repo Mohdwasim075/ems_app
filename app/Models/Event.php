@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     use HasFactory;
-      protected $fillable = [
+
+    protected $fillable = [
         'organizer_id',
         'category_id',
         'title',
@@ -45,7 +46,8 @@ class Event extends Model
         return $this->hasMany(EventRegistration::class);
     }
 
-    public function role(){
+    public function role()
+    {
         return $this->belongsTo(Role::class);
     }
 }

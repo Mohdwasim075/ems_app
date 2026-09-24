@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class EventRegistration extends Model
 {
     use HasFactory;
-     protected $fillable = [
+
+    protected $fillable = [
         'event_id',
         'user_id',
         'registration_number',
         'unit_price',
         'total_price',
-        'quantity'
+        'quantity',
+        'status',
     ];
 
     protected $casts = [
@@ -35,6 +37,6 @@ class EventRegistration extends Model
     public function ticket()
     {
         return $this->hasOne(Ticket::class);
-        //return $this->belongsTo(Ticket::class, 'ticket_id');
+        // return $this->belongsTo(Ticket::class, 'ticket_id');
     }
 }

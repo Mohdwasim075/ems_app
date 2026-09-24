@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::table('events', function (Blueprint $table) {
             // 1. Drop the incorrect foreign key constraint targeting 'roles'
-            // $table->dropForeign(['organizer_id']);
+            $table->dropForeign(['organizer_id']);
 
             // 2. Re-add the foreign key constraint targeting 'users'
             $table->foreign('organizer_id')
-                  ->references('id')
-                  ->on('users')
-                  ->cascadeOnDelete();
+                ->references('id')
+                ->on('users')
+                ->cascadeOnDelete();
         });
     }
 
@@ -33,9 +33,9 @@ return new class extends Migration
             $table->dropForeign(['organizer_id']);
 
             $table->foreign('organizer_id')
-                  ->references('id')
-                  ->on('roles')
-                  ->restrictOnDelete();
+                ->references('id')
+                ->on('roles')
+                ->restrictOnDelete();
         });
     }
 };

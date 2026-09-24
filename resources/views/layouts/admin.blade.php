@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+            dir="{{in_array(app()->getLocale(),['ar']) ? 'rtl' : 'ltr'}}">
     
 
 <head>
@@ -38,7 +39,7 @@
 
         /* Body & Main Layout */
         body {
-            background-color: var(--theme-bg) !important;
+            background-color: #cbd5e1 !important;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 

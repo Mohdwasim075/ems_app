@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('organizer_id')
+                ->nullable()
                 ->constrained('roles')
                 ->restrictOnDelete();
 
@@ -23,7 +24,7 @@ return new class extends Migration
                 ->restrictOnDelete();
 
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
 
             $table->string('location');
 
@@ -32,6 +33,8 @@ return new class extends Migration
             $table->dateTime('registration_deadline')->nullable();
 
             $table->unsignedInteger('capacity');
+            $table->unsignedInteger('available_seats')->nullable();
+            $table->boolean('featured_at')->nullable()->default(0);
 
             $table->decimal('price', 10, 2)->default(0);
 
@@ -40,7 +43,7 @@ return new class extends Migration
             $table->string('cover_image')->nullable();
 
             $table->timestamps();
-           
+
         });
     }
 

@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-       
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -19,8 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('phone_number');
-            $table->enum('status', ['active', 'suspended']);
+            $table->string('phone_number')->nullable();
+            $table->enum('status', ['active', 'suspended'])->default('active');
             $table->timestamps();
 
         });

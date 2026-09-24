@@ -8,12 +8,11 @@ return [
     'Spanish' => 'Español',
     'Arabic' => 'Árabe',
 
-
-    //Dashboard
-   'Registered Users' => 'Usuarios registrados',
-'Total Events' => 'Total de eventos',
-'Total Bookings' => 'Total de reservas',
-'Total Revenue' => 'Ingresos totales',
+    // Dashboard
+    'Registered Users' => 'Usuarios registrados',
+    'Total Events' => 'Total de eventos',
+    'Total Bookings' => 'Total de reservas',
+    'Total Revenue' => 'Ingresos totales',
 
     // Navigation
     'Dashboard' => 'Panel de control',
@@ -57,8 +56,7 @@ return [
     'Start Date' => 'Fecha de inicio',
     'End Date' => 'Fecha de finalización',
 
-    'Are you Sure you want to delete this event?' =>
-        '¿Está seguro de que desea eliminar este evento?',
+    'Are you Sure you want to delete this event?' => '¿Está seguro de que desea eliminar este evento?',
 
     'Delete Event' => 'Eliminar evento',
 
@@ -73,8 +71,7 @@ return [
     'Unit Price' => 'Precio unitario',
     'Registered At' => 'Registrado el',
 
-    'Are you sure you want to delete this booking?' =>
-        '¿Está seguro de que desea eliminar esta reserva?',
+    'Are you sure you want to delete this booking?' => '¿Está seguro de que desea eliminar esta reserva?',
 
     // Users
     'Email' => 'Correo electrónico',
@@ -88,8 +85,7 @@ return [
     'Full Name' => 'Nombre completo',
     'Email Address' => 'Dirección de correo electrónico',
 
-    'Are you sure you want to delete this user?' =>
-        '¿Está seguro de que desea eliminar este usuario?',
+    'Are you sure you want to delete this user?' => '¿Está seguro de que desea eliminar este usuario?',
 
     // Common
     'search' => 'Buscar',

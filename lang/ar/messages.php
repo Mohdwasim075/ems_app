@@ -56,8 +56,7 @@ return [
     'Start Date' => 'تاريخ البدء',
     'End Date' => 'تاريخ الانتهاء',
 
-    'Are you Sure you want to delete this event?' =>
-        'هل أنت تأكد من أنك تريد حذف هذه الفعالية؟',
+    'Are you Sure you want to delete this event?' => 'هل أنت تأكد من أنك تريد حذف هذه الفعالية؟',
 
     'Delete Event' => 'حذف الفعالية',
 
@@ -72,8 +71,7 @@ return [
     'Unit Price' => 'سعر الوحدة',
     'Registered At' => 'تاريخ التسجيل',
 
-    'Are you sure you want to delete this booking?' =>
-        'هل أنت تأكد من أنك تريد حذف هذا الحجز؟',
+    'Are you sure you want to delete this booking?' => 'هل أنت تأكد من أنك تريد حذف هذا الحجز؟',
 
     // Users
     'Email' => 'البريد الإلكتروني',
@@ -87,8 +85,7 @@ return [
     'Full Name' => 'الاسم الكامل',
     'Email Address' => 'عنوان البريد الإلكتروني',
 
-    'Are you sure you want to delete this user?' =>
-        'هل أنت تأكد من أنك تريد حذف هذا المستخدم؟',
+    'Are you sure you want to delete this user?' => 'هل أنت تأكد من أنك تريد حذف هذا المستخدم؟',
 
     // Common
     'search' => 'بحث',

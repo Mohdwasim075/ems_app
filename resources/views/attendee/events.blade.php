@@ -24,7 +24,11 @@
                 <div>
                     <h2 class="fw-bold mb-0">Events</h2>
                     <small class="text-muted">Browse and discover all upcoming events</small>
+                     
                 </div>
+                <a href="{{ route('attendee.home') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-arrow-left ms-1"></i>    Back to home 
+                        </a>
             </div>
 
             <!-- Event Cards injected via jQuery AJAX -->

@@ -16,10 +16,11 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role->name != 'admin'){
+        if (Auth::user()->role->name != 'admin') {
             abort(403, 'Unauthorized access');
 
         }
+
         return $next($request);
     }
 }

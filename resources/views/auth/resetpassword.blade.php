@@ -18,193 +18,170 @@
     <title>Register</title>
 </head>
 <style>
-html{
-    scroll-behavior: smooth;
-}
+        :root {
+            --theme-primary: #091540;
+            --theme-accent: #3b82f6;
+            --theme-bg: #f3f4f6;
+            --theme-header-bg: #ffffff;
+            --theme-text-light: #f8fafc;
+        }
 
-body{
-    background-image:url('https://cdn.pixabay.com/photo/2022/04/18/17/26/artwork-7141119_640.png') ;
-    background-size: cover;
+        html {
+            scroll-behavior: smooth;
+        }
 
+        body {
+            background-color: #cbd5e1 !important;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
 
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center; /* horizontal */
-    align-items: center;     /* vertical */
-    }
+        /* Container styled with Theme Colors */
+        .auth-card {
+            background-color: var(--theme-primary);
+            width: 100%;
+            max-width: 440px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 10px 25px -5px rgba(9, 21, 64, 0.1), 0 8px 10px -6px rgba(9, 21, 64, 0.05);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+        }
 
+        .auth-title {
+            color: var(--theme-bg);
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+            text-align: center;
+        }
 
+        .auth-subtitle {
+            color: #94a3b8;
+            font-size: 0.875rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
 
-.container{
-   /* background-color:#1e003c;
-    width: auto;
-    height: auto;
-    border: 2px solid  ;
-    padding: 20px;
-    display: flex;
-    flex-direction: column; */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
 
-}
-.incorrect label{
-    background-color: #ff0000;
-}
+        /* Floating Input Customization */
+        .form-floating > .form-control {
+            border-color: #cbd5e1;
+            border-radius: 8px;
+            color: #0f172a;
+        }
 
-form{
-    display: flex;
-    flex-direction: column;
-}
-a {
-    text-decoration: underline;
-    color: #dcd8e0;
-}
-.center{
-    text-align: center;
-}
-a:active {
-  color: ghostwhite;
-}
-button:hover{
-    background-color: #ACBFA4;
-    color: #A03A13;
-}
-/* input {
-  border: 2px solid blue;
-  border-radius: 8px;
-  padding: 10px;
-} */
-button {
-  border: 1px solid blue;
-  border-radius: 8px;
-  padding: 10px;
-}
+        .form-floating > .form-control:focus {
+            border-color: var(--theme-accent);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
 
+        .form-floating > label {
+            color: #64748b !important;
+        }
 
-#login-btn, #resent-btn {
-    float : right;
+        /* Buttons Styling */
+        button.btn-primary {
+            background-color: var(--theme-accent);
+            border: 1px solid var(--theme-accent);
+            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            font-weight: 600;
+            color: #ffffff;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+        }
 
-}
-label , p{
-    
-    color: black;
-    display: inline;
-    margin: 0;
-    padding: 0;
-}
-#create-btn{
-    float: right;
-}
-   
-
-</style>
+        button.btn-primary:hover {
+            background-color: #2563eb;
+            border-color: #2563eb;
+            box-shadow: 0 6px 8px -1px rgba(59, 130, 246, 0.4);
+        }
+    </style>
 <body>
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-
-    <div class="card shadow-sm border-0" style="width: 100%; max-width: 450px;">
-
-        <div class="card-body p-4">
-
-            <div class="text-center mb-4">
-                <h3 class="fw-bold mb-2">Reset Password</h3>
-                <p class="text-muted mb-0">
-                    Enter your new password below.
-                </p>
-            </div>
-
-            <!-- Alert -->
-            <div id="resetAlert" class="alert d-none" role="alert"></div>
-
-            <form id="resetPasswordForm" novalidate>
-
-                @csrf
-
-                <!-- Reset Token -->
-                <input
-                    type="hidden"
-                    name="token"
-                    value="{{ $token }}"
-                >
-
-                <!-- Email -->
-                <div class="mb-3">
-                    <label for="resetEmail" class="form-label fw-semibold">
-                        Email Address
-                    </label>
-
-                    <input
-                        type="email"
-                        class="form-control"
-                        id="resetEmail"
-                        name="email"
-                        value="{{ $email }}"
-                        placeholder="Enter your email"
-                        
-                    >
-
-                    <div class="invalid-feedback error-email"></div>
-                </div>
-
-                <!-- New Password -->
-                <div class="mb-3">
-                    <label for="resetPassword" class="form-label fw-semibold">
-                        New Password
-                    </label>
-
-                    <input
-                        type="password"
-                        class="form-control"
-                        id="resetPassword"
-                        name="password"
-                        placeholder="Enter new password"
-                        
-                    >
-
-                    <div class="invalid-feedback error-password"></div>
-                </div>
-
-                <!-- Confirm Password -->
-                <div class="mb-4">
-                    <label for="resetPasswordConfirmation"
-                           class="form-label fw-semibold">
-                        Confirm Password
-                    </label>
-
-                    <input
-                        type="password"
-                        class="form-control"
-                        id="resetPasswordConfirmation"
-                        name="password_confirmation"
-                        placeholder="Confirm your new password"
-                        
-                    >
-
-                    <div class="invalid-feedback error-password_confirmation"></div>
-                </div>
-
-                <!-- Submit -->
-                <button
-                    type="submit"
-                    class="btn btn-primary w-100"
-                    id="resetPasswordBtn"
-                >
-                    <span id="resetBtnText">
-                        Reset Password
-                    </span>
-
-                    <span
-                        id="resetBtnSpinner"
-                        class="spinner-border spinner-border-sm d-none"
-                        role="status"
-                    ></span>
-                </button>
-
-            </form>
-
+<div class="auth-card">
+        
+        <div class="text-center">
+            <h3 class="auth-title">Reset Password</h3>
+            <p class="auth-subtitle">Enter your new password below</p>
         </div>
 
-    </div>
+        {{-- <!-- Alert Box -->
+        <div id="resetAlert" class="alert d-none" role="alert"></div> --}}
 
-</div>
+        <form id="resetPasswordForm" novalidate method="post">
+            @csrf
+
+            <!-- Reset Token -->
+            <input type="hidden" name="token" value="{{ $token }}">
+
+            <!-- Email (Read-Only floating input for clarity) -->
+            <div class="form-floating mb-3">
+                <input
+                    type="email"
+                    class="form-control"
+                    id="resetEmail"
+                    name="email"
+                    value="{{ $email }}"
+                    placeholder="Enter your email"
+                >
+                <label for="resetEmail">Email Address</label>
+                <div class="invalid-feedback error-email"></div>
+            </div>
+
+            <!-- New Password -->
+            <div class="form-floating mb-3">
+                <input
+                    type="password"
+                    class="form-control"
+                    id="resetPassword"
+                    name="password"
+                    placeholder="Enter new password"
+                >
+                <label for="resetPassword">New Password</label>
+                <div class="invalid-feedback error-password"></div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-floating mb-4">
+                <input
+                    type="password"
+                    class="form-control"
+                    id="resetPasswordConfirmation"
+                    name="password_confirmation"
+                    placeholder="Confirm your new password"
+                >
+                <label for="resetPasswordConfirmation">Confirm Password</label>
+                <div class="invalid-feedback error-password_confirmation"></div>
+            </div>
+
+            <!-- Submit Button with Spinner Support -->
+            <button
+                type="submit"
+                class="btn btn-primary w-100"
+                id="resetPasswordBtn"
+            >
+                <span id="resetBtnText">Reset Password</span>
+                <span
+                    id="resetBtnSpinner"
+                    class="spinner-border spinner-border-sm d-none ms-1"
+                    role="status"
+                ></span>
+            </button>
+
+        </form>
+
+    </div>
 <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
 
  <script>

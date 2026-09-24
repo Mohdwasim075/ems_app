@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+            dir="{{in_array(app()->getLocale(),['ar']) ? 'rtl' : 'ltr'}}">
 
 <head>
 
@@ -152,23 +153,41 @@
             <ul class="navbar-nav ms-auto align-items-center">
 
                 <!-- Language Dropdown -->
-                <li class="nav-item dropdown me-2">
-                    <a
-                        class="nav-link dropdown-toggle"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                    >
-                        <i class="bi bi-translate me-1"></i>
-                        Language
-                    </a>
+               <li class="nav-item dropdown me-2">
+                <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                >
+                    <i class="bi bi-translate me-1"></i>
+                    {{ __('messages.language') }}
+                </a>
 
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-                        <li><a class="dropdown-item" href="#">English</a></li>
-                        <li><a class="dropdown-item" href="#">Tamil</a></li>
-                        <li><a class="dropdown-item" href="#">Hindi</a></li>
-                    </ul>
-                </li>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                    <li>
+                       <a href="{{ route('lang.switch', 'en') }}"
+                        class="dropdown-item language-option">
+                            English
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('lang.switch', 'es') }}"
+                        class="dropdown-item language-option">
+                           Spanish
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('lang.switch', 'ar') }}"
+                        class="dropdown-item language-option">
+                            Arabic
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
             @auth
              <!-- Right navbar -->
         <ul class="navbar-nav ms-auto ">

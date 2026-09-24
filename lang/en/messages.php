@@ -9,9 +9,9 @@ return [
     'Arabic' => 'Arabic',
 
     'Registered Users' => 'Registered Users',
-   'Total Events' => 'Total Events',
-   'Total Bookings' => 'Total Bookings',
-   'Total Revenue' => 'Total Revenue',
+    'Total Events' => 'Total Events',
+    'Total Bookings' => 'Total Bookings',
+    'Total Revenue' => 'Total Revenue',
 
     // Navigation
     'Dashboard' => 'Dashboard',
@@ -55,8 +55,7 @@ return [
     'Start Date' => 'Start Date',
     'End Date' => 'End Date',
 
-    'Are you Sure you want to delete this event?' =>
-        'Are you sure you want to delete this event?',
+    'Are you Sure you want to delete this event?' => 'Are you sure you want to delete this event?',
 
     'Delete Event' => 'Delete Event',
 
@@ -71,8 +70,7 @@ return [
     'Unit Price' => 'Unit Price',
     'Registered At' => 'Registered At',
 
-    'Are you sure you want to delete this booking?' =>
-        'Are you sure you want to delete this booking?',
+    'Are you sure you want to delete this booking?' => 'Are you sure you want to delete this booking?',
 
     // Users
     'Email' => 'Email',
@@ -86,8 +84,7 @@ return [
     'Full Name' => 'Full Name',
     'Email Address' => 'Email Address',
 
-    'Are you sure you want to delete this user?' =>
-        'Are you sure you want to delete this user?',
+    'Are you sure you want to delete this user?' => 'Are you sure you want to delete this user?',
 
     // Common
     'search' => 'Search',

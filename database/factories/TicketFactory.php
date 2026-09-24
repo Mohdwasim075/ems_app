@@ -19,11 +19,9 @@ class TicketFactory extends Factory
     public function definition(): array
     {
         return [
-              'event_registration_id' =>
-                EventRegistration::factory(),
+            'event_registration_id' => EventRegistration::factory(),
 
-            'ticket_number' =>
-                'TKT-' . fake()->unique()->numerify('######'),
+            'ticket_number' => 'TKT-'.fake()->unique()->numerify('######'),
 
             'qr_code' => null,
 

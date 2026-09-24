@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use App\Models\Event;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,11 +18,11 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
-    
-            $start = fake()->dateTimeBetween('+1 week', '+3 months');
 
-            return [
-             'organizer_id' => null,
+        $start = fake()->dateTimeBetween('+1 week', '+3 months');
+
+        return [
+            'organizer_id' => null,
 
             'category_id' => Category::factory(),
 
@@ -39,14 +38,15 @@ class EventFactory extends Factory
 
             'registration_deadline' => (clone $start)->modify('-2 days'),
 
-            'capacity' => fake()->numberBetween(50, 500),
+            'capacity' => $capacity = fake()->numberBetween(50, 500),
+            'available_seats' => $capacity,
 
             'price' => fake()->randomFloat(2, 0, 2000),
 
             'status' => 'PUBLISHED',
 
             'cover_image' => null,
-    
+
         ];
     }
 }

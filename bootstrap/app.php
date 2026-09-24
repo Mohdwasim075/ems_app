@@ -16,15 +16,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-            $middleware->statefulApi();
+        $middleware->statefulApi();
 
-            //middleware aliases
-            $middleware->alias([
-                'admin' => CheckAdmin::class,
-                'attendee' => CheckUser::class
-            ]);
+        // middleware aliases
+        $middleware->alias([
+            'admin' => CheckAdmin::class,
+            'attendee' => CheckUser::class,
+        ]);
 
-            $middleware->web(append: [
+        $middleware->web(append: [
             SetLocale::class,
         ]);
 

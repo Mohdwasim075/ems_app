@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('event_registrations', function (Blueprint $table) {
-             $table->id();
+            $table->id();
 
             $table->foreignId('event_id')
                 ->constrained('events')
@@ -22,7 +22,7 @@ return new class extends Migration
                 ->constrained('users')
                 ->restrictOnDelete();
 
-            $table->string('registration_number')->unique();
+            $table->string('registration_number')->nullable()->unique();
 
             $table->unsignedInteger('quantity')->default(1);
 
@@ -31,12 +31,12 @@ return new class extends Migration
 
             $table->string('status')->default('CONFIRMED');
 
-            $table->dateTime('registered_at');
+            $table->dateTime('registered_at')->useCurrent();
             $table->dateTime('cancelled_at')->nullable();
 
             $table->timestamps();
 
-            $table->unique(['event_id', 'user_id']);
+            $table->unique(['event_id', 'organizer_id']);
         });
     }
 

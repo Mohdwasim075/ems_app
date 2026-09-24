@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\LoginUserController;
-use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\Usercontroller;
-use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,35 +15,28 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
-    
 Route::middleware('auth:sanctum')->post('/logout', [
     LoginUserController::class,
-    'destroy'
+    'destroy',
 ])->name('logout');
 
- //public routes
-    Route::get('/events/featured', [EventController::class, 'featured']);
-    Route::get('/events/upcoming', [EventController::class, 'upcoming']);
-    Route::get('/events', [EventController::class, 'index']);
-    Route::get('/events/{event}', [EventController::class, 'show']);
+// public routes
+Route::get('/events/featured', [EventController::class, 'featured']);
+Route::get('/events/upcoming', [EventController::class, 'upcoming']);
+Route::get('/events', [EventController::class, 'index']);
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 
+// Attendee authenticated routes
+Route::middleware(['auth:sanctum', 'attendee'])->group(function () {
 
-
-//Attendee authenticated routes
-Route::middleware(['auth:sanctum','attendee'])->group(function () {
-
-  
-    Route::get('/myevents', [LoginUserController::class,"getmyEvents"] )->name('myevents');
-    Route::get('/profile', [LoginUserController::class, 'getProfile'])->name('myprofile');
+    Route::get('/myevents', [Usercontroller::class, 'getmyEvents'])->name('myevents');
+    Route::get('/profile', [Usercontroller::class, 'getProfile'])->name('myprofile');
     Route::patch('/profile/update', [Usercontroller::class, 'updateProfile'])->name('updateProfile');
     Route::patch('/password/update', [Usercontroller::class, 'updatePassword'])->name('updatePassword');
 
-    Route::post('/event/register',[TicketController::class, 'store']);
-    // 
+    Route::post('/event/register', [BookingController::class, 'store']);
+    //
 });
-
-
 
 // Admin authenticated routes
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
@@ -58,35 +51,29 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     Route::post('/category/update/{id}', [CategoryController::class, 'updateCategory']);
     Route::post('/category/delete/{id}', [CategoryController::class, 'deleteCategory']);
 
-
     // Events
-   
-    Route::get('/events', [AdminController::class, 'getEvents']);
-    Route::post('/events/create', [AdminController::class, 'createEvent']); // Keep static endpoints above {id}
-    Route::get('/events/{id}', [AdminController::class, 'getEvent']);
-    Route::patch('/events/update/{id}', [AdminController::class, 'updateEvent']);
-    Route::post('/events/delete/{id}', [AdminController::class, 'deleteEvent']);
 
-   
+    Route::get('/events', [EventController::class, 'getEvents']);
+    Route::post('/events/create', [EventController::class, 'createEvent']);
+    Route::get('/events/{id}', [EventController::class, 'getEvent']);
+    Route::patch('/events/update/{id}', [EventController::class, 'updateEvent']);
+    Route::post('/events/delete/{id}', [EventController::class, 'deleteEvent']);
+
     // Bookings
-  
-    Route::get('/bookings', [AdminController::class, 'getbookings']);
-    Route::get('/bookings/get/{id}', [AdminController::class, 'getbooking']);
-    Route::post('/booking/delete/{id}', [AdminController::class, 'deletebooking']);
 
-   
+    Route::get('/bookings', [BookingController::class, 'getbookings']);
+    Route::get('/bookings/get/{id}', [BookingController::class, 'getbooking']);
+    Route::post('/booking/delete/{id}', [BookingController::class, 'deletebooking']);
+
     // Users
-  
-    Route::get('/users', [AdminController::class, 'getusers']);
-    Route::get('/user/roles', [AdminController::class, 'getRoles']); 
-    
-    // Wildcard routes go AFTER static routes
-    Route::get('/user/{id}', [AdminController::class, 'getuser']);
-    Route::post('/user/update/{id}', [AdminController::class, 'updateUser']);
-    Route::post('/user/delete/{id}', [AdminController::class, 'deleteuser']);
 
-    
-   
+    Route::get('/users', [Usercontroller::class, 'getusers']);
+    Route::get('/user/roles', [Usercontroller::class, 'getRoles']);
+    Route::post('/user/create', [Usercontroller::class, 'createUser']);
 
-   
+    // Wildcard routes 
+    Route::get('/user/{id}', [Usercontroller::class, 'getuser']);
+    Route::post('/user/update/{id}', [Usercontroller::class, 'updateUser']);
+    Route::post('/user/delete/{id}', [Usercontroller::class, 'deleteuser']);
+
 });

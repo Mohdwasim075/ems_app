@@ -2,38 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 
 class RegisterUserController extends Controller
-{   
-
-    public function index(){
+{
+    public function create()
+    {
         return view('auth.register');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
+       $validatedAttributes = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => ['required', Password::min(6), 'confirmed'],
+        ]);
 
-        $validatedAttributes = $request->validate([
-        'name' => 'required|string',
-        'email' => 'required|email|unique:users,email',
-        'password' => ['required', Password::min(6), 'confirmed'],
-    ]);
+        $roleId = Role::where('name', 'attendee')->firstOrFail()->id;
 
-    $user = User::create($validatedAttributes);
+        $validatedAttributes['role_id'] = $roleId;
 
-    Auth::login($user);
+        $user = User::create($validatedAttributes);
 
-    return response()->json([
-        'success' => true,
-        'message' => 'User registered successfully!',
-        'redirect' => url('/login'), // Send back target redirect URL
-    ], 201);
+        return response()->json([
+            'success' => true,
+            'message' => 'User registered successfully!',
+            'redirect' => url('/login'),
+        ], 201);
     }
-    public function create(){
-        return;
-    }
+
+   
 }

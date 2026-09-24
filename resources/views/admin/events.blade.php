@@ -112,8 +112,8 @@
 
                     <!-- Location -->
                     <div class="mb-3">
-                        <label for="edit_location" class="form-label fw-semibold">Location</label>
-                        <input type="text" class="form-control" id="edit_location" name="location" placeholder="e.g. Bengaluru, Karnataka" required>
+                        <label for="create_location" class="form-label fw-semibold">Location</label>
+                        <input type="text" class="form-control" id="create_location" name="location" placeholder="e.g. Bengaluru, Karnataka" required>
                         <div class="invalid-feedback error-location"></div>
                     </div>
 
@@ -242,6 +242,23 @@
                             <input type="datetime-local" class="form-control" id="edit_end_date" name="end_at" required>
                             <div class="invalid-feedback error-end_date"></div>
                         </div>
+
+                        <div class="col-md-6">
+                            <label for="edit_category_id" class="form-label fw-semibold">Category</label>
+                            <select class="form-select" id="edit_category_id" name="category_id" required>
+                                <option value="">Select Category</option>
+                                <!-- Populate dynamically via API or Blade loop -->
+                            </select>
+                            <div class="invalid-feedback error-category_id"></div>
+                        </div>
+
+                         <div class="col-md-6">
+                            <label for="edit_capacity" class="form-label fw-semibold"> capacity</label>
+                            <input type="number" class="form-control" id="edit_capacity" name="capacity" required>
+                            <div class="invalid-feedback error-edit_capacity"></div>
+                        </div>
+
+                      
 
                         <div class="col-md-6">
                             <label for="edit_location" class="form-label fw-semibold">Location</label>
@@ -453,7 +470,7 @@ let cachedEvents = [];
             title: $('#create_title').val(),
             category_id: $('#create_category_id').val(),
             price: $('#create_price').val(),
-            location: $('#edit_location').val(),
+            location: $('#create_location').val(),
             status: $('#create_status').val(),
             start_at: formattedStartAt,
             end_at: formattedEndAt,
@@ -512,10 +529,17 @@ let cachedEvents = [];
         });
     });
 
-    // Optional helper to populate category options
-    function loadCategoriesDropdown() {
-        let $select = $('#create_category_id');
-        if ($select.children('option').length > 1) return; // Prevent duplicate AJAX requests
+    // Helper to populate category options in create and edit dropdowns
+    function loadCategoriesDropdown(callback) {
+        let createNeedsLoading = $('#create_category_id').children('option').length <= 1;
+        let editNeedsLoading = $('#edit_category_id').children('option').length <= 1;
+
+        if (!createNeedsLoading && !editNeedsLoading) {
+            if (typeof callback === 'function') {
+                callback();
+            }
+            return;
+        }
 
         $.ajax({
             url: '/api/admin/categories/list',
@@ -523,11 +547,29 @@ let cachedEvents = [];
             headers: { 'Accept': 'application/json' },
             success: function(response) {
                 let categories = response.data || response;
-                console.log(categories);
-                
-                $.each(categories, function(index, cat) {
-                    $select.append(`<option value="${cat.id}">${cat.name}</option>`);
-                });
+
+                if (createNeedsLoading) {
+                    let $createSelect = $('#create_category_id');
+                    $createSelect.find('option:not(:first)').remove();
+                    $.each(categories, function(index, cat) {
+                        $createSelect.append(`<option value="${cat.id}">${cat.name}</option>`);
+                    });
+                }
+
+                if (editNeedsLoading) {
+                    let $editSelect = $('#edit_category_id');
+                    $editSelect.find('option:not(:first)').remove();
+                    $.each(categories, function(index, cat) {
+                        $editSelect.append(`<option value="${cat.id}">${cat.name}</option>`);
+                    });
+                }
+
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            },
+            error: function(xhr) {
+                console.error('Failed to load categories dropdown:', xhr);
             }
         });
     }
@@ -576,6 +618,7 @@ let cachedEvents = [];
 
     // Initial Load Execution
     loadEvents(currentPage, currentLimit);
+    loadCategoriesDropdown();
 
     // Event 1: Change Entries Per Page Select Dropdown
     $(document).on('change', '#perPageSelect', function() {
@@ -704,27 +747,30 @@ let cachedEvents = [];
             url: `/api/admin/events/${eventId}`,
             type: 'get',
             success: function(response) {
-                let event = response.data ;
+                let event = response.data;
                 console.log(event);
-                // console.log('location : ' + event.location);
-                
+                console.log('location : ' + event.location);
+                console.log('category : ' + (event.category ? event.category.name : event.category_id));
 
                 $('#edit_event_id').val(event.id);
                 $('#edit_title').val(event.title);
                 $('#edit_description').val(event.description);
                 $('#edit_start_date').val(formatForDateTimeLocal(event.start_at));
-                  $('#edit_end_date').val(formatForDateTimeLocal(event.end_at));
-                // $('#edit_start_date').val(event.start_at ? event.start_at.split('T')[0] : 'N/A');
-                // $('#edit_end_date').val(event.end_at ? event.end_at.split('T')[0] : 'N/A');
+                $('#edit_end_date').val(formatForDateTimeLocal(event.end_at));
+                $('#edit_capacity').val(event.capacity);
                 $('#edit_location').val(event.location);
-
-
                 $('#edit_price').val(event.price);
                 $('#edit_is_published').prop('checked', event.status === 'published');
 
+                let selectedCategoryId = event.category_id || (event.category ? event.category.id : '');
+
+                // Ensure categories are loaded before selecting category value
+                loadCategoriesDropdown(function() {
+                    $('#edit_category_id').val(selectedCategoryId);
+                });
+
                 let editModal = new bootstrap.Modal(document.getElementById('editEventModal'));
                 editModal.show();
-              
             },
             error: function() {
                 showAlert('danger','Could not fetch event details.');
@@ -749,6 +795,7 @@ let cachedEvents = [];
             start_at: $('#edit_start_date').val(),
             end_at: $('#edit_end_date').val(),
             location: $('#edit_location').val(),
+             category_id: $('#edit_category_id').val(),
             capacity: $('#edit_capacity').val(),
             price: $('#edit_price').val(),
             status: $('#edit_is_published').is(':checked') ? 'published' : 'draft',

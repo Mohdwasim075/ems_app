@@ -10,10 +10,19 @@ class ExampleTest extends TestCase
     /**
      * A basic test example.
      */
-    public function test_the_application_returns_a_successful_response(): void
-    {
-        $response = $this->get('/');
+     public function test_testing_environment(): void
+{
+    dump([
+        'environment' => app()->environment(),
+        'connection' => config('database.default'),
+        'database' => config('database.connections.mysql.database'),
+    ]);
 
-        $response->assertStatus(200);
-    }
+    $this->assertEquals('testing', app()->environment());
+    $this->assertEquals('mysql', config('database.default'));
+    $this->assertEquals(
+        'ems_app_testing',
+        config('database.connections.mysql.database')
+    );
+}
 }

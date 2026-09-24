@@ -9,9 +9,9 @@ use Illuminate\Support\Str;
 
 class PasswordResetController extends Controller
 {
-     public function sendResetLink(Request $request)
+    public function sendResetLink(Request $request)
     {
-       
+
         $request->validate([
             'email' => ['required', 'email'],
         ],
@@ -34,40 +34,39 @@ class PasswordResetController extends Controller
     }
 
     public function resetPassword(Request $request)
-{
+    {
 
-    
-    $request->validate([
-        'token' => ['required'],
-        'email' => ['required', 'email'],
-        'password' => ['required', 'confirmed', 'min:6'],
-    ]);
+        $request->validate([
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', 'min:6'],
+        ]);
 
-    $status = Password::reset(
-        $request->only(
-            'email',
-            'password',
-            'password_confirmation',
-            'token'
-        ),
-        function ($user, $password) {
+        $status = Password::reset(
+            $request->only(
+                'email',
+                'password',
+                'password_confirmation',
+                'token'
+            ),
+            function ($user, $password) {
 
-            $user->forceFill([
-                'password' => Hash::make($password),
-                'remember_token' => Str::random(60),
-            ])->save();
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+            }
+        );
+
+        if ($status === Password::PASSWORD_RESET) {
+
+            return response()->json([
+                'message' => 'Password reset successfully.',
+            ]);
         }
-    );
-
-    if ($status === Password::PASSWORD_RESET) {
 
         return response()->json([
-            'message' => 'Password reset successfully.'
-        ]);
+            'message' => __($status),
+        ], 422);
     }
-
-    return response()->json([
-        'message' => __($status)
-    ], 422);
-}
 }

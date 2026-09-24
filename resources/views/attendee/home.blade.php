@@ -14,6 +14,9 @@
             <div class="card-body p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3 class="fw-bold mb-0">Top Events</h3>
+                         <a href="{{ route('events') }}" class="btn btn-outline-primary btn-sm">
+                            View All Events <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
                 </div>
 
                 <div id="featuredEvents" class="row g-3">
@@ -27,10 +30,14 @@
             <div class="card-body p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3 class="fw-bold mb-0">Upcoming Events</h3>
+                         <a href="{{ route('events') }}" class="btn btn-outline-primary btn-sm">
+                            View All Events <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
                 </div>
 
                 <div id="upcomingEvents" class="row g-3">
                     <!-- Cards will be inserted here -->
+                    
                 </div>
             </div>
         </div>
@@ -64,7 +71,7 @@
                     </h5>
 
                     <p class="card-text text-muted">
-                        ${event.description}
+                        ${event.description || ''}
                     </p>
 
                     <div class="mt-auto">

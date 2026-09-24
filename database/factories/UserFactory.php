@@ -6,7 +6,6 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory<User>
@@ -25,22 +24,21 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-         return [
+        return [
             'name' => fake()->name(),
 
             'email' => fake()->unique()->safeEmail(),
 
             'password' => Hash::make('password'),
 
-        'phone_number' => fake()->unique()->numerify('##########'),
+            'phone_number' => fake()->unique()->numerify('##########'),
 
             'status' => 'active',
         ];
 
-
     }
 
-     public function admin(): static
+    public function admin(): static
     {
         return $this->state(function () {
             return [
