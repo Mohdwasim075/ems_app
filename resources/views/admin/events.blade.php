@@ -7,12 +7,12 @@
             <!-- Header & Back Button -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h4 class="fw-bold mb-0">Events Management</h4>
-                    <small class="text-muted">View, update, and manage all scheduled events</small>
+                    <h4 class="fw-bold mb-0">{{ __('messages.Events Management') }}</h4>
+                    <small class="text-muted">{{ __('messages.View, update, and manage all scheduled events') }}</small>
                 </div>
                 <div>
                     <a href="{{ url('/admin/dashboard') }}" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+                        <i class="bi bi-arrow-left me-1"></i> {{ __('messages.Back to Dashboard') }}
                     </a>
                 </div>
             </div>
@@ -20,16 +20,16 @@
             <!-- Top Toolbar: Page Selector on Left, Add Event Button on Right -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="d-flex align-items-center gap-2">
-                    <label for="perPageSelect" class="form-label mb-0 text-muted small fw-bold">Show</label>
+                    <label for="perPageSelect" class="form-label mb-0 text-muted small fw-bold">{{ __('messages.Show') }}</label>
                     <select id="perPageSelect" class="form-select form-select-sm w-auto">
                         <option value="5" selected>5</option>
                         <option value="10">10</option>
                         <option value="15">15</option>
                     </select>
-                    <span class="text-muted small">entries</span>
+                    <span class="text-muted small">{{ __('messages.entries') }}</span>
                 </div>
                 <div>
-                    <button class="btn btn-primary btn-sm" id="add-event-btn">Add Event</button>
+                    <button class="btn btn-primary btn-sm" id="add-event-btn">{{ __('messages.Add Event') }}</button>
                 </div>
             </div>
 
@@ -38,16 +38,16 @@
                 <table class="table table-hover align-middle mb-0" id="eventsTable">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 50px;">S.No</th>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Location</th>
-                            <th>Dates</th>
-                            <th>Capacity</th>
-                            <th>Available seats</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                            <th width="15%" class="text-center">Actions</th>
+                            <th style="width: 50px;">{{ __('messages.S.NO') }}</th>
+                            <th>{{ __('messages.Title') }}</th>
+                            <th>{{ __('messages.Category') }}</th>
+                            <th>{{ __('messages.Location') }}</th>
+                            <th>{{ __('messages.Dates') }}</th>
+                            <th>{{ __('messages.Capacity') }}</th>
+                            <th>{{ __('messages.Available seats') }}</th>
+                            <th>{{ __('messages.Price') }}</th>
+                            <th>{{ __('messages.Status') }}</th>
+                            <th width="15%" class="text-center">{{ __('messages.Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody id="eventsTableBody">
@@ -68,7 +68,7 @@
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title fw-bold" id="addEventModalLabel">
-                    <i class="bi bi-calendar-plus me-2"></i>Create New Event
+                    <i class="bi bi-calendar-plus me-2"></i>{{ __('messages.Create New Event') }}
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -77,7 +77,7 @@
                 <div class="modal-body p-4">
                     <!-- Title -->
                     <div class="mb-3">
-                        <label for="create_title" class="form-label fw-semibold">Event Title </label>
+                        <label for="create_title" class="form-label fw-semibold">{{ __('messages.Event Title') }} </label>
                         <input type="text" class="form-control" id="create_title" name="title" required placeholder="e.g., Annual Tech Conference 2026">
                         <div class="invalid-feedback error-title"></div>
                     </div>
@@ -85,16 +85,16 @@
                     <!-- Category & Price -->
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label for="create_category_id" class="form-label fw-semibold">Category</label>
+                            <label for="create_category_id" class="form-label fw-semibold">{{ __('messages.Category') }}</label>
                             <select class="form-select" id="create_category_id" name="category_id" required>
-                                <option value="" selected disabled>Select Category</option>
+                                <option value="" selected disabled>{{ __('messages.Select Category') }}</option>
                                 <!-- Populate dynamically via API or Blade loop -->
                             </select>
                             <div class="invalid-feedback error-category_id"></div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="create_price" class="form-label fw-semibold">Ticket Price (₹)</label>
+                            <label for="create_price" class="form-label fw-semibold">{{ __('messages.Ticket Price (₹)') }}</label>
                             <input type="number" step="0.01" min="0" class="form-control" id="create_price" name="price" required placeholder="0.00">
                             <div class="invalid-feedback error-price"></div>
                         </div>
@@ -102,17 +102,17 @@
                     
                     <!-- status-->
                     <div class="col-md-6">
-                        <label for="create_status" class="form-label fw-semibold">Event Status</label>
+                        <label for="create_status" class="form-label fw-semibold">{{ __('messages.Event Status') }}</label>
                         <select class="form-select" id="create_status" name="status" required>
-                            <option value="draft" selected>Draft</option>
-                            <option value="published">Published</option>
+                            <option value="draft" selected>{{ __('messages.Draft') }}</option>
+                            <option value="published">{{ __('messages.Published') }}</option>
                         </select>
                         <div class="invalid-feedback error-status"></div>
                     </div>
 
                     <!-- Location -->
                     <div class="mb-3">
-                        <label for="create_location" class="form-label fw-semibold">Location</label>
+                        <label for="create_location" class="form-label fw-semibold">{{ __('messages.Location') }}</label>
                         <input type="text" class="form-control" id="create_location" name="location" placeholder="e.g. Bengaluru, Karnataka" required>
                         <div class="invalid-feedback error-location"></div>
                     </div>
@@ -120,13 +120,13 @@
                     <!-- Start & End Date -->
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label for="create_start_at" class="form-label fw-semibold">Start Date & Time</label>
+                            <label for="create_start_at" class="form-label fw-semibold">{{ __('messages.Start Date & Time') }}</label>
                             <input type="datetime-local" class="form-control" id="create_start_at" name="start_at" required>
                             <div class="invalid-feedback error-start_at"></div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="create_end_at" class="form-label fw-semibold">End Date & Time</label>
+                            <label for="create_end_at" class="form-label fw-semibold">{{ __('messages.End Date & Time') }}</label>
                             <input type="datetime-local" class="form-control" id="create_end_at" name="end_at" required>
                             <div class="invalid-feedback error-end_at"></div>
                         </div>
@@ -134,23 +134,23 @@
 
                     <!-- Capacity -->
                     <div class="mb-3">
-                        <label for="create_capacity" class="form-label fw-semibold">Capacity (Total Seats)</label>
+                        <label for="create_capacity" class="form-label fw-semibold">{{ __('messages.Capacity (Total Seats)') }}</label>
                         <input type="number" min="1" class="form-control" id="create_capacity" name="capacity" required placeholder="e.g., 250">
                         <div class="invalid-feedback error-capacity"></div>
                     </div>
 
                     <!-- Description -->
                     <div class="mb-3">
-                        <label for="create_description" class="form-label fw-semibold">Description</label>
+                        <label for="create_description" class="form-label fw-semibold">{{ __('messages.Description') }}</label>
                         <textarea class="form-control" id="create_description" name="description" rows="3" placeholder="Provide event agenda and highlights..."></textarea>
                         <div class="invalid-feedback error-description"></div>
                     </div>
                 </div>
 
                 <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Cancel') }}</button>
                     <button type="submit" class="btn btn-primary" id="btnSaveEvent">
-                        <i class="bi bi-check-circle me-1"></i> Save Event
+                        <i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Event') }}
                     </button>
                 </div>
             </form>
@@ -162,7 +162,7 @@
     <div class="modal-dialog modal-lg ">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-info text-white">
-                <h5 class="modal-title fw-bold">Event Details</h5>
+                <h5 class="modal-title fw-bold">{{ __('messages.Event Details') }}</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -176,31 +176,31 @@
                     </div>
                     <hr class="my-2">
                     <div class="col-md-6">
-                        <strong>Category:</strong> <span id="view_category">---</span>
+                        <strong>{{ __('messages.Category') }}:</strong> <span id="view_category">---</span>
                     </div>
                     <div class="col-md-6">
-                        <strong>Location:</strong> <span id="view_location">---</span>
+                        <strong>{{ __('messages.Location') }}:</strong> <span id="view_location">---</span>
                     </div>
                     <div class="col-md-6">
-                        <strong>Start Date:</strong> <span id="view_start_date">---</span>
+                        <strong>{{ __('messages.Start Date') }}:</strong> <span id="view_start_date">---</span>
                     </div>
                     <div class="col-md-6">
-                        <strong>End Date:</strong> <span id="view_end_date">---</span>
+                        <strong>{{ __('messages.End Date') }}:</strong> <span id="view_end_date">---</span>
                    
                     <div class="col-md-6">
-                        <strong>Capacity:</strong> <span id="view_capacity">---</span> Seats
+                        <strong>{{ __('messages.Capacity') }}:</strong> <span id="view_capacity">---</span> {{ __('messages.Seats') }}
                     </div>
                      </div>
                       <div class="col-md-6">
-                        <strong>Available seats:</strong> <span id="view_available_seats">---</span> Seats
+                        <strong>{{ __('messages.Available seats') }}:</strong> <span id="view_available_seats">---</span> {{ __('messages.Seats') }}
                     </div>
                     <div class="col-md-6">
-                        <strong>Price:</strong> <span id="view_price" class="fw-bold text-success">---</span>
+                        <strong>{{ __('messages.Price') }}:</strong> <span id="view_price" class="fw-bold text-success">---</span>
                     </div>
                 </div>
             </div>
             <div class="modal-footer bg-light">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Close') }}</button>
             </div>
         </div>
     </div>
@@ -211,7 +211,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Edit Event</h5>
+                <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>{{ __('messages.Edit Event') }}</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form id="editEventForm" method="post">
@@ -220,40 +220,40 @@
 
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label for="edit_title" class="form-label fw-semibold">Event Title</label>
+                            <label for="edit_title" class="form-label fw-semibold">{{ __('messages.Event Title') }}</label>
                             <input type="text" class="form-control" id="edit_title" name="title" >
                             <div class="invalid-feedback error-title"></div>
                         </div>
 
                         <div class="col-md-12">
-                            <label for="edit_description" class="form-label fw-semibold">Description</label>
+                            <label for="edit_description" class="form-label fw-semibold">{{ __('messages.Description') }}</label>
                             <textarea class="form-control" id="edit_description" name="description" rows="3"></textarea>
                             <div class="invalid-feedback error-description"></div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="edit_start_date" class="form-label fw-semibold">Start Date</label>
+                            <label for="edit_start_date" class="form-label fw-semibold">{{ __('messages.Start Date') }}</label>
                             <input type="datetime-local" class="form-control" id="edit_start_date" name="start_at" required>
                             <div class="invalid-feedback error-start_date"></div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="edit_end_date" class="form-label fw-semibold">End Date</label>
+                            <label for="edit_end_date" class="form-label fw-semibold">{{ __('messages.End Date') }}</label>
                             <input type="datetime-local" class="form-control" id="edit_end_date" name="end_at" required>
                             <div class="invalid-feedback error-end_date"></div>
                         </div>
 
                         <div class="col-md-6">
-                            <label for="edit_category_id" class="form-label fw-semibold">Category</label>
+                            <label for="edit_category_id" class="form-label fw-semibold">{{ __('messages.Category') }}</label>
                             <select class="form-select" id="edit_category_id" name="category_id" required>
-                                <option value="">Select Category</option>
+                                <option value="">{{ __('messages.Select Category') }}</option>
                                 <!-- Populate dynamically via API or Blade loop -->
                             </select>
                             <div class="invalid-feedback error-category_id"></div>
                         </div>
 
                          <div class="col-md-6">
-                            <label for="edit_capacity" class="form-label fw-semibold"> capacity</label>
+                            <label for="edit_capacity" class="form-label fw-semibold">{{ __('messages.Capacity') }}</label>
                             <input type="number" class="form-control" id="edit_capacity" name="capacity" required>
                             <div class="invalid-feedback error-edit_capacity"></div>
                         </div>
@@ -261,7 +261,7 @@
                       
 
                         <div class="col-md-6">
-                            <label for="edit_location" class="form-label fw-semibold">Location</label>
+                            <label for="edit_location" class="form-label fw-semibold">{{ __('messages.Location') }}</label>
                             <input type="text" class="form-control" id="edit_location" name="location" required>
                             <div class="invalid-feedback error-location"></div>
                         </div>
@@ -279,7 +279,7 @@
                         </div> --}}
 
                         <div class="col-md-6">
-                            <label for="edit_price" class="form-label fw-semibold">Price (₹) </label>
+                            <label for="edit_price" class="form-label fw-semibold">{{ __('messages.Price (₹)') }} </label>
                             <input type="number" step="0.01" class="form-control" id="edit_price" name="price" >
                             <div class="invalid-feedback error-price"></div>
                         </div>
@@ -287,16 +287,16 @@
                         <div class="col-md-12">
                             <div class="form-check form-switch mt-2">
                                 <input class="form-check-input" type="checkbox" id="edit_is_published" name="status" value="published">
-                                <label class="form-check-label fw-semibold" for="edit_is_published">Mark as Published Event</label>
+                                <label class="form-check-label fw-semibold" for="edit_is_published">{{ __('messages.Mark as Published Event') }}</label>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Cancel') }}</button>
                     <button type="submit" class="btn btn-primary" id="btnUpdateEvent">
-                        <i class="bi bi-check-circle me-1"></i> Save Changes
+                        <i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Changes') }}
                     </button>
                 </div>
             </form>
@@ -362,8 +362,8 @@ let cachedEvents = [];
                 if (!events || events.length === 0) {
                     tableBody.append(`
                         <tr>
-                            <td colspan="5" class="text-center text-muted py-4">
-                                No events found.
+                            <td colspan="10" class="text-center text-muted py-4">
+                                {{ __('messages.No events found.') }}
                             </td>
                         </tr>
                     `);
@@ -376,14 +376,14 @@ let cachedEvents = [];
                 let startNumber = pagination.from || ((page - 1) * limit + 1);
 
                 $.each(events, function(index, event) {
-                     let location = event.location || 'N/A';
+                     let location = event.location || "{{ __('messages.N/A') }}";
 
                     let publishedBadge = event.status === "published"
-                        ? '<span class="badge bg-warning text-dark"><i class="bi bi-star-fill me-1"></i>Published</span>' 
-                        : '<span class="badge bg-light text-secondary">Not published</span>';
+                        ? '<span class="badge bg-warning text-dark"><i class="bi bi-star-fill me-1"></i>{{ __('messages.Published') }}</span>' 
+                        : '<span class="badge bg-light text-secondary">{{ __('messages.Not published') }}</span>';
 
                     let categoryName = event.category ? event.category.name : `Cat ID: ${event.category_id}`;
-                    let priceFormatted = parseFloat(event.price || 0) === 0 ? 'Free' : '₹' + parseFloat(event.price).toLocaleString('en-IN');
+                    let priceFormatted = parseFloat(event.price || 0) === 0 ? "{{ __('messages.Free') }}" : '₹' + parseFloat(event.price).toLocaleString('en-IN');
 
                     let row = `
                         <tr>
@@ -391,19 +391,19 @@ let cachedEvents = [];
                             <td class="fw-semibold">${event.title}</td>
                             <td><span class="badge bg-info text-dark">${categoryName}</span></td>
                             <td>${location}</td>
-                            <td class="small">${event.start_at ? event.start_at.split('T')[0] : 'N/A'}</td>
+                            <td class="small">${event.start_at ? event.start_at.split('T')[0] : "{{ __('messages.N/A') }}"}</td>
                             <td>${event.capacity|| 0}</td>
                             <td>${event.available_seats|| 0}</td>
                             <td class="fw-semibold text-success">${priceFormatted}</td>
                             <td>${publishedBadge}</td>
                             <td class = "text-center">
-                                <button class="btn btn-sm btn-outline-info view-event-btn me-1" data-id="${event.id}" title="View Details">
+                                <button class="btn btn-sm btn-outline-info view-event-btn me-1" data-id="${event.id}" title="{{ __('messages.View Details') }}">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-primary edit-event-btn me-1" data-id="${event.id}" title="Edit Event">
+                                <button class="btn btn-sm btn-outline-primary edit-event-btn me-1" data-id="${event.id}" title="{{ __('messages.Edit Event') }}">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-danger delete-event-btn" data-id="${event.id}" title="Delete Event">
+                                <button class="btn btn-sm btn-outline-danger delete-event-btn" data-id="${event.id}" title="{{ __('messages.Delete Event') }}">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </td>
@@ -417,11 +417,11 @@ let cachedEvents = [];
                 renderPaginationControls(pagination);
             },
             error: function(xhr) {
-                console.error('Failed to load categories:', xhr);
-                $('#categoriesTableBody').html(`
+                console.error('Failed to load events:', xhr);
+                $('#eventsTableBody').html(`
                     <tr>
-                        <td colspan="5" class="text-center text-danger py-3">
-                            <i class="bi bi-exclamation-triangle-fill me-1"></i> Failed to load categories.
+                        <td colspan="10" class="text-center text-danger py-3">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ __('messages.Failed to load events list.') }}
                         </td>
                     </tr>
                 `);
@@ -452,7 +452,7 @@ let cachedEvents = [];
         e.preventDefault();
 
         let $btn = $('#btnSaveEvent');
-        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span> Saving...');
+        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span> {{ __('messages.Saving...') }}');
 
         // Clear previous error messages
         $('#createEventForm .form-control, #createEventForm .form-select').removeClass('is-invalid');
@@ -488,7 +488,7 @@ let cachedEvents = [];
                 'Accept': 'application/json'
             },
             success: function(response) {
-                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Save Event');
+                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Event') }}');
 
                 // Hide Modal
                 let modalElement = document.getElementById('addEventModal');
@@ -497,7 +497,7 @@ let cachedEvents = [];
                     modalInstance.hide();
                 }
 
-                alert(response.message || 'Event created successfully!');
+                alert(response.message || "{{ __('messages.Event created successfully!') }}");
 
                 // Refresh table if loadEvents function exists
                 if (typeof loadEvents === 'function') {
@@ -505,7 +505,7 @@ let cachedEvents = [];
                 }
             },
             error: function(xhr) {
-                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Save Event');
+                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Event') }}');
 
                 if (xhr.status === 422) {
                     // Map Laravel backend validation errors to inputs
@@ -590,7 +590,7 @@ let cachedEvents = [];
         let prevDisabled = pagination.current_page === 1 ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${prevDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">Previous</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">{{ __('messages.Previous') }}</a>
             </li>
         `;
 
@@ -608,7 +608,7 @@ let cachedEvents = [];
         let nextDisabled = pagination.current_page === pagination.last_page ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${nextDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">Next</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">{{ __('messages.Next') }}</a>
             </li>
         `;
 
@@ -717,18 +717,18 @@ let cachedEvents = [];
 
         if (event) {
             $('#view_title').text(event.title);
-            $('#view_description').text(event.description || 'No description provided.');
+            $('#view_description').text(event.description || "{{ __('messages.No description provided.') }}");
             $('#view_category').text(event.category ? event.category.name : `ID: ${event.category_id}`);
-            $('#view_location').text(`${event.location || 'N/A'}`);
-            $('#view_start_date').text(event.start_at ? event.start_at.split('T')[0] : 'N/A');
-            $('#view_end_date').text(event.end_at ? event.end_at.split('T')[0] : 'N/A');
+            $('#view_location').text(`${event.location || "{{ __('messages.N/A') }}"}`);
+            $('#view_start_date').text(event.start_at ? event.start_at.split('T')[0] : "{{ __('messages.N/A') }}");
+            $('#view_end_date').text(event.end_at ? event.end_at.split('T')[0] : "{{ __('messages.N/A') }}");
             $('#view_capacity').text(event.capacity || 0);
              $('#view_available_seats').text(event.available_seats || 0);
-            $('#view_price').text(parseFloat(event.price || 0) === 0 ? 'Free' : '₹' + parseFloat(event.price).toLocaleString('en-IN'));
+            $('#view_price').text(parseFloat(event.price || 0) === 0 ? "{{ __('messages.Free') }}" : '₹' + parseFloat(event.price).toLocaleString('en-IN'));
             
-            $('#view_published_badge').html(event.status == 1 
-                ? '<span class="badge bg-warning text-dark fs-6"><i class="bi bi-star-fill me-1"></i> Published</span>' 
-                : '<span class="badge bg-secondary fs-6">Not Published</span>'
+            $('#view_published_badge').html(event.status === 'published' || event.status == 1 
+                ? '<span class="badge bg-warning text-dark fs-6"><i class="bi bi-star-fill me-1"></i> {{ __('messages.Published') }}</span>' 
+                : '<span class="badge bg-secondary fs-6">{{ __('messages.Not published') }}</span>'
             );
 
             let viewModal = new bootstrap.Modal(document.getElementById('viewEventModal'));
@@ -773,7 +773,7 @@ let cachedEvents = [];
                 editModal.show();
             },
             error: function() {
-                showAlert('danger','Could not fetch event details.');
+                showAlert('danger',"{{ __('messages.Could not fetch event details.') }}");
             }
         });
     });
@@ -784,7 +784,7 @@ let cachedEvents = [];
 
         const eventId = $('#edit_event_id').val();
         let $btn = $('#btnUpdateEvent');
-        $btn.prop('disabled', true).text('Updating...');
+        $btn.prop('disabled', true).text("{{ __('messages.Updating...') }}");
 
         $('.form-control').removeClass('is-invalid');
         $('.invalid-feedback').text('');
@@ -807,8 +807,8 @@ let cachedEvents = [];
             type: 'patch',
             data: formData,
             success: function(response) {
-                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Save Changes');
-                showAlert('success','Event updated successfully!.')
+                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Changes') }}');
+                showAlert('success',"{{ __('messages.Event updated successfully!') }}");
                 
                 let modalInstance = bootstrap.Modal.getInstance(document.getElementById('editEventModal'));
                 if (modalInstance) modalInstance.hide();
@@ -816,7 +816,7 @@ let cachedEvents = [];
                 loadEvents();
             },
             error: function(xhr) {
-                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Save Changes');
+                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Changes') }}');
 
                 if (xhr.status === 422) {
                     let errors = xhr.responseJSON.errors;
@@ -825,7 +825,7 @@ let cachedEvents = [];
                         $('.error-' + fieldName).text(errorMessages[0]);
                     });
                 } else {
-                    showAlert('danger','Failed to update event.');
+                    showAlert('danger',"{{ __('messages.Failed to update event.') }}");
                 }
             }
         });
@@ -835,7 +835,7 @@ let cachedEvents = [];
     $(document).on('click', '.delete-event-btn', function() {
         const eventId = $(this).data('id');
 
-        if (confirm('Are you sure you want to delete this event?')) {
+        if (confirm("{{ __('messages.Are you Sure you want to delete this event?') }}")) {
             $.ajax({
                 url: `/api/admin/events/delete/${eventId}`,
                 type: 'post',

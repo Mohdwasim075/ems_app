@@ -49,7 +49,7 @@ class BookingTest extends TestCase
             'category_id' => $this->category->id,
             'capacity' => 20,
             'available_seats' => 20,
-            'price' => 100.00,
+            'price' => 100,
             'start_at' => Carbon::now()->addDays(7),
             'end_at' => Carbon::now()->addDays(7)->addHours(4),
             'status' => 'PUBLISHED',
@@ -132,7 +132,7 @@ class BookingTest extends TestCase
         Sanctum::actingAs($this->attendeeUser);
         $event = $this->createEvent([
             'available_seats' => 15,
-            'price' => 50.00,
+            'price' => 50,
         ]);
 
         $response = $this->postJson('/api/event/register', [
@@ -164,8 +164,8 @@ class BookingTest extends TestCase
             'event_id' => $event->id,
             'user_id' => $this->attendeeUser->id,
             'quantity' => 2,
-            'unit_price' => 50.00,
-            'total_price' => 100.00,
+            'unit_price' => 50,
+            'total_price' => 100,
         ]);
     }
 
@@ -214,8 +214,8 @@ class BookingTest extends TestCase
             'event_id' => $event->id,
             'user_id' => $this->attendeeUser->id,
             'quantity' => 1,
-            'unit_price' => 100.00,
-            'total_price' => 100.00,
+            'unit_price' => 100,
+            'total_price' => 100,
             'registration_number' => 'REG-000001',
             'status' => 'CONFIRMED',
         ]);
@@ -368,8 +368,8 @@ class BookingTest extends TestCase
             'event_id' => $event->id,
             'user_id' => $this->attendeeUser->id,
             'quantity' => 2,
-            'unit_price' => 150.00,
-            'total_price' => 300.00,
+            'unit_price' => 150,
+            'total_price' => 300,
             'registration_number' => 'REG-123456',
             'status' => 'CONFIRMED',
         ]);
@@ -477,8 +477,8 @@ class BookingTest extends TestCase
             'event_id' => $event->id,
             'user_id' => $this->attendeeUser->id,
             'quantity' => 3,
-            'unit_price' => 100.00,
-            'total_price' => 300.00,
+            'unit_price' => 100,
+            'total_price' => 300,
             'registration_number' => 'REG-333444',
             'status' => 'CONFIRMED',
         ]);

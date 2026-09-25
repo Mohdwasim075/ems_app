@@ -1,6 +1,6 @@
 @extends('layouts.attendee')
 
-@section('title', 'Events')
+@section('title', __('messages.Events'))
 
 @section('content')
 
@@ -22,12 +22,12 @@
             <!-- Header Section -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h2 class="fw-bold mb-0">Events</h2>
-                    <small class="text-muted">Browse and discover all upcoming events</small>
+                    <h2 class="fw-bold mb-0">{{ __('messages.Events') }}</h2>
+                    <small class="text-muted">{{ __('messages.Browse and discover all upcoming events') }}</small>
                      
                 </div>
                 <a href="{{ route('attendee.home') }}" class="btn btn-outline-primary btn-sm">
-                        <i class="bi bi-arrow-left ms-1"></i>    Back to home 
+                        <i class="bi bi-arrow-left ms-1"></i> {{ __('messages.Back to home') }}
                         </a>
             </div>
 
@@ -55,7 +55,7 @@
             <div class="modal-header bg-light">
 
                 <h5 class="modal-title fw-bold" id="modalEventTitle">
-                    Event Details
+                    {{ __('messages.Event Details') }}
                 </h5>
 
                 <button
@@ -75,43 +75,43 @@
                 <div class="row mb-3">
                     <div class="col-md-6 mb-2">
                         <i class="bi bi-calendar-event text-primary me-2"></i>
-                        <strong>Date:</strong>
+                        <strong>{{ __('messages.Date:') }}</strong>
                         <span id="modalEventDate"></span>
                     </div>
 
                     <div class="col-md-6 mb-2">
                         <i class="bi bi-people text-primary me-2"></i>
-                        <strong>Available Seats:</strong>
+                        <strong>{{ __('messages.Available Seats:') }}</strong>
                         <span id="modalEventCapacity"></span>
                     </div>
 
                     <div class="col-md-12 mb-2">
                         <i class="bi bi-geo-alt text-primary me-2"></i>
-                        <strong>Location:</strong>
+                        <strong>{{ __('messages.Location:') }}</strong>
                         <span id="modalEventLocation"></span>
                     </div>
                 </div>
 
                 <hr>
 
-                <h6 class="fw-semibold">Description</h6>
+                <h6 class="fw-semibold">{{ __('messages.Description') }}</h6>
                 <p id="modalEventDescription" class="text-secondary leading-relaxed"></p>
 
            <!-- Ticket Selection and Pricing Card -->
             <div class="card border-primary-subtle bg-light mt-3">
                 <div class="card-body p-3">
-                    <h6 class="fw-bold mb-2 small"><i class="bi bi-ticket-perforated me-1 text-primary"></i>Buy Tickets</h6>
+                    <h6 class="fw-bold mb-2 small"><i class="bi bi-ticket-perforated me-1 text-primary"></i>{{ __('messages.Buy Tickets') }}</h6>
                     
                     <div class="row align-items-center">
                         <!-- Pricing Info -->
                         <div class="col-6">
-                            <div class="small text-secondary">Price: ₹<span id="modalTicketPrice">0</span></div>
-                            <div class="fw-bold text-dark mt-1">Total: <span class="text-success">₹<span id="modalTotalPrice">0</span></span></div>
+                            <div class="small text-secondary">{{ __('messages.Price:') }} ₹<span id="modalTicketPrice">0</span></div>
+                            <div class="fw-bold text-dark mt-1">{{ __('messages.Total:') }} <span class="text-success">₹<span id="modalTotalPrice">0</span></span></div>
                         </div>
 
                         <!-- Compact Quantity Controls -->
                         <div class="col-6 d-flex flex-column align-items-end">
-                            <label for="ticketQuantity" class="form-label mb-1 extra-small fw-semibold text-muted" style="font-size: 0.75rem;">Quantity</label>
+                            <label for="ticketQuantity" class="form-label mb-1 extra-small fw-semibold text-muted" style="font-size: 0.75rem;">{{ __('messages.Quantity') }}</label>
                             <div class="input-group input-group-sm" style="max-width: 120px;">
                                 <button class="btn btn-outline-secondary btn-sm px-2" type="button" id="btnQtyDecrease">-</button>
                                 <input type="number" id="ticketQuantity" class="form-control form-control-sm text-center px-1" value="1" min="1" max="10" readonly>
@@ -128,11 +128,11 @@
                 <div id="modalRegisterContainer">
                     @auth
                         <button type="button" id="btnBuyTickets" class="btn btn-primary px-4 fw-semibold">
-                            <i class="bi bi-cart-check me-1"></i> Buy Tickets
+                            <i class="bi bi-cart-check me-1"></i> {{ __('messages.Buy Tickets') }}
                         </button>
                     @else
                         <a href="/login" class="btn btn-outline-primary fw-semibold">
-                            Log in to Buy Tickets
+                            {{ __('messages.Log in to Buy Tickets') }}
                         </a>
                     @endauth
                 </div>
@@ -141,7 +141,7 @@
                     type="button"
                     class="btn btn-secondary"
                     data-bs-dismiss="modal">
-                    Close
+                    {{ __('messages.Close') }}
                 </button>
 
             </div>
@@ -162,9 +162,9 @@ $(document).ready(function() {
 
     // Helper: Format ISO/Date String into readable local date
     function formatEventDate(dateString) {
-        if (!dateString) return 'N/A';
+        if (!dateString) return '{{ __('messages.N/A') }}';
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-IN', {
+        return date.toLocaleDateString('{{ app()->getLocale() == 'ar' ? 'ar-SA' : (app()->getLocale() == 'es' ? 'es-ES' : 'en-US') }}', {
             day: '2-digit',
             month: 'long',
             year: 'numeric'
@@ -203,7 +203,7 @@ $(document).ready(function() {
                 if (!events || events.length === 0) {
                     $container.html(`
                         <div class="col-12">
-                            <div class="alert alert-info">No events found.</div>
+                            <div class="alert alert-info">{{ __('messages.No events found.') }}</div>
                         </div>
                     `);
                     return;
@@ -251,11 +251,11 @@ $(document).ready(function() {
                 renderPaginationControls(pagination);
             },
             error: function(xhr) {
-                console.error('API Error:', error);
+                console.error('API Error:', xhr);
                 $('#events-container').html(`
                     <div class="col-12">
                         <div class="alert alert-danger">
-                            Failed to load events. Please try again later.
+                            {{ __('messages.Failed to load events. Please try again later.') }}
                         </div>
                     </div>
                 `);
@@ -277,7 +277,7 @@ $(document).ready(function() {
         let prevDisabled = pagination.current_page === 1 ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${prevDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">Previous</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">{{ __('messages.Previous') }}</a>
             </li>
         `;
 
@@ -295,7 +295,7 @@ $(document).ready(function() {
         let nextDisabled = pagination.current_page === pagination.last_page ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${nextDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">Next</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">{{ __('messages.Next') }}</a>
             </li>
         `;
 
@@ -411,9 +411,9 @@ $(document).ready(function() {
 
                 $('#modalEventTitle').text(eventData.title);
                 $('#modalEventDate').text(formatEventDate(eventData.start_at || eventData.event_date));
-                $('#modalEventLocation').text(eventData.location || 'N/A');
-                $('#modalEventCapacity').text(eventData.available_seats ? `${eventData.available_seats} Seats` : 'unavailable');
-                $('#modalEventDescription').text(eventData.description || 'No description available.');
+                $('#modalEventLocation').text(eventData.location || '{{ __('messages.N/A') }}');
+                $('#modalEventCapacity').text(eventData.available_seats ? `${eventData.available_seats} {{ __('messages.Seats') }}` : '{{ __('messages.unavailable') }}');
+                $('#modalEventDescription').text(eventData.description || '{{ __('messages.No description available.') }}');
                 $('#modalTicketPrice').text(eventData.price);
                 
 
@@ -425,7 +425,7 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 console.error('Event Detail API Error:', error);
-                alert('Unable to load details for this event.');
+                alert('{{ __('messages.Unable to load details for this event.') }}');
             }
         });
     });
@@ -454,7 +454,7 @@ $(document).ready(function() {
 
         if (!currentEventId) return;
 
-        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span> Processing...');
+        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span> {{ __('messages.Processing...') }}');
 
         $.ajax({
             url: '/api/event/register',
@@ -468,20 +468,20 @@ $(document).ready(function() {
                 'Accept': 'application/json'
             },
             success: function(response) {
-                $btn.prop('disabled', false).html('<i class="bi bi-cart-check me-1"></i> Buy Tickets');
+                $btn.prop('disabled', false).html('<i class="bi bi-cart-check me-1"></i> {{ __('messages.Buy Tickets') }}');
                 
                 $('#modalAlertContainer').html(`
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="bi bi-check-circle-fill me-2"></i>
-                        ${response.message || 'Tickets registered successfully!'}
+                        ${response.message || '{{ __('messages.Tickets registered successfully!') }}'}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 `);
             },
             error: function(xhr) {
-                $btn.prop('disabled', false).html('<i class="bi bi-cart-check me-1"></i> Buy Tickets');
+                $btn.prop('disabled', false).html('<i class="bi bi-cart-check me-1"></i> {{ __('messages.Buy Tickets') }}');
                 
-                const errorMessage = xhr.responseJSON?.message || 'Failed to purchase tickets. Please try again.';
+                const errorMessage = xhr.responseJSON?.message || '{{ __('messages.Failed to purchase tickets. Please try again.') }}';
                 $('#modalAlertContainer').html(`
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-triangle-fill me-2"></i>

@@ -13,9 +13,9 @@
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-body p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="fw-bold mb-0">Top Events</h3>
+                    <h3 class="fw-bold mb-0">{{ __('messages.Top Events') }}</h3>
                          <a href="{{ route('events') }}" class="btn btn-outline-primary btn-sm">
-                            View All Events <i class="bi bi-arrow-right ms-1"></i>
+                            {{ __('messages.View All Events') }} <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                 </div>
 
@@ -29,9 +29,9 @@
         <div class="card shadow-sm border-0 mb-4">
             <div class="card-body p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="fw-bold mb-0">Upcoming Events</h3>
+                    <h3 class="fw-bold mb-0">{{ __('messages.Upcoming Events') }}</h3>
                          <a href="{{ route('events') }}" class="btn btn-outline-primary btn-sm">
-                            View All Events <i class="bi bi-arrow-right ms-1"></i>
+                            {{ __('messages.View All Events') }} <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                 </div>
 
@@ -78,7 +78,7 @@
 
                         <p class="mb-2">
                             <i class="bi bi-calendar"></i>
-                           ${new Date(event.start_at).toLocaleDateString('en-IN', {
+                           ${new Date(event.start_at).toLocaleDateString('{{ app()->getLocale() == 'ar' ? 'ar-SA' : (app()->getLocale() == 'es' ? 'es-ES' : 'en-US') }}', {
                                     day: '2-digit',
                                     month: 'long',
                                     year: 'numeric'
@@ -106,7 +106,7 @@ function formatEventDate(dateString) {
 
     const date = new Date(dateString);
 
-    return date.toLocaleDateString('en-IN', {
+    return date.toLocaleDateString('{{ app()->getLocale() == 'ar' ? 'ar-SA' : (app()->getLocale() == 'es' ? 'es-ES' : 'en-US') }}', {
         day: '2-digit',
         month: 'long',
         year: 'numeric'

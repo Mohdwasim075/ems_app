@@ -1,6 +1,6 @@
 @extends('layouts.attendee')
 
-@section('title', 'My Registered Events')
+@section('title', __('messages.My Registered Events'))
 
 @section('content')
 
@@ -23,7 +23,7 @@
         <div class="card-body p-4">
 
             <h2 class="fw-bold mb-4">
-                My Registered Events
+                {{ __('messages.My Registered Events') }}
             </h2>
 
             <div class="row g-4" id="myEvents">
@@ -50,7 +50,7 @@
             <div class="modal-header bg-light">
 
                 <h5 class="modal-title fw-bold" id="modalEventTitle">
-                    Event Details
+                    {{ __('messages.Event Details') }}
                 </h5>
 
                 <button
@@ -67,26 +67,26 @@
                 <div class="row mb-3">
                     <div class="col-md-6 mb-2">
                         <i class="bi bi-calendar-event text-primary me-2"></i>
-                        <strong>Date:</strong>
+                        <strong>{{ __('messages.Date:') }}</strong>
                         <span id="modalEventDate"></span>
                     </div>
 
                     <div class="col-md-6 mb-2">
                         <i class="bi bi-people text-primary me-2"></i>
-                        <strong>Capacity:</strong>
+                        <strong>{{ __('messages.Capacity:') }}</strong>
                         <span id="modalEventCapacity"></span>
                     </div>
 
                     <div class="col-md-12 mb-2">
                         <i class="bi bi-geo-alt text-primary me-2"></i>
-                        <strong>Location:</strong>
+                        <strong>{{ __('messages.Location:') }}</strong>
                         <span id="modalEventLocation"></span>
                     </div>
                 </div>
 
                 <hr>
 
-                <h6 class="fw-semibold">Description</h6>
+                <h6 class="fw-semibold">{{ __('messages.Description') }}</h6>
                 <p id="modalEventDescription" class="text-secondary leading-relaxed"></p>
 
             </div>
@@ -97,7 +97,7 @@
                     type="button"
                     class="btn btn-secondary"
                     data-bs-dismiss="modal">
-                    Close
+                    {{ __('messages.Close') }}
                 </button>
 
             </div>
@@ -111,9 +111,9 @@
 
 <script>
 function formatEventDate(dateString) {
-    if (!dateString) return 'N/A';
+    if (!dateString) return '{{ __('messages.N/A') }}';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-IN', {
+    return date.toLocaleDateString('{{ app()->getLocale() == 'ar' ? 'ar-SA' : (app()->getLocale() == 'es' ? 'es-ES' : 'en-US') }}', {
         day: '2-digit',
         month: 'long',
         year: 'numeric'
@@ -131,7 +131,7 @@ function displayMyEvents(registrations) {
         container.html(`
             <div class="col-12">
                 <div class="alert alert-info">
-                    You have not registered for any events yet.
+                    {{ __('messages.You have not registered for any events yet.') }}
                 </div>
             </div>
         `);
@@ -177,21 +177,21 @@ function displayMyEvents(registrations) {
                         <div class="bg-light p-3 rounded-3 mt-auto">
 
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="small text-muted">Reg #</span>
+                                <span class="small text-muted">{{ __('messages.Reg #') }}</span>
                                 <span class="badge bg-secondary font-monospace">${registered.registration_number}</span>
                             </div>
                               <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="small text-muted">Registration Date:</span>
+                                <span class="small text-muted">{{ __('messages.Registration Date:') }}</span>
                                 <span class="fw-semibold">${eventRegisteredDate}</span>
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="small text-muted">Tickets:</span>
+                                <span class="small text-muted">{{ __('messages.Tickets:') }}</span>
                                 <span class="fw-semibold">${registered.quantity}</span>
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center">
-                                <span class="small text-muted">Total Paid:</span>
+                                <span class="small text-muted">{{ __('messages.Total Paid:') }}</span>
                                 <span class="fw-bold text-success">₹${registered.total_price}</span>
                             </div>
 
@@ -239,7 +239,7 @@ $(document).ready(function () {
                 $('#myEvents').html(`
                     <div class="col-12">
                         <div class="alert alert-danger">
-                            Failed to load registered events.
+                            {{ __('messages.Failed to load registered events.') }}
                         </div>
                     </div>
                 `);
@@ -261,7 +261,7 @@ $(document).ready(function () {
         let prevDisabled = pagination.current_page === 1 ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${prevDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">Previous</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">{{ __('messages.Previous') }}</a>
             </li>
         `;
 
@@ -279,7 +279,7 @@ $(document).ready(function () {
         let nextDisabled = pagination.current_page === pagination.last_page ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${nextDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">Next</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">{{ __('messages.Next') }}</a>
             </li>
         `;
 
@@ -352,9 +352,9 @@ $(document).ready(function () {
                 // Populate Modal Fields
                 $('#modalEventTitle').text(eventData.title);
                 $('#modalEventDate').text(formatEventDate(eventData.start_at || eventData.event_date));
-                $('#modalEventLocation').text(eventData.location || 'N/A');
-                $('#modalEventCapacity').text(eventData.capacity ? `${eventData.capacity} Seats` : 'Unlimited');
-                $('#modalEventDescription').text(eventData.description || 'No description available.');
+                $('#modalEventLocation').text(eventData.location || '{{ __('messages.N/A') }}');
+                $('#modalEventCapacity').text(eventData.capacity ? `${eventData.capacity} {{ __('messages.Seats') }}` : '{{ __('messages.Unlimited') }}');
+                $('#modalEventDescription').text(eventData.description || '{{ __('messages.No description available.') }}');
 
                 // Show Modal
                 const eventModal = new bootstrap.Modal($('#eventModal')[0]);
@@ -363,7 +363,7 @@ $(document).ready(function () {
 
             error: function(xhr, status, error) {
                 console.error('Event Detail API Error:', error);
-                alert('Unable to load details for this event.');
+                alert('{{ __('messages.Unable to load details for this event.') }}');
             }
         });
     });

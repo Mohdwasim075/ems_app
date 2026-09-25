@@ -13,8 +13,7 @@ class UpdatePasswordTest extends DuskTestCase
 {
     use DatabaseTruncation;
 
-
-    protected function createAttendee(string $password = 'oldpassword123')
+    protected function createAttendee(string $password = 'oldpassword123'): User
     {
         $role = Role::firstOrCreate(['name' => 'attendee']);
 
@@ -24,8 +23,7 @@ class UpdatePasswordTest extends DuskTestCase
         ]);
     }
 
-
-    public function test_user_cannot_update_password_with_empty_fields()
+    public function test_user_cannot_update_password_with_empty_fields(): void
     {
         $user = $this->createAttendee();
 
@@ -33,15 +31,17 @@ class UpdatePasswordTest extends DuskTestCase
             $browser->loginAs($user)
                 ->visit('/profile')
                 ->waitFor('#passwordResetForm')
-                ->press('#passwordResetForm button[type="submit"]')
+                ->within('#passwordResetForm', function (Browser $form) {
+                    $form->press('button[type="submit"]');
+                })
                 ->waitFor('.error-current_password')
                 ->assertSeeIn('.error-current_password', 'The current password field is required.')
-                ->assertSeeIn('.error-password', 'Please enter a new password');
+                ->assertSeeIn('.error-password', 'Please enter a new password')
+                ->logout();
         });
     }
 
-
-    public function test_user_cannot_update_password_with_incorrect_current_password()
+    public function test_user_cannot_update_password_with_incorrect_current_password(): void
     {
         $user = $this->createAttendee('789456');
 
@@ -49,17 +49,19 @@ class UpdatePasswordTest extends DuskTestCase
             $browser->loginAs($user)
                 ->visit('/profile')
                 ->waitFor('#passwordResetForm')
-                ->type('#current_password', '456123')
-                ->type('#password', '741852')
-                ->type('#password_confirmation', '741852')
-                ->press('#passwordResetForm button[type="submit"]')
+                ->within('#passwordResetForm', function (Browser $form) {
+                    $form->clear('#current_password')->type('#current_password', '456123')
+                        ->clear('#password')->type('#password', '741852')
+                        ->clear('#password_confirmation')->type('#password_confirmation', '741852')
+                        ->press('button[type="submit"]');
+                })
                 ->waitForText('Your current password is incorrect.')
-                ->assertSee('Your current password is incorrect.');
+                ->assertSee('Your current password is incorrect.')
+                ->logout();
         });
     }
 
-
-    public function test_user_cannot_update_password_when_confirmation_does_not_match()
+    public function test_user_cannot_update_password_when_confirmation_does_not_match(): void
     {
         $user = $this->createAttendee('789456');
 
@@ -67,17 +69,19 @@ class UpdatePasswordTest extends DuskTestCase
             $browser->loginAs($user)
                 ->visit('/profile')
                 ->waitFor('#passwordResetForm')
-                ->type('#current_password', '789456')
-                ->type('#password', '456123')
-                ->type('#password_confirmation', '456789')
-                ->press('#passwordResetForm button[type="submit"]')
+                ->within('#passwordResetForm', function (Browser $form) {
+                    $form->clear('#current_password')->type('#current_password', '789456')
+                        ->clear('#password')->type('#password', '456123')
+                        ->clear('#password_confirmation')->type('#password_confirmation', '456789')
+                        ->press('button[type="submit"]');
+                })
                 ->waitFor('.error-password')
-                ->assertSeeIn('.error-password', 'The new password confirmation does not match');
+                ->assertSeeIn('.error-password', 'The new password confirmation does not match')
+                ->logout();
         });
     }
 
-
-    public function test_user_cannot_update_password_with_short_password()
+    public function test_user_cannot_update_password_with_short_password(): void
     {
         $user = $this->createAttendee('789456');
 
@@ -85,17 +89,19 @@ class UpdatePasswordTest extends DuskTestCase
             $browser->loginAs($user)
                 ->visit('/profile')
                 ->waitFor('#passwordResetForm')
-                ->type('#current_password', '789456')
-                ->type('#password', '456123')
-                ->type('#password_confirmation', '456123')
-                ->press('#passwordResetForm button[type="submit"]')
+                ->within('#passwordResetForm', function (Browser $form) {
+                    $form->clear('#current_password')->type('#current_password', '789456')
+                        ->clear('#password')->type('#password', '4561')
+                        ->clear('#password_confirmation')->type('#password_confirmation', '4561')
+                        ->press('button[type="submit"]');
+                })
                 ->waitForText('The password field must be at least 6 characters.')
-                ->assertSee('The password field must be at least 6 characters.');
+                ->assertSee('The password field must be at least 6 characters.')
+                ->logout();
         });
     }
 
-
-    public function test_user_can_successfully_update_password()
+    public function test_user_can_successfully_update_password(): void
     {
         $oldPassword = '456123';
         $newPassword = '789456';
@@ -105,23 +111,19 @@ class UpdatePasswordTest extends DuskTestCase
             $browser->loginAs($user)
                 ->visit('/profile')
                 ->waitFor('#passwordResetForm')
-                ->type('#current_password', $oldPassword)
-                ->type('#password', $newPassword)
-                ->type('#password_confirmation', $newPassword)
-                ->press('#passwordResetForm button[type="submit"]')
+                ->within('#passwordResetForm', function (Browser $form) use ($oldPassword, $newPassword) {
+                    $form->clear('#current_password')->type('#current_password', $oldPassword)
+                        ->clear('#password')->type('#password', $newPassword)
+                        ->clear('#password_confirmation')->type('#password_confirmation', $newPassword)
+                        ->press('button[type="submit"]');
+                })
                 ->waitForDialog()
                 ->assertDialogOpened('Password updated successfully!')
-                ->acceptDialog();
+                ->acceptDialog()
+                ->logout();
         });
 
-        // Verify password was updated in database
-        $this->assertTrue(
-            Hash::check($newPassword, $user->fresh()->password),
-
-        );
-        $this->assertFalse(
-            Hash::check($oldPassword, $user->fresh()->password),
-
-        );
+        $this->assertTrue(Hash::check($newPassword, $user->fresh()->password));
+        $this->assertFalse(Hash::check($oldPassword, $user->fresh()->password));
     }
 }

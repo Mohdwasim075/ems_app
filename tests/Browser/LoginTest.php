@@ -4,7 +4,6 @@ namespace Tests\Browser;
 
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTruncation;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -50,7 +49,7 @@ class LoginTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit('/login')
                 ->pause(2000)
-                ->type('#email-input', 'nonexistent@example.com')
+                ->type('#email-input', 'notindatabase@example.com')
                 ->pause(2000)
                 ->type('#password-input', 'invalidpassword')
                 ->pause(2000)

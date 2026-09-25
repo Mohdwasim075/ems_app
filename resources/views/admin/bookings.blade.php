@@ -7,12 +7,12 @@
             <!-- Header & Back Button -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h4 class="fw-bold mb-0">Events Booking</h4>
-                    <small class="text-muted">View, update, and manage all booked events</small>
+                    <h4 class="fw-bold mb-0">{{ __('messages.Events Booking') }}</h4>
+                    <small class="text-muted">{{ __('messages.View, update, and manage all booked events') }}</small>
                 </div>
                 <div>
                     <a href="{{ url('/admin/dashboard') }}" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+                        <i class="bi bi-arrow-left me-1"></i> {{ __('messages.Back to Dashboard') }}
                     </a>
                 </div>
             </div>
@@ -20,13 +20,13 @@
             <!-- Top Toolbar: Page Selector on Left (No Add button for Bookings) -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="d-flex align-items-center gap-2">
-                    <label for="perPageSelect" class="form-label mb-0 text-muted small fw-bold">Show</label>
+                    <label for="perPageSelect" class="form-label mb-0 text-muted small fw-bold">{{ __('messages.Show') }}</label>
                     <select id="perPageSelect" class="form-select form-select-sm w-auto">
                         <option value="5" selected>5</option>
                         <option value="10">10</option>
                         <option value="15">15</option>
                     </select>
-                    <span class="text-muted small">entries</span>
+                    <span class="text-muted small">{{ __('messages.entries') }}</span>
                 </div>
                 
             </div>
@@ -39,21 +39,21 @@
                 <table class="table table-hover align-middle mb-0" id="bookings-table">
                     <thead class="table-light">
                         <tr>
-                            <th width="5%">S.No</th>
-                            <th>Registration No</th>
-                            <th>Event Title</th>
-                            <th>User Name</th>
-                            <th>Quantity</th>
-                            <th>Total Price</th>
-                            <th>Status</th>
-                            <th width="15%" class="text-center">Action</th>
+                            <th width="5%">{{ __('messages.S.NO') }}</th>
+                            <th>{{ __('messages.Registration No') }}</th>
+                            <th>{{ __('messages.Event Title') }}</th>
+                            <th>{{ __('messages.User Name') }}</th>
+                            <th>{{ __('messages.Quantity') }}</th>
+                            <th>{{ __('messages.Total Price') }}</th>
+                            <th>{{ __('messages.Status') }}</th>
+                            <th width="15%" class="text-center">{{ __('messages.Action') }}</th>
                         </tr>
                     </thead>
                     <tbody id="bookings-tbody">
                         <tr>
                             <td colspan="8" class="text-center py-4">
                                 <div class="spinner-border text-primary" role="status"></div>
-                                <p class="mb-0 mt-2 text-muted">Loading bookings...</p>
+                                <p class="mb-0 mt-2 text-muted">{{ __('messages.Loading bookings...') }}</p>
                             </td>
                         </tr>
                     </tbody>
@@ -71,14 +71,14 @@
     <div class="modal-dialog modal-lg ">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-info text-white">
-                <h5 class="modal-title fw-bold">Booking Details</h5>
+                <h5 class="modal-title fw-bold">{{ __('messages.Booking Details') }}</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-md-8">
                         <h4 id="view_registration_number" class="fw-bold text-primary mb-1">---</h4>
-                        <p class="text-muted mb-0">Event: <span id="view_event_title" class="fw-semibold text-dark">---</span></p>
+                        <p class="text-muted mb-0">{{ __('messages.Event') }}: <span id="view_event_title" class="fw-semibold text-dark">---</span></p>
                     </div>
                     <div class="col-md-4 text-end">
                         <span id="view_status_badge"></span>
@@ -87,24 +87,24 @@
                     <hr class="my-2">
 
                     <div class="col-md-6">
-                        <strong>User Name:</strong> <span id="view_user_name">---</span>
+                        <strong>{{ __('messages.User Name') }}:</strong> <span id="view_user_name">---</span>
                     </div>
                     <div class="col-md-6">
-                        <strong>Registered At:</strong> <span id="view_registered_at">---</span>
+                        <strong>{{ __('messages.Registered At') }}:</strong> <span id="view_registered_at">---</span>
                     </div>
                     <div class="col-md-6">
-                        <strong>Ticket Quantity:</strong> <span id="view_quantity">---</span>
+                        <strong>{{ __('messages.Ticket Quantity') }}:</strong> <span id="view_quantity">---</span>
                     </div>
                     <div class="col-md-6">
-                        <strong>Unit Price:</strong> <span id="view_unit_price">---</span>
+                        <strong>{{ __('messages.Unit Price') }}:</strong> <span id="view_unit_price">---</span>
                     </div>
                     <div class="col-md-6">
-                        <strong>Total Price:</strong> <span id="view_total_price" class="fw-bold text-success">---</span>
+                        <strong>{{ __('messages.Total Price') }}:</strong> <span id="view_total_price" class="fw-bold text-success">---</span>
                     </div>
                 </div>
             </div>
             <div class="modal-footer bg-light">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Close') }}</button>
             </div>
         </div>
     </div>
@@ -115,36 +115,36 @@
         <div class="modal-content">
             <form id="bookingForm">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Create Booking</h5>
+                    <h5 class="modal-title" id="modalTitle">{{ __('messages.Create Booking') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="booking_id" name="id">
                     
                     <div class="mb-3">
-                        <label class="form-label">Event ID</label>
+                        <label class="form-label">{{ __('messages.Event ID') }}</label>
                         <input type="number" class="form-field form-control" id="event_id" name="event_id" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">User ID</label>
+                        <label class="form-label">{{ __('messages.User ID') }}</label>
                         <input type="number" class="form-field form-control" id="user_id" name="user_id" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Ticket Quantity</label>
+                        <label class="form-label">{{ __('messages.Ticket Quantity') }}</label>
                         <input type="number" class="form-field form-control" id="quantity" name="quantity" min="1" value="1" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Status</label>
+                        <label class="form-label">{{ __('messages.Status') }}</label>
                         <select class="form-select" id="status" name="status" required>
-                            <option value="CONFIRMED">CONFIRMED</option>
-                            <option value="PENDING">PENDING</option>
-                            <option value="CANCELLED">CANCELLED</option>
+                            <option value="CONFIRMED">{{ __('messages.Confirmed') }}</option>
+                            <option value="PENDING">{{ __('messages.Pending') }}</option>
+                            <option value="CANCELLED">{{ __('messages.Cancelled') }}</option>
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="btn-save">Save Booking</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Cancel') }}</button>
+                    <button type="submit" class="btn btn-primary" id="btn-save">{{ __('messages.Save Booking') }}</button>
                 </div>
             </form>
         </div>
@@ -156,19 +156,19 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Booking Details</h5>
+                <h5 class="modal-title">{{ __('messages.Booking Details') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <table class="table table-sm table-borderless">
-                    <tr><th>Registration No:</th><td id="view-reg-no"></td></tr>
-                    <tr><th>Event:</th><td id="view-event"></td></tr>
-                    <tr><th>User:</th><td id="view-user"></td></tr>
-                    <tr><th>Quantity:</th><td id="view-quantity"></td></tr>
-                    <tr><th>Unit Price:</th><td id="view-unit-price"></td></tr>
-                    <tr><th>Total Price:</th><td id="view-total-price"></td></tr>
-                    <tr><th>Status:</th><td id="view-status"></td></tr>
-                    <tr><th>Registered At:</th><td id="view-registered-at"></td></tr>
+                    <tr><th>{{ __('messages.Registration No') }}:</th><td id="view-reg-no"></td></tr>
+                    <tr><th>{{ __('messages.Event') }}:</th><td id="view-event"></td></tr>
+                    <tr><th>{{ __('messages.User Name') }}:</th><td id="view-user"></td></tr>
+                    <tr><th>{{ __('messages.Quantity') }}:</th><td id="view-quantity"></td></tr>
+                    <tr><th>{{ __('messages.Unit Price') }}:</th><td id="view-unit-price"></td></tr>
+                    <tr><th>{{ __('messages.Total Price') }}:</th><td id="view-total-price"></td></tr>
+                    <tr><th>{{ __('messages.Status') }}:</th><td id="view-status"></td></tr>
+                    <tr><th>{{ __('messages.Registered At') }}:</th><td id="view-registered-at"></td></tr>
                 </table>
             </div>
         </div>
@@ -236,8 +236,8 @@ $(document.body).ready(function() {
                 if (!bookings || bookings.length === 0) {
                     tableBody.append(`
                         <tr>
-                            <td colspan="5" class="text-center text-muted py-4">
-                                No bookings found.
+                            <td colspan="8" class="text-center text-muted py-4">
+                                {{ __('messages.No bookings found.') }}
                             </td>
                         </tr>
                     `);
@@ -250,23 +250,25 @@ $(document.body).ready(function() {
                 let startNumber = pagination.from || ((page - 1) * limit + 1);
 
                 $.each(bookings, function(index, item) {
-                     const statusBadge = item.status === 'CONFIRMED' 
-                            ? '<span class="badge bg-success">CONFIRMED</span>' 
-                            : '<span class="badge bg-warning text-dark">' + item.status + '</span>';
+                     const statusBadge = (item.status === 'CONFIRMED' || item.status === 'confirmed')
+                            ? '<span class="badge bg-success">{{ __('messages.Confirmed') }}</span>' 
+                            : (item.status === 'CANCELLED' || item.status === 'cancelled')
+                            ? '<span class="badge bg-danger">{{ __('messages.Cancelled') }}</span>'
+                            : '<span class="badge bg-warning text-dark">{{ __('messages.Pending') }}</span>';
                     let row = `
                         <tr>
                             <td>${startNumber + index}</td>
-                             <td><strong>${item.registration_number || 'N/A'}</strong></td>
-                                <td>${item.event ? item.event.title : '<span class="text-danger">N/A</span>'}</td>
-                                <td>${item.user ? item.user.name : '<span class="text-danger">N/A</span>'}</td>
+                             <td><strong>${item.registration_number || "{{ __('messages.N/A') }}"}</strong></td>
+                                <td>${item.event ? item.event.title : '<span class="text-danger">{{ __('messages.N/A') }}</span>'}</td>
+                                <td>${item.user ? item.user.name : '<span class="text-danger">{{ __('messages.N/A') }}</span>'}</td>
                                 <td>${item.quantity}</td>
                                 <td>₹${item.total_price}</td>
                                 <td>${statusBadge}</td>
                                 <td class="text-center">
-                                     <button class="btn btn-sm btn-view btn-outline-primary edit-category-btn me-1" data-id="${item.id}" title="Edit Category">
+                                     <button class="btn btn-sm btn-view btn-outline-primary edit-category-btn me-1" data-id="${item.id}" title="{{ __('messages.View Booking') }}">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button class="btn btn-sm  btn-delete btn-outline-danger delete-category-btn" data-id="${item.id}" title="Delete Category">
+                                <button class="btn btn-sm  btn-delete btn-outline-danger delete-category-btn" data-id="${item.id}" title="{{ __('messages.Delete Booking') }}">
                                     <i class="bi bi-trash"></i>
                                 </button>
 
@@ -285,8 +287,8 @@ $(document.body).ready(function() {
                 console.error('Failed to load bookings:', xhr);
                 $('#bookings-tbody').html(`
                     <tr>
-                        <td colspan="5" class="text-center text-danger py-3">
-                            <i class="bi bi-exclamation-triangle-fill me-1"></i> Failed to load bookings.
+                        <td colspan="8" class="text-center text-danger py-3">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ __('messages.Failed to load bookings.') }}
                         </td>
                     </tr>
                 `);
@@ -308,7 +310,7 @@ $(document.body).ready(function() {
         let prevDisabled = pagination.current_page === 1 ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${prevDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">Previous</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">{{ __('messages.Previous') }}</a>
             </li>
         `;
 
@@ -326,7 +328,7 @@ $(document.body).ready(function() {
         let nextDisabled = pagination.current_page === pagination.last_page ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${nextDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">Next</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">{{ __('messages.Next') }}</a>
             </li>
         `;
 
@@ -456,32 +458,32 @@ $(document).on('click', '.btn-view', function () {
             const booking = response.data || response;
 
             // Populate text elements instead of inputs
-            $('#view_registration_number').text(booking.registration_number || 'N/A');
-            $('#view_event_title').text(booking.event ? booking.event.title : 'N/A');
-            $('#view_user_name').text(booking.user ? booking.user.name : 'N/A');
-            $('#view_registered_at').text(booking.registered_at ? booking.registered_at.split('T')[0] : 'N/A');
+            $('#view_registration_number').text(booking.registration_number || "{{ __('messages.N/A') }}");
+            $('#view_event_title').text(booking.event ? booking.event.title : "{{ __('messages.N/A') }}");
+            $('#view_user_name').text(booking.user ? booking.user.name : "{{ __('messages.N/A') }}");
+            $('#view_registered_at').text(booking.registered_at ? booking.registered_at.split('T')[0] : "{{ __('messages.N/A') }}");
             $('#view_quantity').text(booking.quantity || 0);
 
             // Format price values
             const unitPrice = parseFloat(booking.unit_price || 0);
             const totalPrice = parseFloat(booking.total_price || 0);
-            $('#view_unit_price').text(unitPrice === 0 ? 'Free' : '₹' + unitPrice.toLocaleString('en-IN'));
+            $('#view_unit_price').text(unitPrice === 0 ? "{{ __('messages.Free') }}" : '₹' + unitPrice.toLocaleString('en-IN'));
             $('#view_total_price').text('₹' + totalPrice.toLocaleString('en-IN'));
 
             // Format Status Badge dynamically
             const statusMap = {
-                'confirmed': '<span class="badge bg-success fs-6"><i class="bi bi-check-circle-fill me-1"></i> Confirmed</span>',
-                'pending': '<span class="badge bg-warning text-dark fs-6"><i class="bi bi-hourglass-split me-1"></i> Pending</span>',
-                'cancelled': '<span class="badge bg-danger fs-6"><i class="bi bi-x-circle-fill me-1"></i> Cancelled</span>'
+                'confirmed': '<span class="badge bg-success fs-6"><i class="bi bi-check-circle-fill me-1"></i> {{ __('messages.Confirmed') }}</span>',
+                'pending': '<span class="badge bg-warning text-dark fs-6"><i class="bi bi-hourglass-split me-1"></i> {{ __('messages.Pending') }}</span>',
+                'cancelled': '<span class="badge bg-danger fs-6"><i class="bi bi-x-circle-fill me-1"></i> {{ __('messages.Cancelled') }}</span>'
             };
             const currentStatus = (booking.status || '').toLowerCase();
-            $('#view_status_badge').html(statusMap[currentStatus] || `<span class="badge bg-secondary fs-6">${booking.status || 'N/A'}</span>`);
+            $('#view_status_badge').html(statusMap[currentStatus] || `<span class="badge bg-secondary fs-6">${booking.status || "{{ __('messages.N/A') }}"}</span>`);
 
             // Show the modal
             viewBookingModal.show();
         },
         error: function (xhr) {
-            showAlert('danger', 'Failed to fetch booking details.');
+            showAlert('danger', "{{ __('messages.Failed to fetch booking details.') }}");
         }
     });
 });
@@ -490,14 +492,14 @@ $(document).on('click', '.btn-view', function () {
     // 6. DELETE: Remove record
     $(document).on('click', '.btn-delete', function() {
         const id = $(this).data('id');
-        if (confirm('Are you sure you want to delete this booking?')) {
+        if (confirm("{{ __('messages.Are you sure you want to delete this booking?') }}")) {
             $.ajax({
                 url: '/api/admin/booking/delete/' + id,
                 type: 'POST',
                 dataType: 'json',
                 success: function(response) {
-                    showAlert('success', response.message || 'Booking deleted successfully.');
-                    fetchBookings();
+                    showAlert('success', response.message || "{{ __('messages.Booking deleted successfully.') }}");
+                    loadEventBookings(currentPage, currentLimit);
                 },
                 error: function(xhr) {
                     let errors = xhr.responseJSON.message;

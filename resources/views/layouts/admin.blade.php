@@ -1,31 +1,22 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
-            dir="{{in_array(app()->getLocale(),['ar']) ? 'rtl' : 'ltr'}}">
-    
+    dir="{{in_array(app()->getLocale(), ['ar']) ? 'rtl' : 'ltr'}}">
+
 
 <head>
 
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Event Hub</title>
 
     <!-- AdminLTE CSS -->
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/css/adminlte.min.css"
-    >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/css/adminlte.min.css">
 
     <!-- Bootstrap Icons -->
-    <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-    >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
     <style>
         /* Color Palette Theme */
@@ -126,254 +117,238 @@
         }
 
         table {
-  font-family: Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-td, th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
+        td,
+        th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
 
-tr:nth-child(even){background-color: #f2f2f2;}
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
 
-tr:hover {background-color: #ddd;}
+        tr:hover {
+            background-color: #ddd;
+        }
 
-th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #04AA6D;
-  color: white;
-}
+        th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
     </style>
 </head>
 
 <body class="layout-fixed sidebar-expand-lg bg-dark">
 
-<div class="app-wrapper">
+    <div class="app-wrapper">
 
-    <!-- HEADER / NAVBAR -->
-    <nav class="app-header navbar navbar-expand">
+        <!-- HEADER / NAVBAR -->
+        <nav class="app-header navbar navbar-expand">
 
-        <div class="container-fluid">
+            <div class="container-fluid">
 
-            <!-- Sidebar Toggle -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a
-                        class="nav-link"
-                        data-lte-toggle="sidebar"
-                        href="#"
-                        role="button"
-                    >
-                        <i class="bi bi-list fs-5"></i>
-                    </a>
-                </li>
-            </ul>
-
-            <!-- Right Side -->
-            <ul class="navbar-nav ms-auto align-items-center">
-
-                <!-- Language Dropdown -->
-                <li class="nav-item dropdown me-2">
-                <a
-                    class="nav-link dropdown-toggle"
-                    href="#"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                >
-                    <i class="bi bi-translate me-1"></i>
-                    {{ __('messages.language') }}
-                </a>
-
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
-                    <li>
-                       <a href="{{ route('lang.switch', 'en') }}"
-                        class="dropdown-item language-option">
-                            English
+                <!-- Sidebar Toggle -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                            <i class="bi bi-list fs-5"></i>
                         </a>
                     </li>
+                </ul>
 
-                    <li>
-                        <a href="{{ route('lang.switch', 'es') }}"
-                        class="dropdown-item language-option">
-                           Spanish
-                        </a>
-                    </li>
+                <!-- Right Side -->
+                <ul class="navbar-nav ms-auto align-items-center">
 
-                    <li>
-                        <a href="{{ route('lang.switch', 'ar') }}"
-                        class="dropdown-item language-option">
-                            Arabic
+                    <!-- Language Dropdown -->
+                    <li class="nav-item dropdown me-2">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-translate me-1"></i>
+                            {{ __('messages.language') }}
                         </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li>
+                                <a href="{{ route('lang.switch', 'en') }}" class="dropdown-item language-option">
+                                    {{ __('messages.English') }}
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('lang.switch', 'es') }}" class="dropdown-item language-option">
+                                    {{ __('messages.Spanish') }}
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('lang.switch', 'ar') }}" class="dropdown-item language-option">
+                                    {{ __('messages.Arabic') }}
+                                </a>
+                            </li>
+
+                        </ul>
                     </li>
+                    @auth
+                        <!-- Right navbar -->
+                        <ul class="navbar-nav ms-auto ">
+
+                            <!-- User Dropdown -->
+                            <li class="nav-item dropdown user-menu">
+
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="bi bi-person-circle fs-5"></i>
+                                    <span class="d-none d-md-inline ms-2">
+                                        {{ Auth::user()->name }}
+                                    </span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow">
+
+                                    <!-- User Header -->
+                                    <li class="dropdown-header text-center py-3">
+                                        <i class="bi bi-person-circle display-5 text-primary"></i>
+                                        <h6 class="mt-2 mb-0 fw-bold">
+                                            {{ Auth::user()->name }}
+                                        </h6>
+                                        <small class="text-muted">{{ Auth::user()->email }}</small>
+                                    </li>
+
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+
+                                    {{-- <!-- Profile Link -->
+                                    <li>
+                                        <a href="{{ route('profileview') }}" class="dropdown-item">
+                                            <i class="bi bi-person me-2"></i>
+                                            My Profile
+                                        </a>
+                                    </li> --}}
+
+                                    {{-- <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+
+                                    <!-- Logout -->
+                                    <li>
+                                        <form id="logoutForm" method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item text-danger">
+                                                <i class="bi bi-box-arrow-right me-2"></i>
+                                                Logout
+                                            </button>
+                                        </form>
+                                    </li> --}}
+
+                                </ul>
+
+                            </li>
+
+                        </ul>
+                    @endauth
+
+
+                    @auth
+                        <!-- Logout Button -->
+                        <li class="nav-item">
+                            <form id="logoutForm" method="post">
+                                <button type="submit" class="btn btn-danger btn-sm me-2 fw-medium logout-btn">
+                                    <i class="bi bi-box-arrow-right me-1"></i>
+                                    {{__('messages.Log out')}}
+                                </button>
+                            </form>
+                        </li>
+                    @endauth
 
                 </ul>
-            </li>
-            @auth
-             <!-- Right navbar -->
-        <ul class="navbar-nav ms-auto ">
 
-            <!-- User Dropdown -->
-            <li class="nav-item dropdown user-menu">
+            </div>
 
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle fs-5"></i>
-                    <span class="d-none d-md-inline ms-2">
-                        {{ Auth::user()->name }}
+        </nav>
+
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar shadow">
+
+            <!-- Brand -->
+            <div class="sidebar-brand">
+                <a href="#" class="brand-link px-3 py-3 d-flex align-items-center">
+                    <i class="bi bi-calendar2-event-fill text-primary fs-4 me-2"></i>
+                    <span class="brand-text">
+                        <p class="h5 mb-0">{{ __('messages.Event Hub') }}</p>
                     </span>
                 </a>
+            </div>
 
-                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end shadow">
-
-                    <!-- User Header -->
-                    <li class="dropdown-header text-center py-3">
-                        <i class="bi bi-person-circle display-5 text-primary"></i>
-                        <h6 class="mt-2 mb-0 fw-bold">
-                            {{ Auth::user()->name }}
-                        </h6>
-                        <small class="text-muted">{{ Auth::user()->email }}</small>
-                    </li>
-
-                    <li><hr class="dropdown-divider"></li>
-
-                    {{-- <!-- Profile Link -->
-                    <li>
-                        <a href="{{ route('profileview') }}" class="dropdown-item">
-                            <i class="bi bi-person me-2"></i>
-                            My Profile
-                        </a>
-                    </li> --}}
-
-                    {{-- <li><hr class="dropdown-divider"></li>
-
-                    <!-- Logout -->
-                    <li>
-                        <form id = "logoutForm" method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="dropdown-item text-danger">
-                                <i class="bi bi-box-arrow-right me-2"></i>
-                                Logout
-                            </button>
-                        </form>
-                    </li> --}}
-
-                </ul>
-
-            </li>
-
-        </ul>
-        @endauth
-           
-
-            @auth
-                <!-- Logout Button -->
-                <li class="nav-item">
-                    <form id="logoutForm" method="post">
-                        <button
-                            type="submit"
-                            class="btn btn-danger btn-sm me-2 fw-medium"
-                        >
-                            <i class="bi bi-box-arrow-right me-1"></i>
-                            {{__('messages.Log out')}}
-                        </button>
-                    </form>
-                </li>
-            @endauth
-
-            </ul>
-
-        </div>
-
-    </nav>
-
-    <!-- SIDEBAR -->
-    <aside class="app-sidebar shadow">
-
-        <!-- Brand -->
-        <div class="sidebar-brand">
-            <a href="/" class="brand-link px-3 py-3 d-flex align-items-center">
-                <i class="bi bi-calendar2-event-fill text-primary fs-4 me-2"></i>
-                <span class="brand-text">
-                    <p class="h5 mb-0">Event Hub</p> 
-                </span>
-            </a>
-        </div>
-
-        <!-- Sidebar Content -->
-        <div class="sidebar-wrapper">
-            <nav>
-                <ul
-                    class="nav sidebar-menu flex-column"
-                    data-lte-toggle="treeview"
-                    role="menu"
-                >
-                    <!-- Home -->
-                    <li class="nav-item">
-                        <a
-                            href="{{ route('admin.dashboard') }}"
-                            class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
-                        >
-                            <i class="nav-icon bi bi-house-fill me-2"></i>
-                            <p class="d-inline">{{__('messages.Dashboard')}}</p>
-                        </a>
-                    </li>
-
-                    <!-- categories -->
-                    <li class="nav-item">
-                        <a
-                            href="{{route('admin.categories')}}"
-                            class="nav-link {{request()->routeIs('admin.categories') ? 'active' : '' }}"
-                        >
-                            <i class="nav-icon bi bi-calendar-event me-2"></i>
-                            <p class="d-inline">{{__('messages.Categories')}}</p>
-                        </a>
-                    </li>
-
-                     <!-- Events -->
-                    <li class="nav-item">
-                        <a
-                            href="{{route('admin.events')}}"
-                            class="nav-link {{ request()->routeIs('admin.events') ? 'active' : '' }}"
-                        >
-                            <i class="nav-icon bi bi-calendar-event me-2"></i>
-                            <p class="d-inline">{{__('messages.Events')}}</p>
-                        </a>
-                    </li>
-
-
-                    <!-- Bookings-->
+            <!-- Sidebar Content -->
+            <div class="sidebar-wrapper">
+                <nav>
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu">
+                        <!-- Home -->
                         <li class="nav-item">
-                            <a  href="{{route('admin.bookings')}}"
-                            class="nav-link {{ request()->routeIs('admin.bookings') ? 'active' : '' }}"
-                            >
+                            <a href="{{ route('admin.dashboard') }}"
+                                class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                                <i class="nav-icon bi bi-house-fill me-2"></i>
+                                <p class="d-inline">{{__('messages.Dashboard')}}</p>
+                            </a>
+                        </li>
+
+                        <!-- categories -->
+                        <li class="nav-item">
+                            <a href="{{route('admin.categories')}}"
+                                class="nav-link {{request()->routeIs('admin.categories') ? 'active' : '' }}">
+                                <i class="nav-icon bi bi-calendar-event me-2"></i>
+                                <p class="d-inline">{{__('messages.Categories')}}</p>
+                            </a>
+                        </li>
+
+                        <!-- Events -->
+                        <li class="nav-item">
+                            <a href="{{route('admin.events')}}"
+                                class="nav-link {{ request()->routeIs('admin.events') ? 'active' : '' }}">
+                                <i class="nav-icon bi bi-calendar-event me-2"></i>
+                                <p class="d-inline">{{__('messages.Events')}}</p>
+                            </a>
+                        </li>
+
+
+                        <!-- Bookings-->
+                        <li class="nav-item">
+                            <a href="{{route('admin.bookings')}}"
+                                class="nav-link {{ request()->routeIs('admin.bookings') ? 'active' : '' }}">
                                 <i class="nav-icon bi bi-person me-2"></i>
                                 <p class="d-inline">{{__('messages.Bookings')}}</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{route('admin.users')}}" class="nav-link {{  request()->routeIs('admin.users') ? 'active' : '' }}">
+                            <a href="{{route('admin.users')}}"
+                                class="nav-link {{  request()->routeIs('admin.users') ? 'active' : '' }}">
                                 <i class="nav-icon bi bi-calendar-check me-2"></i>
                                 <p class="d-inline">{{__('messages.Users')}}</p>
                             </a>
                         </li>
-              
-                </ul>
-            </nav>
-        </div>
 
-    </aside>
+                    </ul>
+                </nav>
+            </div>
 
-    <main class="app-main">
-        @yield('content')
-    </main>
+        </aside>
+
+        <main class="app-main">
+            @yield('content')
+        </main>
 
 
 
-</div>
+    </div>
     <!-- FOOTER -->
     <footer class="app-footer py-3 px-4">
         <div class="float-end d-none d-sm-inline text-muted small">
@@ -384,78 +359,56 @@ th {
         </strong>
     </footer>
 
-<script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"
+        integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
 
-<script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            'Accept': 'application/json'
-        }
-    });
-
-    $('#loginForm').on('submit', function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: '/login',
-            method: 'POST',
-            data: $(this).serialize(),
-            success: function(response) {
-                window.location.href = '/';
-            },
-            error: function(xhr) {
-                console.log('Status:', xhr.status);
-                console.log('Response:', xhr.responseJSON);
-            }
-        });
-    });
-
-    $('#logoutForm').on('submit', function(event) {
-        event.preventDefault();
-        $.ajax({
-            url: '/api/logout',
-            method: 'POST',
-            data: $(this).serialize(),
-            success: function(response) {
-                window.location.href = '/';
-            },
-            error: function(xhr) {
-                console.log(xhr.status);
-                console.log(xhr.responseJSON);
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Accept': 'application/json'
             }
         });
 
-        $(document).on('click', '.language-option', function (e) {
+        $('#loginForm').on('submit', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '/login',
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    window.location.href = '/';
+                },
+                error: function (xhr) {
+                    console.log('Status:', xhr.status);
+                    console.log('Response:', xhr.responseJSON);
+                }
+            });
+        });
 
-    e.preventDefault();
+        $('#logoutForm').on('submit', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: '/api/logout',
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    window.location.href = '/';
+                },
+                error: function (xhr) {
+                    console.log(xhr.status);
+                    console.log(xhr.responseJSON);
+                }
+            });
+        });
+    </script>
 
-    let lang = $(this).data('locale');
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-    $.ajax({
-
-        url: `/lang/${lang}`,
-        type: 'POST',
-
-    
-
-        success: function (response) {
-            location.reload();
-        },
-
-        error: function (xhr) {
-            console.log(xhr.responseJSON);
-        }
-    });
-
-});
-    });
-</script>
-
-<!-- Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- AdminLTE -->
-<script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE -->
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"></script>
 
 </body>
+
 </html>

@@ -10,7 +10,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
                 <h4 class="fw-bold mb-0">{{__('messages.Events Category')}} </h4>
-                <small class="text-muted">View, update, and manage all scheduled categories</small>
+                <small class="text-muted">{{ __('messages.View, update, and manage all scheduled categories') }}</small>
             </div>
             <div>
                 <a href="{{ url('/admin/dashboard') }}" class="btn btn-outline-secondary btn-sm">
@@ -22,13 +22,13 @@
         <!-- Top Toolbar: Page Selector on Left, Add Category Button on Right -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="d-flex align-items-center gap-2">
-                <label for="perPageSelect" class="form-label mb-0 text-muted small fw-bold">{{__('Show')}}</label>
+                <label for="perPageSelect" class="form-label mb-0 text-muted small fw-bold">{{__('messages.Show')}}</label>
                 <select id="perPageSelect" class="form-select form-select-sm w-auto">
                     <option value="5" selected>5</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
                 </select>
-                <span class="text-muted small">entries</span>
+                <span class="text-muted small">{{ __('messages.entries') }}</span>
             </div>
             <div>
                 <button class="btn btn-primary btn-sm" id="add-category-btn">{{__('messages.Add Category')}}</button>
@@ -40,11 +40,11 @@
             <table class="table table-hover align-middle mb-0" id="categoriesTable">
                 <thead class="table-light">
                     <tr>
-                        <th>S.No</th>
-                        <th>Category Name</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th class="text-end">Actions</th>
+                        <th>{{ __('messages.S.NO') }}</th>
+                        <th>{{ __('messages.Category Name') }}</th>
+                        <th>{{ __('messages.Description') }}</th>
+                        <th>{{ __('messages.Status') }}</th>
+                        <th class="text-end">{{ __('messages.Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody id="categoriesTableBody">
@@ -68,7 +68,7 @@
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-success text-white">
                 <h5 class="modal-title fw-bold" id="addCategoryModalLabel">
-                    <i class="bi bi-plus-circle me-2"></i>Add New Category
+                    <i class="bi bi-plus-circle me-2"></i>{{ __('messages.Add New Category') }}
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -77,32 +77,32 @@
                 <div class="modal-body">
                     <!-- Category Name -->
                     <div class="mb-3">
-                        <label for="create_name" class="form-label fw-semibold">Category Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="create_name" name="name" required placeholder="e.g., Music & Concerts">
+                        <label for="create_name" class="form-label fw-semibold">{{ __('messages.Category Name') }} <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="create_name" name="name" required placeholder="{{ __('messages.e.g., Music & Concerts') }}">
                         <div class="invalid-feedback error-name"></div>
                     </div>
 
                     <!-- Category Description -->
                     <div class="mb-3">
-                        <label for="create_description" class="form-label fw-semibold">Description</label>
-                        <textarea class="form-control" id="create_description" name="description" rows="3" placeholder="Brief details about this category..."></textarea>
+                        <label for="create_description" class="form-label fw-semibold">{{ __('messages.Description') }}</label>
+                        <textarea class="form-control" id="create_description" name="description" rows="3" placeholder="{{ __('messages.Brief details about this category...') }}"></textarea>
                         <div class="invalid-feedback error-description"></div>
                     </div>
 
                     <!-- Active Status Switch -->
                     <div class="mb-3">
-                        <label class="form-label fw-semibold d-block">Status</label>
+                        <label class="form-label fw-semibold d-block">{{ __('messages.Status') }}</label>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="create_is_active" name="is_active" value="1" checked>
-                            <label class="form-check-label" for="create_is_active" id="createStatusLabel">Active</label>
+                            <label class="form-check-label" for="create_is_active" id="createStatusLabel">{{ __('messages.Active') }}</label>
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Cancel') }}</button>
                     <button type="submit" class="btn btn-success" id="btnSaveCategory">
-                        <i class="bi bi-check-circle me-1"></i> Save Category
+                        <i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Category') }}
                     </button>
                 </div>
             </form>
@@ -116,24 +116,24 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-info text-white">
-                <h5 class="modal-title fw-bold">Category Details</h5>
+                <h5 class="modal-title fw-bold">{{ __('messages.Category Details') }}</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <strong> Name:</strong> <span id="view_category_name">---</span>
+                        <strong> {{ __('messages.Name') }}:</strong> <span id="view_category_name">---</span>
                     </div>
                     <div class="col-md-6">
-                        <strong> Status:</strong> <span id="view_category_status">---</span>
+                        <strong> {{ __('messages.Status') }}:</strong> <span id="view_category_status">---</span>
                     </div>
                     <div class="col-md-12">
-                        <strong> Description:</strong> <span id="view_category_description">---</span>
+                        <strong> {{ __('messages.Description') }}:</strong> <span id="view_category_description">---</span>
                     </div>
                 </div>
             </div>
             <div class="modal-footer bg-light">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Close') }}</button>
             </div>
         </div>
     </div>
@@ -145,7 +145,7 @@
             <div class="modal-content border-0 shadow">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title fw-bold" id="editCategoryModalLabel">
-                        <i class="bi bi-pencil-square me-2"></i>Edit Category
+                        <i class="bi bi-pencil-square me-2"></i>{{ __('messages.Edit Category') }}
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -157,32 +157,32 @@
 
                         <!-- Category Name -->
                         <div class="mb-3">
-                            <label for="edit_name" class="form-label fw-semibold">Category Name <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="edit_name" name="name" required placeholder="e.g., Tech Conferences">
+                            <label for="edit_name" class="form-label fw-semibold">{{ __('messages.Category Name') }} <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="edit_name" name="name" required placeholder="{{ __('messages.e.g., Tech Conferences') }}">
                             <div class="invalid-feedback error-name"></div>
                         </div>
 
                         <!-- Category Description -->
                         <div class="mb-3">
-                            <label for="edit_description" class="form-label fw-semibold">Description</label>
-                            <textarea class="form-control" id="edit_description" name="description" rows="3" placeholder="Brief details about this category..."></textarea>
+                            <label for="edit_description" class="form-label fw-semibold">{{ __('messages.Description') }}</label>
+                            <textarea class="form-control" id="edit_description" name="description" rows="3" placeholder="{{ __('messages.Brief details about this category...') }}"></textarea>
                             <div class="invalid-feedback error-description"></div>
                         </div>
 
                         <!-- Active Status Switch -->
                         <div class="mb-3">
-                            <label class="form-label fw-semibold d-block">Status</label>
+                            <label class="form-label fw-semibold d-block">{{ __('messages.Status') }}</label>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" type="checkbox" id="edit_is_active" name="is_active" value="1">
-                                <label class="form-check-input-label" for="edit_is_active" id="statusLabel">Active</label>
+                                <label class="form-check-input-label" for="edit_is_active" id="statusLabel">{{ __('messages.Active') }}</label>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer bg-light">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Cancel') }}</button>
                         <button type="submit" class="btn btn-primary" id="btnUpdateCategory">
-                            <i class="bi bi-check-circle me-1"></i> Save Changes
+                            <i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Changes') }}
                         </button>
                     </div>
                 </form>
@@ -227,7 +227,7 @@ $(document).ready(function() {
                     tableBody.append(`
                         <tr>
                             <td colspan="5" class="text-center text-muted py-4">
-                                No categories found.
+                                {{ __('messages.No categories found.') }}
                             </td>
                         </tr>
                     `);
@@ -242,13 +242,13 @@ $(document).ready(function() {
                 $.each(categories, function(index, category) {
                     let description = category.description 
                         ? category.description.trim() 
-                        : '<span class="text-muted fs-7">N/A</span>';
+                        : '<span class="text-muted fs-7">{{ __('messages.N/A') }}</span>';
                     
                     let categoryName = category.name ? category.name.trim() : '';
 
                     let statusBadge = category.is_active == 1 
-                        ? '<span class="badge bg-success">Active</span>' 
-                        : '<span class="badge bg-secondary">Inactive</span>';
+                        ? '<span class="badge bg-success">{{ __('messages.Active') }}</span>' 
+                        : '<span class="badge bg-secondary">{{ __('messages.Inactive') }}</span>';
 
                     let row = `
                         <tr>
@@ -257,13 +257,13 @@ $(document).ready(function() {
                             <td>${description}</td>
                             <td>${statusBadge}</td>
                             <td class="text-center">
-                                <button class="btn btn-sm btn-view btn-outline-info view-category-btn me-1" data-id="${category.id}" title="View Category">
+                                <button class="btn btn-sm btn-view btn-outline-info view-category-btn me-1" data-id="${category.id}" title="{{ __('messages.View Category') }}">
                                     <i class="bi bi-eye"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-primary edit-category-btn me-1" data-id="${category.id}" title="Edit Category">
+                                <button class="btn btn-sm btn-outline-primary edit-category-btn me-1" data-id="${category.id}" title="{{ __('messages.Edit Category') }}">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <button class="btn btn-sm btn-outline-danger delete-category-btn" data-id="${category.id}" title="Delete Category">
+                                <button class="btn btn-sm btn-outline-danger delete-category-btn" data-id="${category.id}" title="{{ __('messages.Delete Category') }}">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </td>
@@ -281,7 +281,7 @@ $(document).ready(function() {
                 $('#categoriesTableBody').html(`
                     <tr>
                         <td colspan="5" class="text-center text-danger py-3">
-                            <i class="bi bi-exclamation-triangle-fill me-1"></i> Failed to load categories.
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ __('messages.Failed to load categories.') }}
                         </td>
                     </tr>
                 `);
@@ -303,7 +303,7 @@ $(document).ready(function() {
         let prevDisabled = pagination.current_page === 1 ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${prevDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">Previous</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">{{ __('messages.Previous') }}</a>
             </li>
         `;
 
@@ -321,7 +321,7 @@ $(document).ready(function() {
         let nextDisabled = pagination.current_page === pagination.last_page ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${nextDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">Next</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">{{ __('messages.Next') }}</a>
             </li>
         `;
 
@@ -354,7 +354,7 @@ $(document).ready(function() {
         $('.invalid-feedback').text('');
         
         $('#create_is_active').prop('checked', true);
-        $('#createStatusLabel').text('Active');
+        $('#createStatusLabel').text("{{ __('messages.Active') }}");
 
         let addModal = new bootstrap.Modal(document.getElementById('addCategoryModal'));
         addModal.show();
@@ -362,7 +362,7 @@ $(document).ready(function() {
 
     // 3. Dynamic Switch Label Text Toggle
     $('#create_is_active').on('change', function() {
-        $('#createStatusLabel').text($(this).is(':checked') ? 'Active' : 'Inactive');
+        $('#createStatusLabel').text($(this).is(':checked') ? "{{ __('messages.Active') }}" : "{{ __('messages.Inactive') }}");
     });
 
     // 4. Handle Category Creation via AJAX
@@ -370,7 +370,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         let $btn = $('#btnSaveCategory');
-        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span> Saving...');
+        $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-1"></span> {{ __('messages.Saving...') }}');
 
         $('.form-control').removeClass('is-invalid');
         $('.invalid-feedback').text('');
@@ -390,7 +390,7 @@ $(document).ready(function() {
                 'Accept': 'application/json'
             },
             success: function(response) {
-                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Save Category');
+                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Category') }}');
 
                 let modalElement = document.getElementById('addCategoryModal');
                 let modalInstance = bootstrap.Modal.getInstance(modalElement);
@@ -402,7 +402,7 @@ $(document).ready(function() {
                 loadEventCategory(1, currentLimit);
             },
             error: function(xhr) {
-                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Save Category');
+                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Category') }}');
 
                 if (xhr.status === 422) {
                     let errors = xhr.responseJSON.errors;
@@ -411,7 +411,7 @@ $(document).ready(function() {
                         $('.error-' + fieldName).text(errorMessages[0]);
                     });
                 } else {
-                    alert('An error occurred while creating the category. Please try again.');
+                    alert("{{ __('messages.An error occurred while creating the category. Please try again.') }}");
                 }
             }
         });
@@ -431,21 +431,21 @@ $(document).ready(function() {
                 const categoryData = response.category ? (Array.isArray(response.category) ? response.category[0] : response.category) : response;
                 
                 if (categoryData) {
-                    $('#view_category_id').text(categoryData.id || 'N/A');
-                    $('#view_category_name').text(categoryData.name ? categoryData.name.trim() : 'N/A');
-                    $('#view_category_description').text(categoryData.description ? categoryData.description.trim() : 'No description provided.');
+                    $('#view_category_id').text(categoryData.id || "{{ __('messages.N/A') }}");
+                    $('#view_category_name').text(categoryData.name ? categoryData.name.trim() : "{{ __('messages.N/A') }}");
+                    $('#view_category_description').text(categoryData.description ? categoryData.description.trim() : "{{ __('messages.No description provided.') }}");
 
                     if (categoryData.is_active == 1) {
-                        $('#view_category_status').html('<span class="badge bg-success fs-6"> Active</span>');
+                        $('#view_category_status').html('<span class="badge bg-success fs-6"> {{ __('messages.Active') }}</span>');
                     } else {
-                        $('#view_category_status').html('<span class="badge bg-secondary fs-6"> Inactive</span>');
+                        $('#view_category_status').html('<span class="badge bg-secondary fs-6"> {{ __('messages.Inactive') }}</span>');
                     }
 
                     viewCategoryModal.show();
                 }
             },
             error: function (xhr) {
-                alert('Could not fetch category details. Please try again.');
+                alert("{{ __('messages.Could not fetch category details. Please try again.') }}");
             }
         });
     });
@@ -471,10 +471,10 @@ $(document).ready(function() {
 
                     if (category.is_active == 1) {
                         $('#edit_is_active').prop('checked', true);
-                        $('#statusLabel').text('Active');
+                        $('#statusLabel').text("{{ __('messages.Active') }}");
                     } else {
                         $('#edit_is_active').prop('checked', false);
-                        $('#statusLabel').text('Inactive');
+                        $('#statusLabel').text("{{ __('messages.Inactive') }}");
                     }
 
                     let editModal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
@@ -482,14 +482,14 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr) {
-                alert('Could not fetch category details. Please try again.');
+                alert("{{ __('messages.Could not fetch category details. Please try again.') }}");
             }
         });
     });
 
     // 7. Dynamic Switch Label Text Change (Edit Modal)
     $('#edit_is_active').on('change', function() {
-        $('#statusLabel').text($(this).is(':checked') ? 'Active' : 'Inactive');
+        $('#statusLabel').text($(this).is(':checked') ? "{{ __('messages.Active') }}" : "{{ __('messages.Inactive') }}");
     });
 
     // 8. Update Category AJAX Form Submit
@@ -498,7 +498,7 @@ $(document).ready(function() {
 
         const categoryId = $('#edit_category_id').val();
         let $btn = $('#btnUpdateCategory');
-        $btn.prop('disabled', true).text('Saving Changes...');
+        $btn.prop('disabled', true).text("{{ __('messages.Saving Changes...') }}");
 
         $('.form-control').removeClass('is-invalid');
         $('.invalid-feedback').text('');
@@ -518,7 +518,7 @@ $(document).ready(function() {
             },
             data: formData,
             success: function(response) {
-                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Save Changes');
+                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Changes') }}');
                 
                 let modalElement = document.getElementById('editCategoryModal');
                 let modalInstance = bootstrap.Modal.getInstance(modalElement);
@@ -530,7 +530,7 @@ $(document).ready(function() {
                 loadEventCategory(currentPage, currentLimit);
             },
             error: function(xhr) {
-                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Save Changes');
+                $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Changes') }}');
 
                 if (xhr.status === 422) {
                     let errors = xhr.responseJSON.errors;
@@ -539,7 +539,7 @@ $(document).ready(function() {
                         $('.error-' + fieldName).text(errorMessages[0]);
                     });
                 } else {
-                    alert('Failed to update category.');
+                    alert("{{ __('messages.Failed to update category.') }}");
                 }
             }
         });
@@ -549,7 +549,7 @@ $(document).ready(function() {
     $(document).on('click', '.delete-category-btn', function () {
         const categoryId = $(this).data('id');
 
-        if (confirm('Are you sure you want to delete this category?')) {
+        if (confirm("{{ __('messages.Are you sure you want to delete this category?') }}")) {
             $.ajax({
                 url: "/api/admin/category/delete/" + categoryId,
                 type: 'POST',
@@ -562,7 +562,7 @@ $(document).ready(function() {
                     loadEventCategory(currentPage, currentLimit);
                 },
                 error: function(xhr){
-                    let errors = xhr.responseJSON ? xhr.responseJSON.message : 'Deletion failed.';
+                    let errors = xhr.responseJSON ? xhr.responseJSON.message : "{{ __('messages.Deletion failed.') }}";
                     alert(errors);
                 }
             });

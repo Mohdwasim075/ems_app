@@ -8,12 +8,12 @@
             <!-- Header & Back Button -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h4 class="fw-bold mb-0">Users Management</h4>
-                    <small class="text-muted">View, update, and manage all users</small>
+                    <h4 class="fw-bold mb-0">{{ __('messages.Users Management') }}</h4>
+                    <small class="text-muted">{{ __('messages.View, update, and manage all users') }}</small>
                 </div>
                 <div>
                     <a href="{{ url('/admin/dashboard') }}" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+                        <i class="bi bi-arrow-left me-1"></i> {{ __('messages.Back to Dashboard') }}
                     </a>
                 </div>
             </div>
@@ -21,13 +21,13 @@
             <!-- Top Toolbar: Page Selector on Left -->
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div class="d-flex align-items-center gap-2">
-                    <label for="perPageSelect" class="form-label mb-0 text-muted small fw-bold">Show</label>
+                    <label for="perPageSelect" class="form-label mb-0 text-muted small fw-bold">{{ __('messages.Show') }}</label>
                     <select id="perPageSelect" class="form-select form-select-sm w-auto">
                         <option value="5" selected>5</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
                     </select>
-                    <span class="text-muted small">entries</span>
+                    <span class="text-muted small">{{ __('messages.entries') }}</span>
                 </div>
             </div>
 
@@ -39,19 +39,19 @@
                 <table class="table table-hover align-middle mb-0" id="users-table">
                     <thead class="table-light">
                         <tr>
-                            <th width="5%">S.No</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone No</th>
-                            <th>Role</th>
-                            <th width="15%" class="text-center">Actions</th>
+                            <th width="5%">{{ __('messages.S.NO') }}</th>
+                            <th>{{ __('messages.Name') }}</th>
+                            <th>{{ __('messages.Email') }}</th>
+                            <th>{{ __('messages.Phone No') }}</th>
+                            <th>{{ __('messages.Role') }}</th>
+                            <th width="15%" class="text-center">{{ __('messages.Actions') }}</th>
                         </tr>
                     </thead>
                     <tbody id="users-tbody">
                         <tr>
                             <td colspan="6" class="text-center py-4">
                                 <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
-                                <span class="ms-2 text-muted">Loading users...</span>
+                                <span class="ms-2 text-muted">{{ __('messages.Loading users...') }}</span>
                             </td>
                         </tr>
                     </tbody>
@@ -72,7 +72,7 @@
     <div class="modal-dialog modal-lg ">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-info text-white">
-                <h5 class="modal-title fw-bold">User Profile Details</h5>
+                <h5 class="modal-title fw-bold">{{ __('messages.User Profile Details') }}</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -80,7 +80,7 @@
                     <div class="col-md-8">
                         <h4 id="view_name" class="fw-bold text-primary mb-1">---</h4>
                         {{-- <p id="view_email" class="text-muted mb-0">---</p> --}}
-                        <strong>Email:</strong> <span id="view_email" class="text-muted mb-0"> </span>
+                        <strong>{{ __('messages.Email') }}:</strong> <span id="view_email" class="text-muted mb-0"> </span>
                     </div>
                     <div class="col-md-4 text-end">
                         <span id="view_status_badge"></span>
@@ -89,18 +89,18 @@
                     <hr class="my-2">
 
                     <div class="col-md-6">
-                        <strong>Role:</strong> <span id="view_role" class="fw-semibold text-primary">---</span>
+                        <strong>{{ __('messages.Role') }}:</strong> <span id="view_role" class="fw-semibold text-primary">---</span>
                     </div>
                     <div class="col-md-6">
-                        <strong>Phone Number:</strong> <span id="view_phone">---</span>
+                        <strong>{{ __('messages.Phone Number') }}:</strong> <span id="view_phone">---</span>
                     </div>
                     <div class="col-md-6">
-                        <strong>Joined On:</strong> <span id="view_created_at">---</span>
+                        <strong>{{ __('messages.Joined On') }}:</strong> <span id="view_created_at">---</span>
                     </div>
                 </div>
             </div>
             <div class="modal-footer bg-light">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Close') }}</button>
             </div>
         </div>
     </div>
@@ -112,7 +112,7 @@
         <div class="modal-content border-0 shadow">
             <form id="userForm">
                 <div class="modal-header  bg-primary text-white">
-                    <h5 class="modal-title fw-bold" id="formModalTitle">Edit User</h5>
+                    <h5 class="modal-title fw-bold" id="formModalTitle">{{ __('messages.Edit User') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -122,31 +122,31 @@
                     <div id="modal-alert" class="alert alert-danger d-none p-2 mb-3 small"></div>
 
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold">Full Name</label>
+                        <label class="form-label small fw-semibold">{{ __('messages.Full Name') }}</label>
                         <input type="text" class="form-control" id="name" name="name" required>
                         <div class="invalid-feedback" id="err-name"></div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold">Email Address</label>
+                        <label class="form-label small fw-semibold">{{ __('messages.Email Address') }}</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                         <div class="invalid-feedback" id="err-email"></div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold">Phone Number</label>
+                        <label class="form-label small fw-semibold">{{ __('messages.Phone Number') }}</label>
                         <input type="text" class="form-control" id="phone_number" name="phone_number">
                         <div class="invalid-feedback" id="err-phone"></div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold">Role</label>
+                        <label class="form-label small fw-semibold">{{ __('messages.Role') }}</label>
                         <select class="form-select" id="role_id" name="role_id" required>
-                            <option value="">Select Role</option>
+                            <option value="">{{ __('messages.Select Role') }}</option>
                             <!-- Dynamic options populated via AJAX -->
                         </select>
                         <div class="invalid-feedback" id="err-role_id"></div>
                     </div>
                 <div class="modal-footer border-top-0 pt-0">
-                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-sm btn-primary px-3" id="btn-save">Save Changes</button>
+                    <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal">{{ __('messages.Cancel') }}</button>
+                    <button type="submit" class="btn btn-sm btn-primary px-3" id="btn-save">{{ __('messages.Save Changes') }}</button>
                 </div>
             </form>
         </div>
@@ -172,7 +172,7 @@ function loadRolesDropdown() {
         dataType: 'json',
         success: function(response) {
             const roles = response.data || response;
-            let options = '<option value="">Select Role</option>';
+            let options = '<option value="">{{ __('messages.Select Role') }}</option>';
 
             $.each(roles, function(index, role) {
                 // Uses role.id as value and formats role.name for display
@@ -182,7 +182,7 @@ function loadRolesDropdown() {
             $('#role_id').html(options);
         },
         error: function() {
-            alert( 'Failed to load roles list.');
+            alert("{{ __('messages.Failed to load roles list.') }}");
         }
     });
 }
@@ -226,12 +226,16 @@ loadRolesDropdown();
                 
 
                 if (!users || users.length === 0) {
-                    rows = `<tr><td colspan="6" class="text-center py-3 text-muted">No users found.</td></tr>`;
+                    rows = `<tr><td colspan="6" class="text-center py-3 text-muted">{{ __('messages.No users found.') }}</td></tr>`;
                 } else {
                     
                     $.each(users, function(index, user) {
                        // Extract nested role name safely
-                    const roleName = (user.role && user.role.name) ? user.role.name.toUpperCase() : 'N/A';
+                    const roleName = (user.role && user.role.name) ? user.role.name.toUpperCase() : "{{ __('messages.N/A') }}";
+                    const roleDisplay = roleName === 'ADMIN' ? "{{ __('messages.Admin') }}" 
+                                    : roleName === 'ORGANIZER' ? "{{ __('messages.Organizer') }}" 
+                                    : roleName === 'ATTENDEE' ? "{{ __('messages.Attendee') }}" 
+                                    : roleName;
                     
                     // Choose badge color based on role
                     const badgeClass = roleName === 'ADMIN' ? 'bg-danger' 
@@ -243,16 +247,16 @@ loadRolesDropdown();
                         <td>${startNumber + index}</td>
                         <td class="fw-semibold">${user.name}</td>
                         <td>${user.email}</td>
-                        <td>${user.phone_number || 'N/A'}</td>
-                        <td><span class="badge ${badgeClass}">${roleName}</span></td>
+                        <td>${user.phone_number || "{{ __('messages.N/A') }}"}</td>
+                        <td><span class="badge ${badgeClass}">${roleDisplay}</span></td>
                         <td class="text-center">
-                            <button class="btn btn-sm btn-outline-info btn-view me-1" data-id="${user.id}" title="View">
+                            <button class="btn btn-sm btn-outline-info btn-view me-1" data-id="${user.id}" title="{{ __('messages.View') }}">
                                 <i class="bi bi-eye"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-warning btn-edit me-1" data-id="${user.id}" title="Edit">
+                            <button class="btn btn-sm btn-outline-warning btn-edit me-1" data-id="${user.id}" title="{{ __('messages.Edit') }}">
                                 <i class="bi bi-pencil"></i>
                             </button>
-                            <button class="btn btn-sm btn-outline-danger btn-delete" data-id="${user.id}" title="Delete">
+                            <button class="btn btn-sm btn-outline-danger btn-delete" data-id="${user.id}" title="{{ __('messages.Delete') }}">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </td>
@@ -268,8 +272,8 @@ loadRolesDropdown();
                 console.error('Failed to load users:', xhr);
                 $('#users-tbody').html(`
                     <tr>
-                        <td colspan="5" class="text-center text-danger py-3">
-                            <i class="bi bi-exclamation-triangle-fill me-1"></i> Failed to load users.
+                        <td colspan="6" class="text-center text-danger py-3">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ __('messages.Failed to load users.') }}
                         </td>
                     </tr>
                 `);
@@ -291,7 +295,7 @@ loadRolesDropdown();
         let prevDisabled = pagination.current_page === 1 ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${prevDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">Previous</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page - 1}">{{ __('messages.Previous') }}</a>
             </li>
         `;
 
@@ -309,7 +313,7 @@ loadRolesDropdown();
         let nextDisabled = pagination.current_page === pagination.last_page ? 'disabled' : '';
         paginationHtml += `
             <li class="page-item ${nextDisabled}">
-                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">Next</a>
+                <a class="page-link pagination-link" href="#" data-page="${pagination.current_page + 1}">{{ __('messages.Next') }}</a>
             </li>
         `;
 
@@ -401,7 +405,7 @@ loadRolesDropdown();
         clearValidation();
         $('#userForm')[0].reset();
         $('#user_id').val('');
-        $('#formModalTitle').text('Add New User');
+        $('#formModalTitle').text("{{ __('messages.Add New User') }}");
         formModal.show();
     });
 
@@ -419,35 +423,35 @@ $(document).on('click', '.btn-view', function () {
             const user = response.data || response;
 
             // Populate Text Placeholders
-            $('#view_name').text(user.name || 'N/A');
-            $('#view_email').text(user.email || 'N/A');
-            $('#view_role').text(user.role ? user.role.name.toUpperCase() : 'N/A');
-            $('#view_phone').text(user.phone_number || 'N/A');
+            $('#view_name').text(user.name || "{{ __('messages.N/A') }}");
+            $('#view_email').text(user.email || "{{ __('messages.N/A') }}");
+            $('#view_role').text(user.role ? user.role.name.toUpperCase() : "{{ __('messages.N/A') }}");
+            $('#view_phone').text(user.phone_number || "{{ __('messages.N/A') }}");
 
             // Format Joined Date
             const joinedDate = user.created_at ? new Date(user.created_at).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric'
-            }) : 'N/A';
+            }) : "{{ __('messages.N/A') }}";
             $('#view_created_at').text(joinedDate);
 
             // Format Status Badge Dynamically
             const statusMap = {
-                'active': '<span class="badge bg-success fs-6"><i class="bi bi-check-circle-fill me-1"></i> Active</span>',
-                'inactive': '<span class="badge bg-secondary fs-6"><i class="bi bi-dash-circle-fill me-1"></i> Inactive</span>',
-                'suspended': '<span class="badge bg-danger fs-6"><i class="bi bi-x-circle-fill me-1"></i> Suspended</span>',
-                'admin': '<span class="badge bg-primary fs-6"><i class="bi bi-shield-lock-fill me-1"></i> Admin</span>',
-                'attendee': '<span class="badge bg-info text-white fs-6"><i class="bi bi-person-fill me-1"></i> Attendee</span>'
+                'active': '<span class="badge bg-success fs-6"><i class="bi bi-check-circle-fill me-1"></i> {{ __('messages.Active') }}</span>',
+                'inactive': '<span class="badge bg-secondary fs-6"><i class="bi bi-dash-circle-fill me-1"></i> {{ __('messages.Inactive') }}</span>',
+                'suspended': '<span class="badge bg-danger fs-6"><i class="bi bi-x-circle-fill me-1"></i> {{ __('messages.Suspended') }}</span>',
+                'admin': '<span class="badge bg-primary fs-6"><i class="bi bi-shield-lock-fill me-1"></i> {{ __('messages.Admin') }}</span>',
+                'attendee': '<span class="badge bg-info text-white fs-6"><i class="bi bi-person-fill me-1"></i> {{ __('messages.Attendee') }}</span>'
             };
             const currentStatus = (user.status || '').toLowerCase();
-            $('#view_status_badge').html(statusMap[currentStatus] || `<span class="badge bg-secondary fs-6">${user.status || 'N/A'}</span>`);
+            $('#view_status_badge').html(statusMap[currentStatus] || `<span class="badge bg-secondary fs-6">${user.status || "{{ __('messages.N/A') }}"}</span>`);
 
             // Show Modal
             viewModal.show();
         },
         error: function () {
-            showAlert('danger', 'Could not load user details.');
+            showAlert('danger', "{{ __('messages.Could not load user details.') }}");
         }
     });
 });
@@ -493,8 +497,8 @@ $(document).on('click', '.btn-view', function () {
                 console.log(response);
                 
                 formModal.hide();
-                showAlert('success', response.message || 'User saved successfully.');
-                fetchUsers();
+                showAlert('success', response.message || "{{ __('messages.User saved successfully.') }}");
+                loadUsers(currentPage, currentLimit);
             },
             error: function(xhr) {
                 if (xhr.status === 422) {
@@ -519,7 +523,7 @@ $(document).on('click', '.btn-view', function () {
     $(document).on('click', '.btn-delete', function() {
         const id = $(this).data('id');
 
-        if (confirm('Are you sure you want to delete this user?')) {
+        if (confirm("{{ __('messages.Are you sure you want to delete this user?') }}")) {
             $.ajax({
                 url: `/api/admin/user/delete/${id}`,
                 type: 'POST',
@@ -527,7 +531,7 @@ $(document).on('click', '.btn-view', function () {
                 success: function(response) {
                     // showAlert('success', response.message || 'User deleted successfully.');
                     alert(response.message);
-                    fetchUsers();
+                    loadUsers(currentPage, currentLimit);
                 },
                 error: function(xhr) {
                     const errorMsg = xhr.responseJSON ? xhr.responseJSON.message : 'Failed to delete user.';

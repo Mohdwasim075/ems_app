@@ -29,9 +29,13 @@ abstract class DuskTestCase extends BaseTestCase
     {
         $options = (new ChromeOptions)->addArguments(collect([
             $this->shouldStartMaximized() ? '--start-maximized' : '--window-size=1920,1080',
-            '--disable-search-engine-choice-screen',
-            '--disable-smooth-scrolling',
-        ])->unless($this->hasHeadlessDisabled(), function (Collection $items) {
+'--disable-search-engine-choice-screen',
+'--disable-smooth-scrolling',
+'--disable-background-networking',
+'--disable-sync',
+'--disable-default-apps',
+'--log-level=3',
+])->unless($this->hasHeadlessDisabled(), function (Collection $items) {
             return $items->merge([
                 '--disable-gpu'
             ]);
