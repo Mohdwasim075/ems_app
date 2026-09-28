@@ -177,19 +177,19 @@
                         <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
                             <li>
                                 <a href="{{ route('lang.switch', 'en') }}" class="dropdown-item language-option">
-                                    {{ __('messages.English') }}
+                                    English
                                 </a>
                             </li>
 
                             <li>
                                 <a href="{{ route('lang.switch', 'es') }}" class="dropdown-item language-option">
-                                    {{ __('messages.Spanish') }}
+                                    Spanish
                                 </a>
                             </li>
 
                             <li>
                                 <a href="{{ route('lang.switch', 'ar') }}" class="dropdown-item language-option">
-                                    {{ __('messages.Arabic') }}
+                                    Arabic
                                 </a>
                             </li>
 
@@ -352,10 +352,10 @@
     <!-- FOOTER -->
     <footer class="app-footer py-3 px-4">
         <div class="float-end d-none d-sm-inline text-muted small">
-            Event Management System
+            {{__("messages.Event Management System")}}
         </div>
         <strong class="small">
-            Copyright &copy; 2026
+            {{ __('messages.Copyright') }} &copy; 2026
         </strong>
     </footer>
 

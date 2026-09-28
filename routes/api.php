@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->post('/logout', [
 ])->name('logout');
 
 // public routes
-Route::get('/events/featured', [EventController::class, 'featured']);
+Route::get('/events/featured', [EventController::class, 'top_events']);
 Route::get('/events/upcoming', [EventController::class, 'upcoming']);
 Route::get('/events', [EventController::class, 'index']);
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');

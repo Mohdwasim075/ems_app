@@ -62,7 +62,7 @@ class EventController extends Controller
         ]);
     }
 
-    public function featured()
+    public function top_events()
     {
 
         // $events = DB::table('events')
@@ -72,29 +72,19 @@ class EventController extends Controller
         // ->orderBy('start_at', 'asc')
         // ->get();
 
-        $events = DB::table('events')
-            ->leftJoin('event_registrations', 'events.id', '=', 'event_registrations.event_id')
-            ->select(
-                'events.id',
-                'events.title',
-                'events.description',
-                'events.start_at',
-                'events.cover_image',
-                'events.location',
-                DB::raw('COUNT(event_registrations.id) as total_registrations')
-            )
-            ->where('events.status', 'published')
-            ->groupBy(
-                'events.id',
-                'events.title',
-                'events.description',
-                'events.start_at',
-                'events.cover_image',
-                'events.location'
-            )
-            ->orderByDesc('total_registrations')
-            ->take(3)
-            ->get();
+        $events =$events = Event::select([
+                'id',
+                'title',
+                'description',
+                'start_at',
+                'cover_image',
+                'location',
+            ])
+                ->where('status', 'published')
+                ->withSum('registrations', 'quantity')
+                ->orderByDesc('registrations_sum_quantity')
+                ->take(3)
+                ->get();
 
         return response()->json([
             'success' => true,
@@ -107,8 +97,7 @@ class EventController extends Controller
     {
 
         // get events which are published and hasn't yet started
-        $events = DB::table('events')
-            ->select('id', 'title', 'description', 'start_at', 'cover_image', 'location')
+        $events =Event::select('id', 'title', 'description', 'start_at', 'cover_image', 'location')
             ->where('status', 'published')
             ->where('start_at', '>=', now())
             ->orderBy('start_at', 'asc')

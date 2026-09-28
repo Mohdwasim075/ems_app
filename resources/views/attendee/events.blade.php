@@ -413,7 +413,7 @@ $(document).ready(function() {
                 $('#modalEventDate').text(formatEventDate(eventData.start_at || eventData.event_date));
                 $('#modalEventLocation').text(eventData.location || '{{ __('messages.N/A') }}');
                 $('#modalEventCapacity').text(eventData.available_seats ? `${eventData.available_seats} {{ __('messages.Seats') }}` : '{{ __('messages.unavailable') }}');
-                $('#modalEventDescription').text(eventData.description || '{{ __('messages.No description available.') }}');
+                $('#modalEventDescription').text(eventData.description || '{{ __('messages.No description provided.') }}');
                 $('#modalTicketPrice').text(eventData.price);
                 
 

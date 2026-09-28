@@ -28,6 +28,12 @@ class BookingController extends Controller
         $price = (float) $event->price;
         $quantity = (int) $request->quantity;
 
+        if($event->start_at->isPast()){
+            return response()->json([
+                'message' => 'The event has started, so the bookings are closed.',
+            ],422);
+        }
+
         if ($event->available_seats <= 0) {
             return response()->json([
                 'message' => 'Seats are completely filled for this event.',
