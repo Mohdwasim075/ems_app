@@ -72,7 +72,7 @@ class EventController extends Controller
         // ->orderBy('start_at', 'asc')
         // ->get();
 
-        $events =$events = Event::select([
+        $events  = Event::select([
                 'id',
                 'title',
                 'description',
