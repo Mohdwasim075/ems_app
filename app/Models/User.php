@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\SendPasswordResetEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,9 +24,14 @@ class User extends Authenticatable
         'zip',
     ];
 
+    public function sendPasswordResetNotification($token)
+    {
+        SendPasswordResetEmail::dispatch($this->email, $token);
+    }
+
     public function role()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(Role::class);
     }
 
     public function events()

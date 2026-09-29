@@ -219,7 +219,7 @@ $(document).ready(function() {
                             <!-- Clickable Card container (No button inside) -->
                             <div class="card h-100 shadow-sm border-0 event-card" data-event-id="${event.id}">
                                 <img
-                                    src="https://img.magnific.com/premium-photo/audience-conference-hall_386094-30.jpg?semt=ais_hybrid&w=740&q=80"
+                                   src=" /storage/${event.image}"
                                     class="card-img-top"
                                     alt="${event.title}"
                                     style="height: 220px; object-fit: cover;"

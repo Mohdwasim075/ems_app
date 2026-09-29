@@ -73,93 +73,102 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            <form id="createEventForm">
-                <div class="modal-body p-4">
-                    <!-- Title -->
-                    <div class="mb-3">
-                        <label for="create_title" class="form-label fw-semibold">{{ __('messages.Event Title') }} </label>
-                        <input type="text" class="form-control" id="create_title" name="title" required placeholder="e.g., Annual Tech Conference 2026">
-                        <div class="invalid-feedback error-title"></div>
-                    </div>
+<form id="createEventForm" enctype="multipart/form-data">
+    <div class="modal-body p-4">
+        <!-- Title -->
+        <div class="mb-3">
+            <label for="create_title" class="form-label fw-semibold">{{ __('messages.Event Title') }} </label>
+            <input type="text" class="form-control" id="create_title" name="title" required placeholder="e.g., Annual Tech Conference 2026">
+            <div class="invalid-feedback error-title"></div>
+        </div>
 
-                    <!-- Category & Price -->
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label for="create_category_id" class="form-label fw-semibold">{{ __('messages.Category') }}</label>
-                            <select class="form-select" id="create_category_id" name="category_id" required>
-                                <option value="" selected disabled>{{ __('messages.Select Category') }}</option>
-                                <!-- Populate dynamically via API or Blade loop -->
-                            </select>
-                            <div class="invalid-feedback error-category_id"></div>
-                        </div>
+        <!-- Category & Price -->
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="create_category_id" class="form-label fw-semibold">{{ __('messages.Category') }}</label>
+                <select class="form-select" id="create_category_id" name="category_id" required>
+                    <option value="" selected disabled>{{ __('messages.Select Category') }}</option>
+                    <!-- Populate dynamically via API or Blade loop -->
+                </select>
+                <div class="invalid-feedback error-category_id"></div>
+            </div>
 
-                        <div class="col-md-6">
-                            <label for="create_price" class="form-label fw-semibold">{{ __('messages.Ticket Price (₹)') }}</label>
-                            <input type="number" step="0.01" min="0" class="form-control" id="create_price" name="price" required placeholder="0.00">
-                            <div class="invalid-feedback error-price"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- status-->
-                    <div class="col-md-6">
-                        <label for="create_status" class="form-label fw-semibold">{{ __('messages.Event Status') }}</label>
-                        <select class="form-select" id="create_status" name="status" required>
-                            <option value="draft" selected>{{ __('messages.Draft') }}</option>
-                            <option value="published">{{ __('messages.Published') }}</option>
-                        </select>
-                        <div class="invalid-feedback error-status"></div>
-                    </div>
+            <div class="col-md-6">
+                <label for="create_price" class="form-label fw-semibold">{{ __('messages.Ticket Price (₹)') }}</label>
+                <input type="number" step="0.01" min="0" class="form-control" id="create_price" name="price" required placeholder="0.00">
+                <div class="invalid-feedback error-price"></div>
+            </div>
+        </div>
 
-                    <!-- Location -->
-                    <div class="mb-3">
-                        <label for="create_location" class="form-label fw-semibold">{{ __('messages.Location') }}</label>
-                        <input type="text" class="form-control" id="create_location" name="location" placeholder="e.g. Bengaluru, Karnataka" required>
-                        <div class="invalid-feedback error-location"></div>
-                    </div>
+        <!-- Event Image & Status -->
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="create_image" class="form-label fw-semibold">{{ __('messages.Upload Image') }}</label>
+                <input type="file" class="form-control" id="create_image" name="image" accept="image/*">
+                <div class="invalid-feedback error-image"></div>
+                
+            </div>
 
-                    <!-- Start & End Date -->
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label for="create_start_at" class="form-label fw-semibold">{{ __('messages.Start Date & Time') }}</label>
-                            <input type="datetime-local" class="form-control" id="create_start_at" name="start_at" required>
-                            <div class="invalid-feedback error-start_at"></div>
-                        </div>
+            <div class="col-md-6">
+                <label for="create_status" class="form-label fw-semibold">{{ __('messages.Event Status') }}</label>
+                <select class="form-select" id="create_status" name="status" required>
+                    <option value="draft" selected>{{ __('messages.Draft') }}</option>
+                    <option value="published">{{ __('messages.Published') }}</option>
+                </select>
+                <div class="invalid-feedback error-status"></div>
+            </div>
+        </div>
 
-                        <div class="col-md-6">
-                            <label for="create_end_at" class="form-label fw-semibold">{{ __('messages.End Date & Time') }}</label>
-                            <input type="datetime-local" class="form-control" id="create_end_at" name="end_at" required>
-                            <div class="invalid-feedback error-end_at"></div>
-                        </div>
-                    </div>
+        <!-- Location -->
+        <div class="mb-3">
+            <label for="create_location" class="form-label fw-semibold">{{ __('messages.Location') }}</label>
+            <input type="text" class="form-control" id="create_location" name="location" placeholder="e.g. Bengaluru, Karnataka" required>
+            <div class="invalid-feedback error-location"></div>
+        </div>
 
-                    <!-- Capacity -->
-                    <div class="mb-3">
-                        <label for="create_capacity" class="form-label fw-semibold">{{ __('messages.Capacity (Total Seats)') }}</label>
-                        <input type="number" min="1" class="form-control" id="create_capacity" name="capacity" required placeholder="e.g., 250">
-                        <div class="invalid-feedback error-capacity"></div>
-                    </div>
+        <!-- Start & End Date -->
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label for="create_start_at" class="form-label fw-semibold">{{ __('messages.Start Date & Time') }}</label>
+                <input type="datetime-local" class="form-control" id="create_start_at" name="start_at" required>
+                <div class="invalid-feedback error-start_at"></div>
+            </div>
 
-                    <!-- Description -->
-                    <div class="mb-3">
-                        <label for="create_description" class="form-label fw-semibold">{{ __('messages.Description') }}</label>
-                        <textarea class="form-control" id="create_description" name="description" rows="3" placeholder="Provide event agenda and highlights..."></textarea>
-                        <div class="invalid-feedback error-description"></div>
-                    </div>
-                </div>
+            <div class="col-md-6">
+                <label for="create_end_at" class="form-label fw-semibold">{{ __('messages.End Date & Time') }}</label>
+                <input type="datetime-local" class="form-control" id="create_end_at" name="end_at" required>
+                <div class="invalid-feedback error-end_at"></div>
+            </div>
+        </div>
 
-                <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Cancel') }}</button>
-                    <button type="submit" class="btn btn-primary" id="btnSaveEvent">
-                        <i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Event') }}
-                    </button>
-                </div>
-            </form>
+        <!-- Capacity -->
+        <div class="mb-3">
+            <label for="create_capacity" class="form-label fw-semibold">{{ __('messages.Capacity (Total Seats)') }}</label>
+            <input type="number" min="1" class="form-control" id="create_capacity" name="capacity" required placeholder="e.g., 250">
+            <div class="invalid-feedback error-capacity"></div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label for="create_description" class="form-label fw-semibold">{{ __('messages.Description') }}</label>
+            <textarea class="form-control" id="create_description" name="description" rows="3" placeholder="Provide event agenda and highlights..."></textarea>
+            <div class="invalid-feedback error-description"></div>
+        </div>
+    </div>
+
+    <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Cancel') }}</button>
+        <button type="submit" class="btn btn-primary" id="btnSaveEvent">
+            <i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Event') }}
+        </button>
+    </div>
+</form>
         </div>
     </div>
 </div>
 <!-- ==================== 1. VIEW EVENT MODAL ==================== -->
 <div class="modal fade" id="viewEventModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg ">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-info text-white">
                 <h5 class="modal-title fw-bold">{{ __('messages.Event Details') }}</h5>
@@ -167,14 +176,21 @@
             </div>
             <div class="modal-body">
                 <div class="row g-3">
+                    <!-- Title & Description (Left Side) -->
                     <div class="col-md-8">
                         <h4 id="view_title" class="fw-bold text-primary mb-1">---</h4>
                         <p id="view_description" class="text-muted">---</p>
                     </div>
-                    <div class="col-md-4 text-end">
-                        <span id="view_featured_badge"></span>
+
+                    <!-- Event Image & Badge (Top Right Side) -->
+                    <div class="col-md-4 text-end d-flex flex-column align-items-end">
+                        <span id="view_featured_badge" class="mb-2"></span>
+                        <img id="view_image" src="" alt="Event Image" class="img-fluid rounded shadow-sm border" style="max-height: 140px; object-fit: cover; display: none;">
                     </div>
+
                     <hr class="my-2">
+
+                    <!-- Event Metadata -->
                     <div class="col-md-6">
                         <strong>{{ __('messages.Category') }}:</strong> <span id="view_category">---</span>
                     </div>
@@ -186,12 +202,11 @@
                     </div>
                     <div class="col-md-6">
                         <strong>{{ __('messages.End Date') }}:</strong> <span id="view_end_date">---</span>
-                   
+                    </div>
                     <div class="col-md-6">
                         <strong>{{ __('messages.Capacity') }}:</strong> <span id="view_capacity">---</span> {{ __('messages.Seats') }}
                     </div>
-                     </div>
-                      <div class="col-md-6">
+                    <div class="col-md-6">
                         <strong>{{ __('messages.Available seats') }}:</strong> <span id="view_available_seats">---</span> {{ __('messages.Seats') }}
                     </div>
                     <div class="col-md-6">
@@ -214,92 +229,97 @@
                 <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>{{ __('messages.Edit Event') }}</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
-            <form id="editEventForm" method="post">
-                <div class="modal-body">
-                    <input type="hidden" id="edit_event_id" name="id">
+        <form id="editEventForm" method="post" enctype="multipart/form-data">
+    <div class="modal-body">
+        <input type="hidden" id="edit_event_id" name="id">
 
-                    <div class="row g-3">
-                        <div class="col-md-12">
-                            <label for="edit_title" class="form-label fw-semibold">{{ __('messages.Event Title') }}</label>
-                            <input type="text" class="form-control" id="edit_title" name="title" >
-                            <div class="invalid-feedback error-title"></div>
-                        </div>
+        <div class="row g-3">
+            <!-- Event Title -->
+            <div class="col-md-12">
+                <label for="edit_title" class="form-label fw-semibold">{{ __('messages.Event Title') }}</label>
+                <input type="text" class="form-control" id="edit_title" name="title">
+                <div class="invalid-feedback error-title"></div>
+            </div>
 
-                        <div class="col-md-12">
-                            <label for="edit_description" class="form-label fw-semibold">{{ __('messages.Description') }}</label>
-                            <textarea class="form-control" id="edit_description" name="description" rows="3"></textarea>
-                            <div class="invalid-feedback error-description"></div>
-                        </div>
+            <!-- Description -->
+            <div class="col-md-12">
+                <label for="edit_description" class="form-label fw-semibold">{{ __('messages.Description') }}</label>
+                <textarea class="form-control" id="edit_description" name="description" rows="3"></textarea>
+                <div class="invalid-feedback error-description"></div>
+            </div>
 
-                        <div class="col-md-6">
-                            <label for="edit_start_date" class="form-label fw-semibold">{{ __('messages.Start Date') }}</label>
-                            <input type="datetime-local" class="form-control" id="edit_start_date" name="start_at" required>
-                            <div class="invalid-feedback error-start_date"></div>
-                        </div>
+            <!-- Start & End Date -->
+            <div class="col-md-6">
+                <label for="edit_start_date" class="form-label fw-semibold">{{ __('messages.Start Date') }}</label>
+                <input type="datetime-local" class="form-control" id="edit_start_date" name="start_at" required>
+                <div class="invalid-feedback error-start_at"></div>
+            </div>
 
-                        <div class="col-md-6">
-                            <label for="edit_end_date" class="form-label fw-semibold">{{ __('messages.End Date') }}</label>
-                            <input type="datetime-local" class="form-control" id="edit_end_date" name="end_at" required>
-                            <div class="invalid-feedback error-end_date"></div>
-                        </div>
+            <div class="col-md-6">
+                <label for="edit_end_date" class="form-label fw-semibold">{{ __('messages.End Date') }}</label>
+                <input type="datetime-local" class="form-control" id="edit_end_date" name="end_at" required>
+                <div class="invalid-feedback error-end_at"></div>
+            </div>
 
-                        <div class="col-md-6">
-                            <label for="edit_category_id" class="form-label fw-semibold">{{ __('messages.Category') }}</label>
-                            <select class="form-select" id="edit_category_id" name="category_id" required>
-                                <option value="">{{ __('messages.Select Category') }}</option>
-                                <!-- Populate dynamically via API or Blade loop -->
-                            </select>
-                            <div class="invalid-feedback error-category_id"></div>
-                        </div>
+            <!-- Category & Capacity -->
+            <div class="col-md-6">
+                <label for="edit_category_id" class="form-label fw-semibold">{{ __('messages.Category') }}</label>
+                <select class="form-select" id="edit_category_id" name="category_id" required>
+                    <option value="">{{ __('messages.Select Category') }}</option>
+                    <!-- Populate dynamically via API or Blade loop -->
+                </select>
+                <div class="invalid-feedback error-category_id"></div>
+            </div>
 
-                         <div class="col-md-6">
-                            <label for="edit_capacity" class="form-label fw-semibold">{{ __('messages.Capacity') }}</label>
-                            <input type="number" class="form-control" id="edit_capacity" name="capacity" required>
-                            <div class="invalid-feedback error-edit_capacity"></div>
-                        </div>
+            <div class="col-md-6">
+                <label for="edit_capacity" class="form-label fw-semibold">{{ __('messages.Capacity') }}</label>
+                <input type="number" class="form-control" id="edit_capacity" name="capacity" required>
+                <div class="invalid-feedback error-capacity"></div>
+            </div>
 
-                      
+            <!-- Location & Price -->
+            <div class="col-md-6">
+                <label for="edit_location" class="form-label fw-semibold">{{ __('messages.Location') }}</label>
+                <input type="text" class="form-control" id="edit_location" name="location" required>
+                <div class="invalid-feedback error-location"></div>
+            </div>
 
-                        <div class="col-md-6">
-                            <label for="edit_location" class="form-label fw-semibold">{{ __('messages.Location') }}</label>
-                            <input type="text" class="form-control" id="edit_location" name="location" required>
-                            <div class="invalid-feedback error-location"></div>
-                        </div>
+            <div class="col-md-6">
+                <label for="edit_price" class="form-label fw-semibold">{{ __('messages.Price (₹)') }}</label>
+                <input type="number" step="0.01" class="form-control" id="edit_price" name="price">
+                <div class="invalid-feedback error-price"></div>
+            </div>
 
-                        {{-- <div class="col-md-6">
-                            <label for="edit_state" class="form-label fw-semibold">State</label>
-                            <input type="text" class="form-control" id="edit_state" name="state" required>
-                            <div class="invalid-feedback error-state"></div>
-                        </div> --}}
-
-                        {{-- <div class="col-md-6">
-                            <label for="edit_capacity" class="form-label fw-semibold">Available seats <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="edit_capacity" name="available_seats" min="1" required>
-                            <div class="invalid-feedback error-capacity"></div>
-                        </div> --}}
-
-                        <div class="col-md-6">
-                            <label for="edit_price" class="form-label fw-semibold">{{ __('messages.Price (₹)') }} </label>
-                            <input type="number" step="0.01" class="form-control" id="edit_price" name="price" >
-                            <div class="invalid-feedback error-price"></div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="form-check form-switch mt-2">
-                                <input class="form-check-input" type="checkbox" id="edit_is_published" name="status" value="published">
-                                <label class="form-check-label fw-semibold" for="edit_is_published">{{ __('messages.Mark as Published Event') }}</label>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Image File Upload & Preview -->
+            <div class="col-md-12">
+                <label for="edit_image" class="form-label fw-semibold">{{ __('messages.Upload Image') }}</label>
+                <input type="file" class="form-control" id="edit_image" name="image" accept="image/*">
+                <div class="invalid-feedback error-image"></div>
+                
+                <!-- Image Preview Container -->
+                <div class="mt-2" id="edit_image_preview_wrapper">
+                    <small class="text-muted d-block mb-1">Current / Selected Image:</small>
+                    <img id="edit_image_preview" src="" alt="Event Image" class="img-thumbnail" style="max-height: 120px; display: none;">
                 </div>
+            </div>
 
-                <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Cancel') }}</button>
-                    <button type="submit" class="btn btn-primary" id="btnUpdateEvent">
-                        <i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Changes') }}
-                    </button>
+            <!-- Status Switch -->
+            <div class="col-md-12">
+                <div class="form-check form-switch mt-2">
+                    <input class="form-check-input" type="checkbox" id="edit_is_published" name="status" value="published">
+                    <label class="form-check-label fw-semibold" for="edit_is_published">{{ __('messages.Mark as Published Event') }}</label>
                 </div>
-            </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('messages.Cancel') }}</button>
+        <button type="submit" class="btn btn-primary" id="btnUpdateEvent">
+            <i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Changes') }}
+        </button>
+    </div>
+</form>
         </div>
     </div>
 </div>
@@ -458,31 +478,36 @@ let cachedEvents = [];
         $('#createEventForm .form-control, #createEventForm .form-select').removeClass('is-invalid');
         $('#createEventForm .invalid-feedback').text('');
 
-        // Convert datetime-local values (YYYY-MM-DDTHH:mm) to MySQL DATETIME (YYYY-MM-DD HH:mm:ss)
-        let rawStartAt = $('#create_start_at').val();
-        let rawEndAt = $('#create_end_at').val();
+        // // Convert datetime-local values (YYYY-MM-DDTHH:mm) to MySQL DATETIME (YYYY-MM-DD HH:mm:ss)
+        // let rawStartAt = $('#create_start_at').val();
+        // let rawEndAt = $('#create_end_at').val();
 
-        let formattedStartAt = rawStartAt ? rawStartAt.replace('T', ' ') + ':00' : null;
-        let formattedEndAt = rawEndAt ? rawEndAt.replace('T', ' ') + ':00' : null;
+        // let formattedStartAt = rawStartAt ? rawStartAt.replace('T', ' ') + ':00' : null;
+        // let formattedEndAt = rawEndAt ? rawEndAt.replace('T', ' ') + ':00' : null;
 
         // Prepare JSON payload
-        let formData = {
-            title: $('#create_title').val(),
-            category_id: $('#create_category_id').val(),
-            price: $('#create_price').val(),
-            location: $('#create_location').val(),
-            status: $('#create_status').val(),
-            start_at: formattedStartAt,
-            end_at: formattedEndAt,
-            capacity: $('#create_capacity').val(),
-            description: $('#create_description').val()
-        };
+        // let formData = {
+        //     title: $('#create_title').val(),
+        //     category_id: $('#create_category_id').val(),
+        //     price: $('#create_price').val(),
+        //     location: $('#create_location').val(),
+        //     status: $('#create_status').val(),
+        //     start_at: formattedStartAt,
+        //     end_at: formattedEndAt,
+        //     capacity: $('#create_capacity').val(),
+        //     description: $('#create_description').val()
+        // };
+         // Create multipart/form-data
+    let formData = new FormData(this);
 
         $.ajax({
             url: '/api/admin/events/create',
             type: 'POST',
-            data: JSON.stringify(formData),
-            contentType: 'application/json',
+            data: formData,
+
+        // Required for FormData
+        processData: false,
+        contentType: false,
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                 'Accept': 'application/json'
@@ -726,6 +751,12 @@ let cachedEvents = [];
              $('#view_available_seats').text(event.available_seats || 0);
             $('#view_price').text(parseFloat(event.price || 0) === 0 ? "{{ __('messages.Free') }}" : '₹' + parseFloat(event.price).toLocaleString('en-IN'));
             
+            //  Image Display
+            if (event.image) {
+                $('#view_image').attr('src', `/storage/${event.image}`).show();
+            } else {
+                $('#view_image').attr('src', '').hide();
+            }
             $('#view_published_badge').html(event.status === 'published' || event.status == 1 
                 ? '<span class="badge bg-warning text-dark fs-6"><i class="bi bi-star-fill me-1"></i> {{ __('messages.Published') }}</span>' 
                 : '<span class="badge bg-secondary fs-6">{{ __('messages.Not published') }}</span>'
@@ -736,48 +767,66 @@ let cachedEvents = [];
         }
     });
 
-    // 3. Edit Event Modal Trigger
-    $(document).on('click', '.edit-event-btn', function() {
-        const eventId = $(this).data('id');
-        
-        $('.form-control').removeClass('is-invalid');
-        $('.invalid-feedback').text('');
+$(document).on('click', '.edit-event-btn', function() {
+    const eventId = $(this).data('id');
+    
+    $('.form-control, .form-select').removeClass('is-invalid');$('.invalid-feedback').text('');
 
-        $.ajax({
-            url: `/api/admin/events/${eventId}`,
-            type: 'get',
-            success: function(response) {
-                let event = response.data;
-                console.log(event);
-                console.log('location : ' + event.location);
-                console.log('category : ' + (event.category ? event.category.name : event.category_id));
+    $.ajax({
+        url: `/api/admin/events/${eventId}`,
+        type: 'get',
+        success: function(response) {
+            let event = response.data;
+            console.log(event);
+            console.log('location : ' + event.location);
+            console.log('category : ' + (event.category ? event.category.name : event.category_id));
 
-                $('#edit_event_id').val(event.id);
-                $('#edit_title').val(event.title);
-                $('#edit_description').val(event.description);
-                $('#edit_start_date').val(formatForDateTimeLocal(event.start_at));
-                $('#edit_end_date').val(formatForDateTimeLocal(event.end_at));
-                $('#edit_capacity').val(event.capacity);
-                $('#edit_location').val(event.location);
-                $('#edit_price').val(event.price);
-                $('#edit_is_published').prop('checked', event.status === 'published');
+            $('#edit_event_id').val(event.id);
+            $('#edit_title').val(event.title);
+            $('#edit_description').val(event.description);
+            $('#edit_start_date').val(formatForDateTimeLocal(event.start_at));
+            $('#edit_end_date').val(formatForDateTimeLocal(event.end_at));
+            $('#edit_capacity').val(event.capacity);
+            $('#edit_location').val(event.location);
+            $('#edit_price').val(event.price);
+            $('#edit_is_published').prop('checked', event.status === 'published');
+            
+            // Reset the file input so it doesn't hold previously selected files
+            $('#edit_image').val('');
 
-                let selectedCategoryId = event.category_id || (event.category ? event.category.id : '');
-
-                // Ensure categories are loaded before selecting category value
-                loadCategoriesDropdown(function() {
-                    $('#edit_category_id').val(selectedCategoryId);
-                });
-
-                let editModal = new bootstrap.Modal(document.getElementById('editEventModal'));
-                editModal.show();
-            },
-            error: function() {
-                showAlert('danger',"{{ __('messages.Could not fetch event details.') }}");
+            // Display current image preview if available
+            if (event.image) {
+                // If event.image is a relative path stored in DB (e.g., 'events/filename.png')
+                $('#edit_image_preview').attr('src', `/storage/${event.image}`).show();
+            } else {
+                $('#edit_image_preview').attr('src', '').hide();
             }
-        });
-    });
+            // Live preview when a new image file is chosen
+            $('#edit_image').on('change', function () {
+                let file = this.files[0];
+                if (file) {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#edit_image_preview').attr('src', e.target.result).show();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            let selectedCategoryId = event.category_id || (event.category ? event.category.id : '');
 
+            // Ensure categories are loaded before selecting category value
+            loadCategoriesDropdown(function() {
+                $('#edit_category_id').val(selectedCategoryId);
+            });
+
+            let editModal = new bootstrap.Modal(document.getElementById('editEventModal'));
+            editModal.show();
+        },
+        error: function() {
+            showAlert('danger', "{{ __('messages.Could not fetch event details.') }}");
+        }
+    });
+});
     // 4. Update Event AJAX Submission
     $('#editEventForm').on('submit', function(e) {
         e.preventDefault();
@@ -789,23 +838,14 @@ let cachedEvents = [];
         $('.form-control').removeClass('is-invalid');
         $('.invalid-feedback').text('');
 
-        let formData = {
-            title: $('#edit_title').val(),
-            description: $('#edit_description').val(),
-            start_at: $('#edit_start_date').val(),
-            end_at: $('#edit_end_date').val(),
-            location: $('#edit_location').val(),
-             category_id: $('#edit_category_id').val(),
-            capacity: $('#edit_capacity').val(),
-            price: $('#edit_price').val(),
-            status: $('#edit_is_published').is(':checked') ? 'published' : 'draft',
-            _method: 'PATCH'
-        };
-
+         let formData = new FormData(this);
         $.ajax({
             url: `/api/admin/events/update/${eventId}`,
             type: 'patch',
             data: formData,
+             // Required for FormData
+        processData: false,
+        contentType: false,
             success: function(response) {
                 $btn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> {{ __('messages.Save Changes') }}');
                 showAlert('success',"{{ __('messages.Event updated successfully!') }}");

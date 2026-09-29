@@ -58,8 +58,7 @@ class BookingTest extends TestCase
 
     // Booking Registration Tests 
 
-
-
+    
     public function test_unauthenticated_user_cannot_register_for_event(): void
     {
         $event = $this->createEvent();

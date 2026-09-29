@@ -79,6 +79,7 @@ return [
     'status' => 'Estado',
     'Add Category' => 'Añadir categoría',
     'Add New Category' => 'Añadir nueva categoría',
+    'Upload Image' => 'Subir imagen',
     'View Category' => 'Ver categoría',
     'Edit Category' => 'Editar categoría',
     'Delete Category' => 'Eliminar categoría',

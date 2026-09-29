@@ -79,6 +79,7 @@ return [
     'status' => 'Status',
     'Add Category' => 'Add Category',
     'Add New Category' => 'Add New Category',
+    'Upload Image' => 'Upload Image',
     'View Category' => 'View Category',
     'Edit Category' => 'Edit Category',
     'Delete Category' => 'Delete Category',

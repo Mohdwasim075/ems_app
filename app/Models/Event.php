@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Override;
 
 class Event extends Model
 {
@@ -14,14 +16,14 @@ class Event extends Model
         'category_id',
         'title',
         'description',
+        'image',
         'location',
         'start_at',
         'end_at',
         'capacity',
-        'available_seats', // Added missing comma
+        'available_seats', 
         'price',
         'status',
-        'cover_image',
     ];
 
     protected $casts = [
@@ -31,6 +33,13 @@ class Event extends Model
         'price' => 'decimal:2',
     ];
 
+protected static function booted()
+{
+    static::deleting(function ($event) {
+        Storage::disk('public')->delete($event->image);
+    });
+    
+}
     public function organizer()
     {
         return $this->belongsTo(User::class, 'organizer_id');

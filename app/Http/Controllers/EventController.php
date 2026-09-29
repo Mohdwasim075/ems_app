@@ -8,6 +8,7 @@ use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class EventController extends Controller
@@ -17,7 +18,7 @@ class EventController extends Controller
         // Get limit from query string 
         $limit = $request->query('limit', 5);
 
-        $events = Event::select('id', 'title', 'description', 'start_at', 'cover_image', 'price', 'location')
+        $events = Event::select('id', 'title', 'description', 'start_at', 'image', 'price', 'location')
             ->where('status', 'published')->oldest()->paginate($limit);
 
         //     $events = DB::table('events')
@@ -55,6 +56,7 @@ class EventController extends Controller
                 'event_date' => $event->start_at,
                 'end_time' => $event->end_at,
                 'location' => $event->location,
+                'image' => $event->image,
                 // 'capacity' => $event->capacity,
                 'available_seats' => $event->available_seats,
                 'price' => $event->price
@@ -77,7 +79,7 @@ class EventController extends Controller
                 'title',
                 'description',
                 'start_at',
-                'cover_image',
+                'image',
                 'location',
             ])
                 ->where('status', 'published')
@@ -97,7 +99,7 @@ class EventController extends Controller
     {
 
         // get events which are published and hasn't yet started
-        $events =Event::select('id', 'title', 'description', 'start_at', 'cover_image', 'location')
+        $events =Event::select('id', 'title', 'description', 'start_at', 'image', 'location')
             ->where('status', 'published')
             ->where('start_at', '>=', now())
             ->orderBy('start_at', 'asc')
@@ -144,11 +146,26 @@ class EventController extends Controller
 
      public function createEvent(Request $request)
     {
+    //     dd([
+    //     'all' => $request->all(),
+    //     'title' => $request->input('title'),
+    //     'category_id' => $request->input('category_id'),
+    //     'price' => $request->input('price'),
+    //     'status' => $request->input('status'),
+    //     'location' => $request->input('location'),
+    //     'start_at' => $request->input('start_at'),
+    //     'end_at' => $request->input('end_at'),
+    //     'capacity' => $request->input('capacity'),
+    //     'description' => $request->input('description'),
+    //     'has_image' => $request->hasFile('image'),
+    //     'content_type' => $request->header('Content-Type'),
+    // ]);
 
         // Custom backend validation messages
         $customMessages = [
             'title.required' => 'Please provide a title for the event.',
             'category_id.required' => 'Select a valid category from the dropdown.',
+            'image.required' => 'Please provide a image',
             'category_id.exists' => 'The selected category does not exist.',
             'price.required' => 'Specify the ticket price (use 0 for free events).',
             'status.in' => 'Please select a valid status (published or draft).',
@@ -172,8 +189,17 @@ class EventController extends Controller
             'end_at' => ['required', 'date', 'after_or_equal:start_at'],
             'capacity' => ['required', 'integer', 'min:1'],
             'description' => ['nullable', 'string', 'max:1000'],
+             'image' => ['required','image','mimes:jpg,jpeg,png,webp','max:2048',
+    ],
         ], $customMessages);
 
+        //  Handle file upload
+        if ($request->hasFile('image')) {
+            // Stores the file in storage/app/public/events
+           $path = $request->file('image')
+                ->store('events', 'public');
+            $validated['image'] = $path;
+        }
         // Format dates for MySQL
         $validated['start_at'] = Carbon::parse($validated['start_at'])->format('Y-m-d H:i:s');
         $validated['end_at'] = Carbon::parse($validated['end_at'])->format('Y-m-d H:i:s');
@@ -209,6 +235,20 @@ class EventController extends Controller
       public function updateEvent(Request $request, string $id)
     {
 
+    //dd([
+    //     'all' => $request->all(),
+    //     'title' => $request->input('title'),
+    //     'category_id' => $request->input('category_id'),
+    //     'price' => $request->input('price'),
+    //     'status' => $request->input('status'),
+    //     'location' => $request->input('location'),
+    //     'start_at' => $request->input('start_at'),
+    //     'end_at' => $request->input('end_at'),
+    //     'capacity' => $request->input('capacity'),
+    //     'description' => $request->input('description'),
+    //     'has_image' => $request->hasFile('image'),
+    //     'content_type' => $request->header('Content-Type'),
+    // ]);
         //  Find the existing event or fail with 404
         $event = Event::findOrFail($id);
 
@@ -216,6 +256,7 @@ class EventController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:150'],
             'description' => ['nullable', 'string', 'max:1000'],
+            'image'       =>['nullable','image','mimes:jpeg,png,webp','max:2048'],
             'start_at' => ['required', 'date'], // Changed from date_format
             'end_at' => ['required', 'date', 'after_or_equal:start_at'],
             'category_id'=>['required', 'integer', 'exists:categories,id'],
@@ -225,10 +266,36 @@ class EventController extends Controller
             'status' => ['required', 'string'],
         ]);
 
+        // Handle Image Update
+    if ($request->hasFile('image')) {
+        // Delete old image if exists
+        if ($event->image && Storage::disk('public')->exists($event->image)) {
+            Storage::disk('public')->delete($event->image);
+        }
+
+        // Store new image
+         $path = $request->file('image')
+                ->store('events', 'public');
+        $validated['image'] = $path;
+    }
+
         // Convert datetime-local format (YYYY-MM-DDTHH:mm) to MySQL format (YYYY-MM-DD HH:mm:ss)
         $validated['start_at'] = Carbon::parse($validated['start_at'])->format('Y-m-d H:i:s');
         $validated['end_at'] = Carbon::parse($validated['end_at'])->format('Y-m-d H:i:s');
         //Update the event 
+
+        if($validated['capacity'] > $event->capacity ){
+
+            $validated['available_seats'] = ($validated['capacity'] - $event->capacity) + $event->available_seats;
+
+        }
+
+        if($validated['capacity'] <  $event->capacity ){
+
+
+            $validated['available_seats'] = $event->available_seats  - ($event->capacity - $validated['capacity'])  ;
+
+        }
 
         $event->update($validated);
 

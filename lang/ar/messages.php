@@ -119,6 +119,7 @@ return [
     'Seats' => 'مقاعد',
     'Mark as Published Event' => 'تحديد كفعالية منشورة',
     'Add Event' => 'إضافة فعالية',
+    'Upload Image' => 'تحميل الصورة',
     'Create New Event' => 'إنشاء فعالية جديدة',
     'Edit Event' => 'تعديل الفعالية',
     'Delete Event' => 'حذف الفعالية',

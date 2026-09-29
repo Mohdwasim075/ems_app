@@ -58,7 +58,7 @@
             <div class="card h-100 shadow-sm">
 
                 <img
-                    src="https://img.magnific.com/premium-photo/audience-conference-hall_386094-30.jpg?semt=ais_hybrid&w=740&q=80"
+                     src="/storage/${event.image}"
                     class="card-img-top"
                     alt="${event.title}"
                     style="height: 200px; object-fit: cover;"

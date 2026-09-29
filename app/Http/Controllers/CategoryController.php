@@ -33,6 +33,8 @@ class CategoryController extends Controller
 
     public function categoryList()
     {
+
+    
         $categoryList = Category::where('is_active', 1)->get();
 
         return response()->json([
@@ -91,7 +93,7 @@ class CategoryController extends Controller
 
         $validatedAttributes = $request->validate([
             'name' => ['required', 'string', 'max:50'],
-            'description' => ['required', 'string', 'max:50'],
+            'description' => ['nullable', 'string', 'max:50'],
             'is_active' => ['required', 'boolean'],
         ], [
             // Custom Error Messages

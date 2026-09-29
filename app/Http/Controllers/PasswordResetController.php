@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendPasswordResetEmail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -16,21 +18,23 @@ class PasswordResetController extends Controller
             'email' => ['required', 'email'],
         ],
         );
+        $user = User::where('email', $request->email)->first();
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        if ($status === Password::RESET_LINK_SENT) {
-
+        if(!$user){
             return response()->json([
-                'message' => __($status),
-            ]);
+                'message' => 'Unable to process password reset request'
+            ],422);
         }
+         $token = Password::createToken($user);
+
+        SendPasswordResetEmail::dispatch($user, $token);
 
         return response()->json([
-            'message' => __($status),
-        ], 422);
+            'message' => 'Password reset link sent successfully.'
+        ]);
+
+
+
     }
 
     public function resetPassword(Request $request)
