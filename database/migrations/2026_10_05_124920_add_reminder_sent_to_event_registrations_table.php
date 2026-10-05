@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('events', function (Blueprint $table) {
-
-            $table->string('image')->nullable()->after('description');
+        Schema::table('event_registrations', function (Blueprint $table) {
+             $table->boolean('reminder_sent')->default(false);
         });
     }
 
@@ -22,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('events', function (Blueprint $table) {
-              $table->dropColumn(['image']);
+        Schema::table('event_registrations', function (Blueprint $table) {
+             $table->boolean('reminder_sent')->default(false);
         });
     }
 };

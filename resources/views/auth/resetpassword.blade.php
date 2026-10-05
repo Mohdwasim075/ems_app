@@ -115,9 +115,10 @@
             <h3 class="auth-title">Reset Password</h3>
             <p class="auth-subtitle">Enter your new password below</p>
         </div>
+        
 
-        {{-- <!-- Alert Box -->
-        <div id="resetAlert" class="alert d-none" role="alert"></div> --}}
+        <!-- Alert Box -->
+        <div id="resetAlert" class="alert d-none" role="alert"></div>
 
         <form id="resetPasswordForm" novalidate method="post">
             @csrf

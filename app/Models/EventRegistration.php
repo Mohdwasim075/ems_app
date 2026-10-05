@@ -13,6 +13,7 @@ class EventRegistration extends Model
         'event_id',
         'user_id',
         'registration_number',
+        'reminder_sent',
         'unit_price',
         'total_price',
         'quantity',
