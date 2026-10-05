@@ -7,15 +7,15 @@ use App\Models\Event;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
     use RefreshDatabase;
-   
+
     private User $adminUser;
+
     private User $regularUser;
 
     protected function setUp(): void
@@ -35,37 +35,32 @@ class CategoryTest extends TestCase
         ]);
     }
 
-
     // category route accessble by users
-    
 
-    public function test_unauthenticated_user_cannot_access_categories(){
+    public function test_unauthenticated_user_cannot_access_categories()
+    {
 
         $response = $this->getJson('api/admin/categories');
 
         $response->assertStatus(401);
     }
 
-    public function test_non_admin_user_cannot_access_categories(){
-       $attendeeRole = Role::where('name', 'attendee')->firstOrFail();
+    public function test_non_admin_user_cannot_access_categories()
+    {
+        $attendeeRole = Role::where('name', 'attendee')->firstOrFail();
 
-    $attendee = User::factory()->create([
-        'role_id' => $attendeeRole->id,
-    ]);
+        $attendee = User::factory()->create([
+            'role_id' => $attendeeRole->id,
+        ]);
 
-    $response = $this
-        ->actingAs($attendee)
-        ->get('/admin/categories');
+        $response = $this
+            ->actingAs($attendee)
+            ->get('/admin/categories');
 
-    $response->assertStatus(403);
+        $response->assertStatus(403);
     }
 
-    
-
-    
-
-    //getCategories 
-
+    // getCategories
 
     public function test_admin_can_get_paginated_categories_with_default_limit(): void
     {
@@ -97,11 +92,11 @@ class CategoryTest extends TestCase
                 ],
             ]);
 
-    //     // Default limit is 10
-    //     $this->assertCount(10, $response->json('data'));
-    //     $this->assertEquals(15, $response->json('pagination.total'));
-    //     $this->assertEquals(10, $response->json('pagination.per_page'));
-     }
+        //     // Default limit is 10
+        //     $this->assertCount(10, $response->json('data'));
+        //     $this->assertEquals(15, $response->json('pagination.total'));
+        //     $this->assertEquals(10, $response->json('pagination.per_page'));
+    }
 
     public function test_admin_can_get_paginated_categories_with_custom_limit(): void
     {
@@ -118,12 +113,7 @@ class CategoryTest extends TestCase
         $this->assertEquals(3, $response->json('pagination.last_page'));
     }
 
-  
-
-    //  categoryList 
-
-
-
+    //  categoryList
 
     public function test_category_list_returns_empty_array_when_none_exist(): void
     {
@@ -138,13 +128,12 @@ class CategoryTest extends TestCase
             ]);
     }
 
-     // show (Fetch Single Category)
-   
+    // show (Fetch Single Category)
 
     public function test_admin_can_fetch_single_category_by_id(): void
     {
-        
-         $adminRole = Role::where('name', 'admin')->firstOrFail();
+
+        $adminRole = Role::where('name', 'admin')->firstOrFail();
         $admin = User::factory()->create([
             'role_id' => $adminRole->id,
         ]);
@@ -172,10 +161,10 @@ class CategoryTest extends TestCase
 
     public function test_show_returns_empty_array_for_non_existent_category_id(): void
     {
-         $adminRole = Role::where('name', 'admin')->firstOrFail();
-         $admin = User::factory()->create([
-                'role_id' => $adminRole->id,
-            ]);
+        $adminRole = Role::where('name', 'admin')->firstOrFail();
+        $admin = User::factory()->create([
+            'role_id' => $adminRole->id,
+        ]);
 
         $response = $this->actingAs($admin)->getJson('/api/admin/category/99999');
 
@@ -186,9 +175,7 @@ class CategoryTest extends TestCase
             ]);
     }
 
-  
     //  createCategory
- 
 
     public function test_admin_can_create_category_with_valid_data(): void
     {
@@ -260,12 +247,6 @@ class CategoryTest extends TestCase
             ->assertJsonValidationErrors(['name', 'is_active']);
     }
 
-   
-
-   
-
-  
-
     public function test_admin_can_update_category_with_valid_data(): void
     {
         Sanctum::actingAs($this->adminUser);
@@ -322,11 +303,9 @@ class CategoryTest extends TestCase
         $response = $this->postJson("/api/admin/category/update/{$category->id}", []);
 
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['name', 'description', 'is_active'])
+            ->assertJsonValidationErrors(['name', 'is_active'])
             ->assertJsonFragment(['name' => ['Category name is required']]);
     }
-
-    
 
     public function test_update_category_fails_when_is_active_is_not_boolean(): void
     {
@@ -347,8 +326,7 @@ class CategoryTest extends TestCase
             ->assertJsonFragment(['is_active' => ['Invalid status value provided']]);
     }
 
-     // deleteCategory (Delete Category)
- 
+    // deleteCategory (Delete Category)
 
     public function test_admin_can_delete_category_with_no_associated_events(): void
     {

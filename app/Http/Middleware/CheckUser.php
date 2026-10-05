@@ -16,7 +16,7 @@ class CheckUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->role->name != 'attendee') {
+        if (Auth::user()->role->name !== 'attendee') {
             abort(403, 'Unauthorized access');
 
         }

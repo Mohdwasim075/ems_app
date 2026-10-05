@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
-
-
-
     public function store(Request $request)
     {
 
@@ -28,10 +25,10 @@ class BookingController extends Controller
         $price = (float) $event->price;
         $quantity = (int) $request->quantity;
 
-        if($event->start_at->isPast()){
+        if ($event->start_at->isPast()) {
             return response()->json([
                 'message' => 'The event has started, so the bookings are closed.',
-            ],422);
+            ], 422);
         }
 
         if ($event->available_seats <= 0) {
@@ -67,7 +64,7 @@ class BookingController extends Controller
 
         // Generate registration number
         $registration->update([
-            'registration_number' => 'REG-' . str_pad(
+            'registration_number' => 'REG-'.str_pad(
                 $registration->id,
                 6,
                 '0',
@@ -96,7 +93,6 @@ class BookingController extends Controller
             'user:id,name',
         ])->latest()->paginate($limit);
 
-
         return response()->json([
             'message' => 'booking fetched successfully!',
             'data' => $bookings->items(),
@@ -121,7 +117,7 @@ class BookingController extends Controller
             'user:id,name',
         ])->find($id);
 
-        if (!$booking) {
+        if (! $booking) {
             return response()->json([
                 'success' => false,
                 'message' => 'Booking not found.',
@@ -138,10 +134,10 @@ class BookingController extends Controller
     public function deletebooking(string $id)
     {
         return DB::transaction(function () use ($id) {
-            // Fetch the booking 
+            // Fetch the booking
             $booking = EventRegistration::where('id', $id)->lockForUpdate()->first();
 
-            if (!$booking) {
+            if (! $booking) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Booking not found.',
@@ -176,5 +172,4 @@ class BookingController extends Controller
         });
 
     }
-
 }

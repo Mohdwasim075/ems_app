@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Jobs\SendPasswordResetEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -24,9 +24,12 @@ class User extends Authenticatable
         'zip',
     ];
 
-    public function sendPasswordResetNotification($token)
+    protected function name(): Attribute
     {
-        SendPasswordResetEmail::dispatch($this->email, $token);
+        return Attribute::make(
+            get: fn (string $value) => ucwords($value),
+            set: fn (string $value) => strtolower($value)
+        );
     }
 
     public function role()
@@ -36,7 +39,7 @@ class User extends Authenticatable
 
     public function events()
     {
-        return $this->hasMany(Event::class, 'events_id');
+        return $this->hasMany(Event::class, 'organizer_id');
     }
 
     public function registrations()

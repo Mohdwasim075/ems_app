@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -9,7 +10,7 @@ class CategoryController extends Controller
 {
     public function getcategories(Request $request)
     {
-        // set limit from query string 
+        // set limit from query string
         $limit = $request->query('limit', 10);
 
         // get categories ordered by oldest to  newest
@@ -18,7 +19,7 @@ class CategoryController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Event categories fetched successfully!',
-            'data' => $categories->items(), 
+            'data' => $categories->items(),
             'pagination' => [
                 'current_page' => $categories->currentPage(),
                 'last_page' => $categories->lastPage(),
@@ -31,10 +32,15 @@ class CategoryController extends Controller
 
     }
 
+    /*
+
+        $specificBooking = App\Models\EventRegistration::where('event_id', '1')->sum('quantity');
+        App\Models\Event::
+            */
+
     public function categoryList()
     {
 
-    
         $categoryList = Category::where('is_active', 1)->get();
 
         return response()->json([
@@ -46,7 +52,7 @@ class CategoryController extends Controller
     public function show(string $id)
     {
 
-        $category = Category::where('id',$id)->get();
+        $category = Category::where('id', $id)->get();
 
         return response()->json([
             'message' => 'category  fetched',
@@ -64,7 +70,7 @@ class CategoryController extends Controller
             'is_active' => ['required', 'boolean'],
         ]);
 
-        // 2. Create Category 
+        // 2. Create Category
         $category = Category::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
@@ -80,7 +86,7 @@ class CategoryController extends Controller
 
     }
 
-    public function updateCategory(Request $request, string $id)
+    public function updateCategory(UpdateCategoryRequest $request, string $id)
     {
 
         // dd($request->all());
@@ -91,18 +97,7 @@ class CategoryController extends Controller
 
         // validation
 
-        $validatedAttributes = $request->validate([
-            'name' => ['required', 'string', 'max:50'],
-            'description' => ['nullable', 'string', 'max:50'],
-            'is_active' => ['required', 'boolean'],
-        ], [
-            // Custom Error Messages
-            'name.required' => 'Category name is required',
-            'name.max' => 'Category name cannot exceed 50 characters',
-            'description.max' => 'Description cannot exceed 255 characters',
-            'is_active.boolean' => 'Invalid status value provided',
-
-        ]);
+        $validatedAttributes = $request->validated();
 
         // update the category to the database
         $category->update($validatedAttributes);

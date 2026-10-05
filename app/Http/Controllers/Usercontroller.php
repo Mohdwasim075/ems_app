@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateProfileRequest;
 use App\Models\Role;
-use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +14,6 @@ use Illuminate\Validation\Rules\Password;
 
 class Usercontroller extends Controller
 {
-
-
     public function getmyEvents(Request $request)
     {
         // Get limit from query string (defaults to 10 if not provided)
@@ -59,42 +57,12 @@ class Usercontroller extends Controller
 
     }
 
-    public function updateProfile(Request $request)
+    public function updateProfile(UpdateProfileRequest $request)
     {
 
-        $user = User::findOrFail(Auth::id());
+        $user = $request->user();
 
-        // Validation Rules
-        $validatedData = $request->validate([
-            'name' => ['required', 'string', 'min:3', 'max:50', 'regex:/^[a-zA-Z\s\-]+$/'],
-            'email' => ['required', 'email', 'unique:users,email,' . $user->id],
-
-            'phone_number' => ['nullable', 'regex:/^[0-9]{10}$/'],
-
-
-            'city' => ['nullable', 'string', 'max:50', 'regex:/^[a-zA-Z\s\-]+$/'],
-            'state' => ['nullable', 'string', 'max:50', 'regex:/^[a-zA-Z\s\-]+$/'],
-            'zip' => ['nullable', 'regex:/^[0-9]{5,6}$/'],
-        ], [
-            // Custom messages for 'name'
-            'name.required' => 'Please enter your full name.',
-            'name.min' => 'Your name must be at least 3 characters long.',
-            'name.max' => 'Your name cannot exceed 50 characters.',
-
-            // Custom messages for 'email'
-            'email.required' => 'We need your email address to update your account.',
-            'email.email' => 'Please provide a valid email address (e.g., user@example.com).',
-            'email.unique' => 'This email address is already in use by another account.',
-
-            // Custom error messages
-            'phone_number.regex' => 'Please enter a valid 10-digit phone number.',
-            'city.regex' => 'City name can only contain letters, spaces, and hyphens.',
-            'state.regex' => 'State name can only contain letters, spaces, and hyphens.',
-            'zip.regex' => 'ZIP code must be a valid 5 or 6 digit number.',
-        ]);
-
-        //  Update User Record
-        $user->update($validatedData);
+        $user->update($request->validated());
 
         // Return Standard JSON Response for AJAX
         return response()->json([
@@ -135,7 +103,7 @@ class Usercontroller extends Controller
     public function getusers(Request $request)
     {
 
-        // Get limit from query string 
+        // Get limit from query string
         $limit = $request->query('limit', 5);
 
         // get user with role:id, name
@@ -144,7 +112,7 @@ class Usercontroller extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Users fetched successfully!',
-            'data' => $users->items(), // 
+            'data' => $users->items(), //
             'pagination' => [
                 'current_page' => $users->currentPage(),
                 'last_page' => $users->lastPage(),
@@ -162,7 +130,7 @@ class Usercontroller extends Controller
         // get user data from db with role relations
         $user = User::with('role:id,name')->find($id);
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
                 'message' => 'User not found.',
@@ -198,8 +166,6 @@ class Usercontroller extends Controller
         ]);
 
 
-        $validated['password'] = bcrypt($validated['password']);
-
 
         $user = User::create($validated);
 
@@ -214,23 +180,23 @@ class Usercontroller extends Controller
     public function updateUser(Request $request, string $id)
     {
 
+        //  Validate the request attributes
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($id)],
+            'phone_number' => ['nullable', 'string', 'max:20'],
+            'role_id' => ['required', 'integer', 'exists:roles,id'],
+        ]);
+
         // Find user record
         $user = User::find($id);
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
                 'message' => 'User not found.',
             ], 404);
         }
-
-        //  Validate the request attributes
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'phone_number' => ['nullable', 'string', 'max:20'],
-            'role_id' => ['required', 'integer', 'exists:roles,id'],
-        ]);
 
         // Update the user profile
         $user->update($validated);
@@ -249,7 +215,7 @@ class Usercontroller extends Controller
         $userId = (int) $id;
         $currentUser = Auth::user();
 
-        // prevent  current user from deleting their own 
+        // prevent  current user from deleting their own
 
         if ($currentUser && $currentUser->id === $userId) {
             return response()->json([
@@ -258,10 +224,11 @@ class Usercontroller extends Controller
             ], 400);
         }
 
+       
         // get the current user with role and registrations
-        $user = User::with(['role', 'registrations'])->find($userId);
+        $user = User::with(['role'])->find($userId);
 
-        if (!$user) {
+        if (! $user) {
             return response()->json([
                 'success' => false,
                 'message' => 'User not found.',
@@ -283,7 +250,6 @@ class Usercontroller extends Controller
                 ], 422);
             }
         }
-
 
         $user->delete();
 

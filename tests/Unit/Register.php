@@ -6,7 +6,6 @@ use App\Models\Role;
 use App\Models\User;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -20,11 +19,9 @@ class RegisterTest extends TestCase
         $this->seed(RoleSeeder::class);
     }
 
-   
-
     public function test_user_can_register_with_valid_credentials(): void
     {
-        //arrange
+        // arrange
 
         $userData = [
             'name' => 'wasim Mohammed',
@@ -33,11 +30,11 @@ class RegisterTest extends TestCase
             'password_confirmation' => 'jingerchai@200',
         ];
 
-        //act
+        // act
 
         $response = $this->postJson('/register', $userData);
 
-        //assert
+        // assert
 
         $response->assertStatus(201)
             ->assertJson([
@@ -46,16 +43,13 @@ class RegisterTest extends TestCase
                 'redirect' => url('/login'),
             ]);
 
-        
         $this->assertDatabaseHas('users', [
             'name' => 'wasim Mohammed',
             'email' => 'wasim@chaiCode.com',
         ]);
 
-       
     }
 
-   
     public function test_registration_fails_if_required_fields_are_missing(): void
     {
         $response = $this->postJson('/register', []);
@@ -64,7 +58,6 @@ class RegisterTest extends TestCase
             ->assertJsonValidationErrors(['name', 'email', 'password']);
     }
 
-   
     public function test_registration_fails_for_invalid_email(): void
     {
         $response = $this->postJson('/register', [
@@ -78,7 +71,6 @@ class RegisterTest extends TestCase
             ->assertJsonValidationErrors(['email']);
     }
 
-   
     public function test_registration_fails_for_email_already_exists(): void
     {
         User::factory()->create([
@@ -97,9 +89,6 @@ class RegisterTest extends TestCase
             ->assertJsonValidationErrors(['email']);
     }
 
-    
-
-   
     public function test_registration_fails_when_password_not_matches(): void
     {
         $response = $this->postJson('/register', [

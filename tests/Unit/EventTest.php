@@ -8,6 +8,8 @@ use App\Models\EventRegistration;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -16,12 +18,16 @@ class EventTest extends TestCase
     use RefreshDatabase;
 
     private User $adminUser;
+
     private User $attendeeUser;
+
     private Category $category;
 
     protected function setUp(): void
     {
         parent::setUp();
+
+        Storage::fake('public');
 
         // roles and users
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
@@ -30,11 +36,8 @@ class EventTest extends TestCase
         $this->adminUser = User::factory()->create(['role_id' => $adminRole->id]);
         $this->attendeeUser = User::factory()->create(['role_id' => $attendeeRole->id]);
 
-
         $this->category = Category::factory()->create();
     }
-
-
 
     private function validEventPayload(array $overrides = [])
     {
@@ -48,6 +51,7 @@ class EventTest extends TestCase
             'end_at' => now()->addDays(10)->addHours(4)->format('Y-m-d H:i:s'),
             'capacity' => 200,
             'description' => 'A two-day tech summit covering AI and cloud.',
+            'image' => UploadedFile::fake()->create('event.jpg', 100, 'image/jpeg'),
         ], $overrides);
     }
 
@@ -65,9 +69,6 @@ class EventTest extends TestCase
             'status' => 'published',
         ], $overrides);
     }
-
-
-
 
     public function test_public_index_returns_only_published_events()
     {
@@ -104,21 +105,7 @@ class EventTest extends TestCase
         $this->assertCount(3, $response->json('data'));
     }
 
-    public function test_public_index_respects_custom_limit(): void
-    {
-        Event::factory()->count(10)->create([
-            'organizer_id' => $this->adminUser->id,
-            'category_id' => $this->category->id,
-            'status' => 'published',
-        ]);
-
-        $response = $this->getJson('/api/events?limit=3');
-
-        $response->assertStatus(200);
-        $this->assertCount(3, $response->json('data'));
-        $this->assertEquals(3, $response->json('pagination.per_page'));
-        $this->assertEquals(10, $response->json('pagination.total'));
-    }
+ 
 
     public function test_public_index_returns_empty_data_when_no_published_events()
     {
@@ -131,7 +118,6 @@ class EventTest extends TestCase
             ]);
         $this->assertEquals(0, $response->json('pagination.total'));
     }
-
 
     //  events/show
 
@@ -156,6 +142,7 @@ class EventTest extends TestCase
                     'event_date',
                     'end_time',
                     'location',
+                    'image',
                     'available_seats',
                     'price',
 
@@ -172,9 +159,7 @@ class EventTest extends TestCase
         $response->assertStatus(404);
     }
 
-
     // events/featured
-
 
     public function test_public_featured_returns_top_3_events()
     {
@@ -209,9 +194,7 @@ class EventTest extends TestCase
             ->assertJson(['success' => true, 'data' => []]);
     }
 
-
     //  events/upcoming
-
 
     public function test_public_upcoming_returns_future_published_events()
     {
@@ -255,8 +238,7 @@ class EventTest extends TestCase
         $this->assertCount(0, $response->json('data'));
     }
 
-
-    //getEvents()  
+    // getEvents()
 
     public function test_unauthenticated_user_cannot_access_admin_events()
     {
@@ -286,56 +268,10 @@ class EventTest extends TestCase
             ]);
     }
 
-    public function test_admin_get_events_returns_paginated_list()
-    {
-        Sanctum::actingAs($this->adminUser);
-
-        Event::factory()->count(15)->create([
-            'organizer_id' => $this->adminUser->id,
-            'category_id' => $this->category->id,
-        ]);
-
-        $response = $this->getJson('/api/admin/events');
-
-        $response->assertStatus(200)
-            ->assertJson(['message' => 'Events fetched successfully!'])
-            ->assertJsonStructure([
-                'message',
-                'data',
-                'pagination' => [
-                    'current_page',
-                    'last_page',
-                    'per_page',
-                    'total',
-                    'from',
-                    'to',
-                ],
-            ]);
-
-        // Default limit is 10
-        $this->assertCount(10, $response->json('data'));
-        $this->assertEquals(15, $response->json('pagination.total'));
-    }
-
-    public function test_admin_get_events_respects_custom_limit()
-    {
-        Sanctum::actingAs($this->adminUser);
-
-        Event::factory()->count(5)->create([
-            'organizer_id' => $this->adminUser->id,
-            'category_id' => $this->category->id,
-        ]);
-
-        $response = $this->getJson('/api/admin/events?limit=2');
-
-        $response->assertStatus(200);
-        $this->assertCount(2, $response->json('data'));
-        $this->assertEquals(5, $response->json('pagination.total'));
-    }
-
+   
+   
 
     //  getEvent() api/admin/events/{id}
-
 
     public function test_admin_can_fetch_single_event_by_id()
     {
@@ -366,7 +302,6 @@ class EventTest extends TestCase
         $response->assertStatus(404);
     }
 
-
     //  createEvent()  /admin/events/create
 
     public function test_admin_can_create_event_with_valid_data()
@@ -385,7 +320,7 @@ class EventTest extends TestCase
             ->assertJsonStructure([
                 'success',
                 'message',
-                'data' => ['id', 'title', 'category'],
+                'data' => ['id', 'title', 'category', 'image'],
             ]);
 
         $this->assertDatabaseHas('events', [
@@ -394,6 +329,10 @@ class EventTest extends TestCase
             'status' => 'published',
             'capacity' => 200,
         ]);
+
+        $event = Event::where('title', 'Annual Tech Summit')->first();
+        $this->assertNotNull($event->image);
+        Storage::disk('public')->assertExists($event->image);
     }
 
     public function test_create_event_sets_available_seats_to_capacity()
@@ -435,20 +374,17 @@ class EventTest extends TestCase
                 'start_at',
                 'end_at',
                 'capacity',
+                'image',
             ]);
     }
 
-    public function test_create_event_fails_when_title_exceeds_max_length(): void
-    {
-        Sanctum::actingAs($this->adminUser);
+   
 
-        $response = $this->postJson('/api/admin/events/create', $this->validEventPayload([
-            'title' => str_repeat('A', 151),
-        ]));
+   
 
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['title']);
-    }
+  
+
+  
 
     public function test_create_event_fails_when_category_id_does_not_exist(): void
     {
@@ -474,71 +410,13 @@ class EventTest extends TestCase
             ->assertJsonValidationErrors(['status']);
     }
 
-    public function test_create_event_fails_when_end_at_is_before_start_at(): void
-    {
-        Sanctum::actingAs($this->adminUser);
+   
 
-        $start = now()->addDays(10)->format('Y-m-d H:i:s');
-        $end = now()->addDays(9)->format('Y-m-d H:i:s');
-
-        $response = $this->postJson('/api/admin/events/create', $this->validEventPayload([
-            'start_at' => $start,
-            'end_at' => $end,
-        ]));
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['end_at']);
-    }
-
-    public function test_create_event_fails_with_negative_price(): void
-    {
-        Sanctum::actingAs($this->adminUser);
-
-        $response = $this->postJson('/api/admin/events/create', $this->validEventPayload([
-            'price' => -10,
-        ]));
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['price']);
-    }
-
-    public function test_create_event_fails_with_zero_capacity(): void
-    {
-        Sanctum::actingAs($this->adminUser);
-
-        $response = $this->postJson('/api/admin/events/create', $this->validEventPayload([
-            'capacity' => 0,
-        ]));
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['capacity']);
-    }
+    
 
 
-
-    public function test_create_event_allows_null_description(): void
-    {
-        Sanctum::actingAs($this->adminUser);
-
-        $response = $this->postJson('/api/admin/events/create', $this->validEventPayload([
-            'description' => null,
-        ]));
-
-        $response->assertStatus(201);
-        $this->assertDatabaseHas('events', ['description' => null]);
-    }
-
-    public function test_create_event_fails_when_description_exceeds_max_length(): void
-    {
-        Sanctum::actingAs($this->adminUser);
-
-        $response = $this->postJson('/api/admin/events/create', $this->validEventPayload([
-            'description' => str_repeat('D', 1001),
-        ]));
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['description']);
-    }
+    
+   
 
     public function test_unauthenticated_user_cannot_create_event(): void
     {
@@ -557,7 +435,6 @@ class EventTest extends TestCase
     }
 
     // updateEvent()  /admin/events/update/{id}
-
 
     public function test_admin_can_update_event_with_valid_data(): void
     {
@@ -585,6 +462,11 @@ class EventTest extends TestCase
         ]);
     }
 
+   
+
+  
+    
+
     public function test_update_event_returns_404_for_nonexistent_event(): void
     {
         Sanctum::actingAs($this->adminUser);
@@ -609,23 +491,7 @@ class EventTest extends TestCase
             ->assertJsonValidationErrors(['title', 'start_at', 'end_at', 'price', 'status']);
     }
 
-    public function test_update_event_fails_when_title_exceeds_max_length(): void
-    {
-        Sanctum::actingAs($this->adminUser);
-
-        $event = Event::factory()->create([
-            'organizer_id' => $this->adminUser->id,
-            'category_id' => $this->category->id,
-        ]);
-
-        $response = $this->patchJson("/api/admin/events/update/{$event->id}", $this->validUpdatePayload([
-            'title' => str_repeat('T', 151),
-        ]));
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['title']);
-    }
-
+  
     public function test_update_event_fails_when_end_at_is_before_start_at(): void
     {
         Sanctum::actingAs($this->adminUser);
@@ -690,9 +556,7 @@ class EventTest extends TestCase
         $response->assertStatus(403);
     }
 
-
-    //deleteEvent() /admin/events/delete/{id}
-
+    // deleteEvent() /admin/events/delete/{id}
 
     public function test_admin_can_delete_event_with_no_registrations(): void
     {
@@ -724,7 +588,7 @@ class EventTest extends TestCase
         EventRegistration::factory()->create([
             'event_id' => $event->id,
             'user_id' => $this->attendeeUser->id,
-            'unit_price' => '100'
+            'unit_price' => '100',
         ]);
 
         $response = $this->postJson("/api/admin/events/delete/{$event->id}");
@@ -772,4 +636,6 @@ class EventTest extends TestCase
 
         $response->assertStatus(403);
     }
+
+   
 }

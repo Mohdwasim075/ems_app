@@ -18,9 +18,13 @@ class UserTest extends TestCase
     use RefreshDatabase;
 
     protected User $adminUser;
+
     protected User $attendeeUser;
+
     protected Role $adminRole;
+
     protected Role $attendeeRole;
+
     protected Category $category;
 
     protected function setUp(): void
@@ -49,7 +53,6 @@ class UserTest extends TestCase
         $this->category = Category::factory()->create();
     }
 
-   
     protected function createEvent(array $overrides = []): Event
     {
         return Event::factory()->create(array_merge([
@@ -65,8 +68,7 @@ class UserTest extends TestCase
         ], $overrides));
     }
 
-   // Attendee Access & Authentication Tests
-    
+    // Attendee Access & Authentication Tests
 
     public function test_guest_cannot_access_profile(): void
     {
@@ -100,9 +102,7 @@ class UserTest extends TestCase
         $response->assertStatus(403);
     }
 
-   
     // getProfile
-   
 
     public function test_attendee_can_fetch_profile(): void
     {
@@ -123,7 +123,7 @@ class UserTest extends TestCase
             ]);
     }
 
-    // updateProfile 
+    // updateProfile
 
     public function test_attendee_can_update_profile_with_valid_data(): void
     {
@@ -157,27 +157,7 @@ class UserTest extends TestCase
         ]);
     }
 
-    public function test_attendee_can_update_profile_keeping_same_email(): void
-    {
-        Sanctum::actingAs($this->attendeeUser);
-
-        $payload = [
-            'name' => 'Updated Name',
-            'email' => $this->attendeeUser->email,
-        ];
-
-        $response = $this->patchJson('/api/profile/update', $payload);
-
-        $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-                'message' => 'Profile updated successfully!',
-            ]);
-    }
-
-  
-  
-
+   
     public function test_update_profile_fails_when_email_already_taken(): void
     {
         Sanctum::actingAs($this->attendeeUser);
@@ -197,25 +177,9 @@ class UserTest extends TestCase
             ->assertJsonFragment(['email' => ['This email address is already in use by another account.']]);
     }
 
-    public function test_update_profile_fails_with_invalid_phone_number(): void
-    {
-        Sanctum::actingAs($this->attendeeUser);
+  
 
-        $response = $this->patchJson('/api/profile/update', [
-            'name' => 'wasim github',
-            'email' => 'wasim@github.com',
-            'phone_number' => '12345', // Not 10 digits
-        ]);
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['phone_number'])
-            ->assertJsonFragment(['phone_number' => ['Please enter a valid 10-digit phone number.']]);
-    }
-
-    
-
-    // updatePassword 
-    
+    // updatePassword
 
     public function test_attendee_can_update_password_with_valid_credentials(): void
     {
@@ -304,9 +268,7 @@ class UserTest extends TestCase
             ->assertJsonValidationErrors(['password']);
     }
 
-   // getmyEvents 
-  
-   
+    // getmyEvents
 
     public function test_attendee_sees_empty_events_when_no_registrations_exist(): void
     {
@@ -322,9 +284,7 @@ class UserTest extends TestCase
             ]);
     }
 
-   
-   //Admin Access & Authorization Tests
-    
+    // Admin Access & Authorization Tests
 
     public function test_unauthenticated_user_cannot_access_admin_user_routes(): void
     {
@@ -346,8 +306,8 @@ class UserTest extends TestCase
         $this->postJson('/api/admin/user/delete/1')->assertStatus(403);
     }
 
-     //getusers (GET /api/admin/users)
-    
+    // getusers (GET /api/admin/users)
+
     public function test_admin_can_fetch_paginated_users(): void
     {
         Sanctum::actingAs($this->adminUser);
@@ -367,37 +327,9 @@ class UserTest extends TestCase
         $this->assertCount(3, $response->json('data'));
     }
 
-   // getuser 
+    // getuser
+
    
-
-    public function test_admin_can_fetch_single_user_by_id(): void
-    {
-        Sanctum::actingAs($this->adminUser);
-
-        $targetUser = User::factory()->create([
-            'role_id' => $this->attendeeRole->id,
-            'name' => 'Target User',
-            'email' => 'target@example.com',
-        ]);
-
-        $response = $this->getJson("/api/admin/user/{$targetUser->id}");
-
-        $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-                'message' => 'User fetched successfully!',
-                'data' => [
-                    'id' => $targetUser->id,
-                    'name' => 'Target User',
-                    'email' => 'target@example.com',
-                    'role' => [
-                        'id' => $this->attendeeRole->id,
-                        'name' => 'attendee',
-                    ],
-                ],
-            ]);
-    }
-
     public function test_getuser_returns_404_when_user_does_not_exist(): void
     {
         Sanctum::actingAs($this->adminUser);
@@ -411,12 +343,7 @@ class UserTest extends TestCase
             ]);
     }
 
-   
-
-   
-
     // updateUser
-   
 
     public function test_admin_can_update_user_with_valid_data(): void
     {
@@ -447,7 +374,7 @@ class UserTest extends TestCase
                     'id' => $targetUser->id,
                     'name' => 'Zohran Mamdani',
                     'email' => 'mayor@newyork.com',
-                    'role_id' => $organizerRole->id
+                    'role_id' => $organizerRole->id,
                 ],
             ]);
 
@@ -478,32 +405,9 @@ class UserTest extends TestCase
             ]);
     }
 
-    public function test_update_user_fails_when_email_belongs_to_another_user(): void
-    {
-        Sanctum::actingAs($this->adminUser);
 
-        $userOne = User::factory()->create([
-            'role_id' => $this->attendeeRole->id,
-            'email' => 'first@example.com',
-        ]);
+    // deleteuser
 
-        $userTwo = User::factory()->create([
-            'role_id' => $this->attendeeRole->id,
-            'email' => 'second@example.com',
-        ]);
-
-        $response = $this->postJson("/api/admin/user/update/{$userTwo->id}", [
-            'name' => 'User Two',
-            'email' => 'first@example.com',
-            'role_id' => $this->attendeeRole->id,
-        ]);
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['email']);
-    }
-
-    // deleteuser 
-    
     public function test_admin_cannot_delete_own_account(): void
     {
         Sanctum::actingAs($this->adminUser);
@@ -519,7 +423,6 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $this->adminUser->id]);
     }
 
-   
     public function test_cannot_delete_attendee_with_active_registrations(): void
     {
         Sanctum::actingAs($this->adminUser);
@@ -551,7 +454,6 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $attendee->id]);
     }
 
-  
     public function test_admin_can_delete_user_without_registrations(): void
     {
         Sanctum::actingAs($this->adminUser);

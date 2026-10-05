@@ -12,8 +12,6 @@ class RegisterTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-
-
     public function test_user_cannot_register_with_empty_fields(): void
     {
         $this->browse(function (Browser $browser) {
@@ -28,7 +26,6 @@ class RegisterTest extends DuskTestCase
         });
     }
 
-    
     public function test_user_cannot_register_when_passwords_do_not_match(): void
     {
         $this->browse(function (Browser $browser) {
@@ -48,7 +45,6 @@ class RegisterTest extends DuskTestCase
                 ->assertSee('The password field confirmation does not match.');
         });
     }
-
 
     public function test_user_cannot_register_with_existing_email(): void
     {
@@ -76,7 +72,6 @@ class RegisterTest extends DuskTestCase
         });
     }
 
-   
     public function test_user_can_register_successfully_and_redirects_to_login(): void
     {
         Role::firstOrCreate(['name' => 'attendee']);

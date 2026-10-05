@@ -1,13 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginUserController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\RegisterUserController;
-use App\Http\Controllers\TicketController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -15,7 +11,7 @@ Route::get('/', function () {
     return view('attendee.home');
 })->name('attendee.home');
 
-Route::get('/events', function(){
+Route::get('/events', function () {
     return view('attendee.events');
 })->name('events');
 
@@ -49,7 +45,6 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     })->name('admin.users');
 });
 
-
 Route::get('/login', [LoginUserController::class, 'create']);
 Route::post('/login', [LoginUserController::class, 'login'])->name('login');
 
@@ -60,7 +55,7 @@ Route::get('/forgot-password', function () {
     return view('auth.forgotpassword');
 })->middleware('guest')->name('password.request');
 
-Route::post('/forgot-password', [ PasswordResetController::class, 'sendResetLink',])->name('password.email');
+Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink'])->name('password.email');
 
 Route::get('/reset-password/{token}', function ($token) {
     return view('auth.resetpassword', [
@@ -69,8 +64,7 @@ Route::get('/reset-password/{token}', function ($token) {
     ]);
 })->name('password.reset');
 
-Route::post('/reset-password', [ PasswordResetController::class, 'resetPassword',])->name('password.update');
-
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword'])->name('password.update');
 
 Route::get('/lang/{lang}', function ($lang) {
     if (in_array($lang, ['en', 'es', 'ar'])) {
@@ -79,5 +73,3 @@ Route::get('/lang/{lang}', function ($lang) {
 
     return redirect()->back();
 })->name('lang.switch');
-
-

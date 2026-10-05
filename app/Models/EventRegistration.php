@@ -28,7 +28,6 @@ class EventRegistration extends Model
     {
         return $this->belongsTo(Event::class);
     }
-  
 
     public function user()
     {

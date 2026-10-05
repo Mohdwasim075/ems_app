@@ -12,7 +12,6 @@ class LoginTest extends DuskTestCase
 {
     use DatabaseTruncation;
 
-  
     public function test_login_page_renders_successfully(): void
     {
         $this->browse(function (Browser $browser) {
@@ -29,7 +28,6 @@ class LoginTest extends DuskTestCase
         });
     }
 
-    
     public function test_user_cannot_login_with_empty_fields(): void
     {
         $this->browse(function (Browser $browser) {
@@ -39,11 +37,11 @@ class LoginTest extends DuskTestCase
                 ->waitForText('The email field is required')
                 ->pause(2000)
                 ->assertSee('The email field is required')
-                ->assertSee('The password field should not be empty');
+                ->waitForText('The password field is required')
+                ->assertSee('The password field is required');
         });
     }
 
-   
     public function test_user_cannot_login_with_invalid_credentials(): void
     {
         $this->browse(function (Browser $browser) {
@@ -61,7 +59,6 @@ class LoginTest extends DuskTestCase
         });
     }
 
-   
     public function test_admin_can_login_and_is_redirected_to_admin_dashboard(): void
     {
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
@@ -89,7 +86,6 @@ class LoginTest extends DuskTestCase
         });
     }
 
-    
     public function test_attendee_can_login_and_is_redirected_to_home_page(): void
     {
         $attendeeRole = Role::firstOrCreate(['name' => 'attendee']);
@@ -117,11 +113,11 @@ class LoginTest extends DuskTestCase
     }
 
     //     public function test_login_page(){
-//         $this->browse(function (Browser $browser) {
-//         $browser->visit('/login')
-//             ->screenshot('login-page')
-//             ->assertPathIs('/login');
+    //         $this->browse(function (Browser $browser) {
+    //         $browser->visit('/login')
+    //             ->screenshot('login-page')
+    //             ->assertPathIs('/login');
 
     //       });
-// }
+    // }
 }

@@ -19,20 +19,14 @@ class PasswordResetController extends Controller
         ],
         );
         $user = User::where('email', $request->email)->first();
-
-        if(!$user){
-            return response()->json([
-                'message' => 'Unable to process password reset request'
-            ],422);
+        if ($user) {
+            $token = Password::createToken($user);
+            SendPasswordResetEmail::dispatch($user->email, $token);
         }
-         $token = Password::createToken($user);
-
-        SendPasswordResetEmail::dispatch($user, $token);
-
+        // Always return success — don't reveal if the email exists
         return response()->json([
-            'message' => 'Password reset link sent successfully.'
+            'message' => 'If an account with that email exists, a reset link has been sent.',
         ]);
-
 
 
     }

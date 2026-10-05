@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use Override;
 
 class Event extends Model
 {
@@ -21,7 +20,7 @@ class Event extends Model
         'start_at',
         'end_at',
         'capacity',
-        'available_seats', 
+        'available_seats',
         'price',
         'status',
     ];
@@ -33,16 +32,21 @@ class Event extends Model
         'price' => 'decimal:2',
     ];
 
-protected static function booted()
-{
-    static::deleting(function ($event) {
-        Storage::disk('public')->delete($event->image);
-    });
-    
-}
+    protected static function booted()
+    {
+        static::deleting(function ($event) {
+            if ($event->image) {
+                Storage::disk('public')->delete($event->image);
+            }
+        });
+
+    }
+
+
+
     public function organizer()
     {
-        return $this->belongsTo(User::class, 'organizer_id');
+        return $this->belongsTo(User::class, 'role_id');
     }
 
     public function category()
@@ -55,8 +59,5 @@ protected static function booted()
         return $this->hasMany(EventRegistration::class);
     }
 
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
+   
 }

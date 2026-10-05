@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
@@ -17,10 +16,10 @@ class ResetPasswordMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct ( 
+    public function __construct(
         public string $token,
-        public string $email)
-    {
+        public string $email
+    ) {
         //
     }
 
@@ -41,11 +40,11 @@ class ResetPasswordMail extends Mailable
     {
         return new Content(
             view: 'emails.password-reset',
-            with:[
-                'url' => url(route('password.reset',[
+            with: [
+                'url' => route('password.reset', [
                     'token' => $this->token,
                     'email' => $this->email,
-                ], false))
+                ]),
             ],
         );
     }

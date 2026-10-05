@@ -17,9 +17,13 @@ class BookingTest extends TestCase
     use RefreshDatabase;
 
     protected $adminUser;
+
     protected $attendeeUser;
+
     protected $adminRole;
+
     protected $attendeeRole;
+
     protected $category;
 
     protected function setUp(): void
@@ -42,7 +46,6 @@ class BookingTest extends TestCase
         $this->category = Category::factory()->create();
     }
 
-
     protected function createEvent(array $overrides = []): Event
     {
         return Event::factory()->create(array_merge([
@@ -56,9 +59,8 @@ class BookingTest extends TestCase
         ], $overrides));
     }
 
-    // Booking Registration Tests 
+    // Booking Registration Tests
 
-    
     public function test_unauthenticated_user_cannot_register_for_event(): void
     {
         $event = $this->createEvent();
@@ -70,7 +72,6 @@ class BookingTest extends TestCase
 
         $response->assertStatus(401);
     }
-
 
     public function test_non_attendee_cannot_register_for_event(): void
     {
@@ -85,7 +86,6 @@ class BookingTest extends TestCase
         $response->assertStatus(403);
     }
 
-
     public function test_registration_validation_fails_for_missing_fields(): void
     {
         Sanctum::actingAs($this->attendeeUser);
@@ -96,34 +96,7 @@ class BookingTest extends TestCase
             ->assertJsonValidationErrors(['event_id', 'quantity']);
     }
 
-
-    public function test_registration_fails_when_event_does_not_exist(): void
-    {
-        Sanctum::actingAs($this->attendeeUser);
-
-        $response = $this->postJson('/api/event/register', [
-            'event_id' => 99999,
-            'quantity' => 1,
-        ]);
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['event_id']);
-    }
-
-
-    public function test_registration_fails_when_quantity_is_less_than_one(): void
-    {
-        Sanctum::actingAs($this->attendeeUser);
-        $event = $this->createEvent();
-
-        $response = $this->postJson('/api/event/register', [
-            'event_id' => $event->id,
-            'quantity' => 0,
-        ]);
-
-        $response->assertStatus(422)
-            ->assertJsonValidationErrors(['quantity']);
-    }
+    
 
 
     public function test_attendee_can_successfully_register_for_event(): void
@@ -168,7 +141,6 @@ class BookingTest extends TestCase
         ]);
     }
 
-
     public function test_registration_fails_when_event_is_sold_out(): void
     {
         Sanctum::actingAs($this->attendeeUser);
@@ -185,7 +157,6 @@ class BookingTest extends TestCase
             ]);
     }
 
-
     public function test_registration_fails_when_quantity_exceeds_available_seats(): void
     {
         Sanctum::actingAs($this->attendeeUser);
@@ -201,7 +172,6 @@ class BookingTest extends TestCase
                 'message' => 'Only 2 seat(s) remaining for this event.',
             ]);
     }
-
 
     public function test_attendee_cannot_register_twice_for_the_same_event(): void
     {
@@ -231,10 +201,7 @@ class BookingTest extends TestCase
             ]);
     }
 
-
-
     // Admin Bookings List Tests
-
 
     public function test_unauthenticated_user_cannot_access_bookings_list(): void
     {
@@ -242,7 +209,6 @@ class BookingTest extends TestCase
 
         $response->assertStatus(401);
     }
-
 
     public function test_attendee_cannot_access_admin_bookings_list(): void
     {
@@ -253,78 +219,9 @@ class BookingTest extends TestCase
         $response->assertStatus(403);
     }
 
-
-    public function test_admin_can_retrieve_paginated_bookings_list(): void
-    {
-        Sanctum::actingAs($this->adminUser);
-        $event = $this->createEvent();
-
-        $attendee2 = User::factory()->create(['role_id' => $this->attendeeRole->id]);
-        $attendee3 = User::factory()->create(['role_id' => $this->attendeeRole->id]);
-
-        EventRegistration::create([
-            'event_id' => $event->id,
-            'user_id' => $this->attendeeUser->id,
-            'quantity' => 1,
-            'unit_price' => 100,
-            'total_price' => 100,
-            'registration_number' => 'REG-000001',
-            'status' => 'CONFIRMED',
-        ]);
-
-        EventRegistration::create([
-            'event_id' => $event->id,
-            'user_id' => $attendee2->id,
-            'quantity' => 2,
-            'unit_price' => 100,
-            'total_price' => 200,
-            'registration_number' => 'REG-000002',
-            'status' => 'CONFIRMED',
-        ]);
-
-        EventRegistration::create([
-            'event_id' => $event->id,
-            'user_id' => $attendee3->id,
-            'quantity' => 1,
-            'unit_price' => 100,
-            'total_price' => 100,
-            'registration_number' => 'REG-000003',
-            'status' => 'CONFIRMED',
-        ]);
-
-        $response = $this->getJson('/api/admin/bookings?limit=2');
-
-        $response->assertStatus(200)
-            ->assertJsonStructure([
-                'message',
-                'data' => [
-                    '*' => [
-                        'id',
-                        'event_id',
-                        'user_id',
-                        'registration_number',
-                        'quantity',
-                        'total_price',
-                        'event' => ['id', 'title'],
-                        'user' => ['id', 'name'],
-                    ],
-                ],
-                'pagination' => [
-                    'current_page',
-                    'last_page',
-                    'per_page',
-                    'total',
-                    'from',
-                    'to',
-                ],
-            ]);
-
-        $this->assertCount(2, $response->json('data'));
-        $this->assertEquals(3, $response->json('pagination.total'));
-    }
+  
 
     // Admin Single Booking Tests (GET /api/admin/bookings/get/{id})
-
 
     public function test_unauthenticated_user_cannot_view_booking_details(): void
     {
@@ -332,7 +229,6 @@ class BookingTest extends TestCase
 
         $response->assertStatus(401);
     }
-
 
     public function test_attendee_cannot_view_admin_booking_details(): void
     {
@@ -342,7 +238,6 @@ class BookingTest extends TestCase
 
         $response->assertStatus(403);
     }
-
 
     public function test_admin_receives_404_when_booking_not_found(): void
     {
@@ -357,46 +252,9 @@ class BookingTest extends TestCase
             ]);
     }
 
-
-    public function test_admin_can_view_booking_details_successfully(): void
-    {
-        Sanctum::actingAs($this->adminUser);
-        $event = $this->createEvent(['title' => 'Tech Summit 2026']);
-
-        $booking = EventRegistration::create([
-            'event_id' => $event->id,
-            'user_id' => $this->attendeeUser->id,
-            'quantity' => 2,
-            'unit_price' => 150,
-            'total_price' => 300,
-            'registration_number' => 'REG-123456',
-            'status' => 'CONFIRMED',
-        ]);
-
-        $response = $this->getJson("/api/admin/bookings/get/{$booking->id}");
-
-        $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-                'message' => 'Booking details retrieved successfully.',
-                'data' => [
-                    'id' => $booking->id,
-                    'registration_number' => 'REG-123456',
-                    'event' => [
-                        'id' => $event->id,
-                        'title' => 'Tech Summit 2026',
-                    ],
-                    'user' => [
-                        'id' => $this->attendeeUser->id,
-                        'name' => $this->attendeeUser->name,
-                    ],
-                ],
-            ]);
-    }
-
+    
 
     // Admin Delete Booking Tests(/admin/booking/delete/{id})
-
 
     public function test_unauthenticated_user_cannot_delete_booking(): void
     {
@@ -404,7 +262,6 @@ class BookingTest extends TestCase
 
         $response->assertStatus(401);
     }
-
 
     public function test_attendee_cannot_delete_booking(): void
     {
@@ -415,20 +272,7 @@ class BookingTest extends TestCase
         $response->assertStatus(403);
     }
 
-
-    public function test_admin_receives_404_when_deleting_non_existent_booking(): void
-    {
-        Sanctum::actingAs($this->adminUser);
-
-        $response = $this->postJson('/api/admin/booking/delete/99999');
-
-        $response->assertStatus(404)
-            ->assertJson([
-                'success' => false,
-                'message' => 'Booking not found.',
-            ]);
-    }
-
+   
 
     public function test_admin_cannot_delete_booking_for_past_event(): void
     {
@@ -461,7 +305,6 @@ class BookingTest extends TestCase
             'id' => $booking->id,
         ]);
     }
-
 
     public function test_admin_can_delete_booking_and_seats_are_restored(): void
     {

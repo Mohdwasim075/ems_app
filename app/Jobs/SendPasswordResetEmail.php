@@ -2,8 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\User;
-use App\Mail\PasswordResetMail;
 use App\Mail\ResetPasswordMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -16,10 +14,7 @@ class SendPasswordResetEmail implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public string $email ,public  string $token)
-    {
-      
-    }
+    public function __construct(public string $email, public string $token) {}
 
     /**
      * Execute the job.
@@ -29,7 +24,7 @@ class SendPasswordResetEmail implements ShouldQueue
         Mail::to($this->email)
             ->send(new ResetPasswordMail(
                 $this->token,
-                 $this->email,
+                $this->email,
 
             ));
     }

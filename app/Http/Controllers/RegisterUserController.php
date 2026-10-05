@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
 
 class RegisterUserController extends Controller
@@ -18,7 +17,7 @@ class RegisterUserController extends Controller
     public function store(Request $request)
     {
 
-       $validatedAttributes = $request->validate([
+        $validatedAttributes = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => ['required', Password::min(6), 'confirmed'],
@@ -36,6 +35,4 @@ class RegisterUserController extends Controller
             'redirect' => url('/login'),
         ], 201);
     }
-
-   
 }

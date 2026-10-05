@@ -6,7 +6,6 @@ use App\Models\Event;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
@@ -14,7 +13,7 @@ class EventFuncTest extends TestCase
 {
     use RefreshDatabase;
 
-     protected function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -31,21 +30,22 @@ class EventFuncTest extends TestCase
         ]);
     }
 
-    public function test__events_public_route_returns_success(){
-        
+    public function test__events_public_route_returns_success()
+    {
+
         $response = $this->getJson('/events');
 
         $response->assertStatus(200);
     }
 
     public function test_events_api_returns_json(): void
-{
-    $response = $this->getJson('/api/events');
+    {
+        $response = $this->getJson('/api/events');
 
-    $response->assertStatus(200);
+        $response->assertStatus(200);
 
-    $response->assertJsonStructure([
-        'success',
+        $response->assertJsonStructure([
+            'success',
             'data',
             'pagination' => [
                 'current_page',
@@ -56,22 +56,20 @@ class EventFuncTest extends TestCase
                 'to',
             ],
         ]);
-}
+    }
 
-        public function test_unathenticatedUser_cannot_access_admin_categories(){
+    public function test_unathenticated_user_cannot_access_admin_categories()
+    {
 
-            Sanctum::actingAs($this->regularUser);
+        Sanctum::actingAs($this->regularUser);
 
-            $response = $this->get('/admin/categories');
+        $response = $this->get('/admin/categories');
 
-            $response->assertStatus(403);
+        $response->assertStatus(403);
 
+    }
 
-        }
-
-        // public function test_admin_can_
-
-
+    // public function test_admin_can_
 
     // /** @test */
     // public function test_fetches_a_specific_event_successfully(): void

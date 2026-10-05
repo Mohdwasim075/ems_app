@@ -2,13 +2,13 @@
 
 namespace Tests\Unit;
 
+use App\Jobs\SendPasswordResetEmail;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
@@ -16,6 +16,7 @@ class PasswordResetTest extends TestCase
     use RefreshDatabase;
 
     protected User $user;
+
     protected Role $role;
 
     protected function setUp(): void
@@ -32,12 +33,11 @@ class PasswordResetTest extends TestCase
         ]);
     }
 
-    // Send Reset Link Tests 
-
+    // Send Reset Link Tests
 
     public function test_send_reset_link_successfully_for_valid_user(): void
     {
-        Notification::fake();
+        Queue::fake();
 
         $response = $this->postJson('/forgot-password', [
             'email' => $this->user->email,
@@ -45,13 +45,12 @@ class PasswordResetTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJson([
-                'message' => __(Password::RESET_LINK_SENT),
+                'message' => 'If an account with that email exists, a reset link has been sent.',
             ]);
 
-        Notification::assertSentTo(
-            $this->user,
-            ResetPassword::class
-        );
+        Queue::assertPushed(SendPasswordResetEmail::class, function ($job) {
+            return $job->email === $this->user->email && ! empty($job->token);
+        });
     }
 
     public function test_send_reset_link_fails_if_email_is_missing(): void
@@ -72,18 +71,22 @@ class PasswordResetTest extends TestCase
             ->assertJsonValidationErrors(['email']);
     }
 
-    public function test_send_reset_link_returns_422_for_non_existent_email(): void
+    public function test_send_reset_link_returns_generic_message_and_does_not_dispatch_job_for_non_existent_email(): void
     {
+        Queue::fake();
+
         $response = $this->postJson('/forgot-password', [
             'email' => 'wasimchai@admin.com',
         ]);
 
-        $response->assertStatus(422)
+        $response->assertStatus(200)
             ->assertJson([
-                'message' => __(Password::INVALID_USER),
+                'message' => 'If an account with that email exists, a reset link has been sent.',
             ]);
+
+        Queue::assertNotPushed(SendPasswordResetEmail::class);
     }
-    //Reset Password Tests
+    // Reset Password Tests
 
     public function test_user_can_reset_password_with_valid_token(): void
     {

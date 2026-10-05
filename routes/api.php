@@ -1,13 +1,11 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\EventController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginUserController;
-use App\Http\Controllers\TicketController;
 use App\Http\Controllers\Usercontroller;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +13,11 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::middleware('auth:sanctum')->post('/logout', [
+Route::post('/logout', [
     LoginUserController::class,
     'destroy',
-])->name('logout');
+
+])->middleware('auth:sanctum')->name('logout');
 
 // public routes
 Route::get('/events/featured', [EventController::class, 'top_events']);
@@ -71,7 +70,7 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     Route::get('/user/roles', [Usercontroller::class, 'getRoles']);
     Route::post('/user/create', [Usercontroller::class, 'createUser']);
 
-    // Wildcard routes 
+    // Wildcard routes
     Route::get('/user/{id}', [Usercontroller::class, 'getuser']);
     Route::post('/user/update/{id}', [Usercontroller::class, 'updateUser']);
     Route::post('/user/delete/{id}', [Usercontroller::class, 'deleteuser']);
